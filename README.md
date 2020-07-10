@@ -9,3 +9,5 @@ I like to code random things.
 
 
 ![beer](https://biofun.web.app/beer.svg)
+
+![ani](https://biofun.web.app/ani.svg)
