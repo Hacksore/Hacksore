@@ -6,8 +6,8 @@
 
 🚘 Minor league car hacktivist
 
-
-![img](https://us-central1-biofun.cloudfunctions.net/app/test.svg) 
+![views](https://img.shields.io/endpoint?url=https%3A%2F%2Fus-central1-biofun.cloudfunctions.net%2Fapp%2Fviews)
+![stars](https://img.shields.io/endpoint?url=https%3A%2F%2Fus-central1-biofun.cloudfunctions.net%2Fapp%2Fstars)
 
 Who doesnt like a nice cold beer?
 
