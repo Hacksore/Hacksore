@@ -4,7 +4,7 @@
 
 👽 Enjoy developing ReactJS apps
 
-🚘 Minor league car hacktivst
+🚘 Minor league car hacktivist
 
 
 ![img](https://us-central1-biofun.cloudfunctions.net/app/test.svg) 
