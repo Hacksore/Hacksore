@@ -68,7 +68,7 @@ app.get("/stars", async (req, res) => {
 
   res.send({
     schemaVersion: 1,
-    label: "Stars",
+    label: "Stars Recieved",
     message: `${stars}`,
     color: "green",
   });
@@ -79,7 +79,7 @@ app.get("/views", async (req, res) => {
 
   res.send({
     schemaVersion: 1,
-    label: "Views",
+    label: "Profile Views",
     message: `${views}`,
     color: "green",
   });
