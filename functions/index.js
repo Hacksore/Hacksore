@@ -68,7 +68,7 @@ app.get("/stars", async (req, res) => {
 
   res.send({
     schemaVersion: 1,
-    label: "Stars Recieved",
+    label: "Stars Received",
     message: `${stars}`,
     color: "green",
   });
