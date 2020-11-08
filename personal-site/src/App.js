@@ -3,7 +3,7 @@ import "./App.css";
 import { GitHub, LinkedIn } from "@material-ui/icons";
 import { Button, Typography } from "@material-ui/core";
 
-const { REACT_COMMIT_HASH = "e0292a3f0ea67ad62759b1f482a9ecd0f310150e" } = process.env;
+const { REACT_APP_COMMIT_HASH = "e0292a3f0ea67ad62759b1f482a9ecd0f310150e" } = process.env;
 
 function App() {
   return (
@@ -48,7 +48,7 @@ function App() {
               target="_blank"
               href={`https://github.com/Hacksore/Hacksore/commit/${REACT_COMMIT_HASH}`}
             >
-              {REACT_COMMIT_HASH.substr(0, 7)}
+              {REACT_APP_COMMIT_HASH.substr(0, 7)}
             </a>
           </Typography>
         </div>
