@@ -36,8 +36,7 @@ jobs:
           name: build
           path: personal-site/build/
       - name: Install Dependencies
-        run: npm install
-        working-directory: functions
+        run: cd functions && npm install
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
