@@ -3,7 +3,7 @@
     "source": "functions"
   },
   "hosting": {
-    "predeploy": ["bash predeploy.sh"],
+    "predeploy": ["sh predeploy.sh"],
     "public": "personal-site/build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
