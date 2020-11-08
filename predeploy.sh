@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if [ ! -z CI_BUILD ]; then
+if [ ! -z CI ]; then
   cd personal-site && npm run build
 fi
