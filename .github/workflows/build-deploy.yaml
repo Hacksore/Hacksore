@@ -12,7 +12,7 @@ jobs:
       run:
         working-directory: personal-site
     env:
-      REACT_COMMIT_HASH: ${{ GITHUB_SHA }}
+      REACT_COMMIT_HASH: ${{ github.sha	}}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
