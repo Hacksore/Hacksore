@@ -34,7 +34,10 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: build
-          path: build/
+          path: personal-site/build/
+      - name: Install Dependencies
+        run: npm install
+        working-directory: functions
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:

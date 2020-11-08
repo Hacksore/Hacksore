@@ -1,11 +1,10 @@
 {
   "functions": {
-    "predeploy": ["npm install"],
     "source": "functions"
   },
   "hosting": {
-    "predeploy": ["cd personal-site && npm install && npm run build"],
-    "public": "build",
+    "predeploy": ["cd personal-site && npm run build"],
+    "public": "personal-site/build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
