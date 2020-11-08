@@ -46,7 +46,7 @@ function App() {
             <a
               rel="noreferrer"
               target="_blank"
-              href={`https://github.com/Hacksore/Hacksore/commit/${REACT_COMMIT_HASH}`}
+              href={`https://github.com/Hacksore/Hacksore/commit/${REACT_APP_COMMIT_HASH}`}
             >
               {REACT_APP_COMMIT_HASH.substr(0, 7)}
             </a>
