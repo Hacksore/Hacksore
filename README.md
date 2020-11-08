@@ -11,5 +11,5 @@
 
 Who doesn't like a nice cold beer?
 
-![beer](https://biofun.web.app/beer.svg)
+![beer](https://boult.me/beer.svg)
  
