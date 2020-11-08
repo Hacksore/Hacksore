@@ -6,16 +6,20 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Test & Build
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: personal-site
+    env:
+      REACT_COMMIT_HASH: ${{ GITHUB_SHA }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
       - name: Install Dependencies
         run: npm install
+      - name: Test
+        run: npm test
       - name: Build
         run: npm run build
       - name: Archive Production Artifact

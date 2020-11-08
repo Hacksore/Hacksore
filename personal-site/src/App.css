@@ -9,3 +9,12 @@
   align-items: center;
   text-align: center;;
 }
+
+.social-wrap {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.about-wrap {
+  margin-top: 12px;
+}
