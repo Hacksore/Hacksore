@@ -1,21 +1,21 @@
 {
-  "short_name": "Sean Boult",
+  "short_name": "boult.me",
   "name": "Sean Boult - Personal Site",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "icon20.png",
+      "sizes": "180x180 120x120 20x20",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "icon120.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "120x120"
     },
     {
-      "src": "logo512.png",
+      "src": "icon180.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "180x180"
     }
   ],
   "start_url": ".",
