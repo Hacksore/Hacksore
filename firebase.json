@@ -1,6 +1,6 @@
 {
   "functions": {
-    "predeploy": [],
+    "predeploy": ["npm install"],
     "source": "functions"
   },
   "hosting": {
