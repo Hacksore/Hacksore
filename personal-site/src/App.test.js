@@ -7,17 +7,15 @@ test("renders my name", () => {
   expect(nameElement).toBeInTheDocument();
 });
 
-
 test("linkedin button opens link", () => {
   render(<App />);
 
   global.open = jest.fn();
 
-  const button = screen.getByTestId('github-button');
+  const button = screen.getByTestId("github-button");
   fireEvent.click(button);
 
   expect(global.open).toHaveBeenCalledTimes(1);
-
 });
 
 test("github button opens link", () => {
@@ -25,9 +23,8 @@ test("github button opens link", () => {
 
   global.open = jest.fn();
 
-  const button = screen.getByTestId('linkedin-button');
+  const button = screen.getByTestId("linkedin-button");
   fireEvent.click(button);
 
   expect(global.open).toHaveBeenCalledTimes(1);
-
 });
