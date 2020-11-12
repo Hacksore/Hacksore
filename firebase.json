@@ -7,7 +7,7 @@
     "public": "personal-site/build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
-      { "source": "/spin", "function": "spin" },
+      { "source": "/spin", "function": "app" },
       {
         "source": "**",
         "destination": "/index.html"
