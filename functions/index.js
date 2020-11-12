@@ -24,6 +24,13 @@ const headersForGithub = {
       views: 0,
     });
   }
+
+  const profile = await collectionRef.doc("profile").get();
+  if (!profile.exists) {
+    await collectionRef.doc("profile").set({
+      spins: 0,
+    });
+  }
 })();
 
 const getRepoData = async () => {
@@ -82,6 +89,21 @@ app.get("/views", async (req, res) => {
     label: "Profile Views",
     message: `${views}`,
     color: "green",
+  });
+});
+
+
+app.get("/spin", async (req, res) => {
+  const doc = await collectionRef.doc("profile").get();
+  const data = doc.data();
+
+  const newSpins = data.spins + 1;
+  await collectionRef.doc("profile").set({
+    spins: newSpins,
+  });
+
+  res.send({
+    spins: newSpins,
   });
 });
 

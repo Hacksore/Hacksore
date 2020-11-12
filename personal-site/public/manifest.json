@@ -3,11 +3,6 @@
   "name": "Sean Boult - Personal Site",
   "icons": [
     {
-      "src": "icon20.png",
-      "sizes": "180x180 120x120 20x20",
-      "type": "image/x-icon"
-    },
-    {
       "src": "icon120.png",
       "type": "image/png",
       "sizes": "120x120"
@@ -16,6 +11,11 @@
       "src": "icon180.png",
       "type": "image/png",
       "sizes": "180x180"
+    },
+    {
+      "src": "icon20.png",
+      "type": "image/png",
+      "sizes": "20x20"
     }
   ],
   "start_url": ".",
