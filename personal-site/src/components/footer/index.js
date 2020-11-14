@@ -1,42 +1,27 @@
-import { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
+
+const {
+  REACT_APP_COMMIT_HASH = "e0292a3f0ea67ad62759b1f482a9ecd0f310150e",
+} = process.env;
 
 export const Footer = () => {
   const theme = useTheme();
 
-  useEffect(() => {
-    const animated = document.querySelector("body");
-    animated.addEventListener("animationend", () => {
-      document.body.classList.remove("barrel-roll");
-      setIsAnimating(false);
-    });
-  }, []);
-
-  const [isAnimating, setIsAnimating] = useState(false);
-  
-
-  const handleSpin = () => {
-    document.body.classList.add("barrel-roll");
-    setIsAnimating(true);
-
-    // count spin
-    fetch('/spin');
-
-  }
-
-  return <div className="bottom-bar">
-    {!isAnimating && (
-      <Button
-        style={{ 
-          background: theme.palette.error.main,
-          color: "#fff"
-        }}
-        onClick={handleSpin}
-        fullWidth
-      >
-        Don't press this!
-      </Button>
-    )}
-  </div>
-}
+  return (
+    <div className="bottom-bar">
+      <Typography variant="body2">
+        Built via commit{" "}
+        <a
+          style={{ color: theme.palette.info.light }}
+          rel="noreferrer"
+          target="_blank"
+          title="Latest build commit"
+          href={`https://github.com/Hacksore/Hacksore/commit/${REACT_APP_COMMIT_HASH}`}
+        >
+          {REACT_APP_COMMIT_HASH.substr(0, 7)}
+        </a>
+      </Typography>
+    </div>
+  );
+};

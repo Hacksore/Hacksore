@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 
 import { Social } from "./components/social";
-import { BuildInfo } from "./components/buildInfo";
 import { Footer } from "./components/footer";
 import { AboutMe } from "./components/aboutMe";
 import { ThemeToggle } from "./components/themeToggle";
@@ -22,7 +21,10 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "SET_THEME":
-      return { theme: action.theme };
+      return { 
+        ...state,
+        theme: action.theme 
+      };
     default:
       throw new Error();
   }
@@ -42,10 +44,7 @@ function App() {
 
         <div className="content-wrap">
           <AboutMe />
-
           <Social />
-          <BuildInfo />
-
           <Footer />
         </div>
       </div>

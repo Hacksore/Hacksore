@@ -1,20 +1,43 @@
+import { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
 
-const STATE = {
-  online: "#90ce5c",
-  away: "#f2b34d",
-  dnd: "#d33f3f"
-}
-
 export const AboutMe = () => {
-  const currentState = STATE.online;
+  useEffect(() => {
+    const animated = document.querySelector("body");
+    animated.addEventListener("animationend", () => {
+      document.body.classList.remove("barrel-roll");
+      setIsAnimating(false);
+    });
+  }, []);
 
-  return <>
-    <img style={{ border: `6px solid ${currentState}`, borderRadius: '50%' }} width="256" id="profile-pic" src="me_irl.png" alt="Me in real life" />
+  const [isAnimating, setIsAnimating] = useState(false);
 
-    <div className="about-wrap">
-      <Typography variant="h4">Sean Boult</Typography>
-      <Typography variant="body2">I like to build things 🛠️</Typography>
-    </div>
-  </>
-}
+  const handleSpin = () => {
+    document.body.classList.add("barrel-roll");
+    setIsAnimating(true);
+
+    // count spin
+    fetch("/spin");
+  };
+
+  return (
+    <>
+      <img
+        onClick={handleSpin}
+        width="256"
+        id="profile-pic"
+        src="me_irl.png"
+        alt="Me in real life"
+      />
+
+      { isAnimating && (
+        <Typography variant="h6">WEEEEEEEEEEEEEEEEEEEEEEEE!!!1</Typography>
+      )}
+
+      <div className="about-wrap">
+        <Typography variant="h4">Sean Boult</Typography>
+        <Typography variant="body2">I like to build things 🛠️</Typography>
+      </div>
+    </>
+  );
+};

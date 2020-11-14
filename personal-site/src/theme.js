@@ -1,18 +1,16 @@
 export const lightTheme = {
   palette: {
     primary: {
-      main: '#ff4400',
-    },
-    secondary: {
-      light: '#0066ff',
-      main: '#0044ff',
-      contrastText: '#ffcc00',
+      main: '#5b69d3',
     },
   },
 };
 
 export const darkTheme = {
   palette: {
+    primary: {
+      main: '#727cd3',
+    },
     type: 'dark',
   },
 };

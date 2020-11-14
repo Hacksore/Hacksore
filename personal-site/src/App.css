@@ -7,12 +7,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;;
+  text-align: center;
 }
 
 .social-wrap {
   margin-top: 12px;
   margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
 }
 
 .about-wrap {
@@ -21,12 +23,17 @@
 
 .bottom-bar {
   position: fixed;
-  bottom: 50px;
+  left: 10px;
+  bottom: 10px;
 }
 
 @keyframes roll {
-  from { transform: rotate(0deg) }
-  to   { transform: rotate(360deg) }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .barrel-roll {
