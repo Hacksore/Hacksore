@@ -1,7 +1,7 @@
 export const lightTheme = {
   palette: {
     primary: {
-      main: '#5b69d3',
+      main: "#5b69d3",
     },
   },
 };
@@ -9,8 +9,8 @@ export const lightTheme = {
 export const darkTheme = {
   palette: {
     primary: {
-      main: '#727cd3',
+      main: "#727cd3",
     },
-    type: 'dark',
+    type: "dark",
   },
 };

@@ -68,6 +68,8 @@ const addView = async () => {
 
     return newViews;
   }
+
+  return null;
 };
 
 app.get("/stars", async (req, res) => {

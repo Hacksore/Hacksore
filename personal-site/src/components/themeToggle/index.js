@@ -1,37 +1,20 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { Switch } from "@material-ui/core";
-import { useLocalStorage } from "react-use";
 import "./style.css";
 
-export const ThemeToggle = ({ dispatch }) => {
-  const [currentTheme, setCurrentTheme] = useLocalStorage("theme", "dark");
-
-  const localStorageValue = currentTheme === "light" ? false : true;
-  const [themeSelector, setThemeSelector] = useState(localStorageValue);
-
-  // load default checked value
-  useEffect(() => {
-    setThemeSelector(localStorageValue);
-    dispatch({ type: "SET_THEME", theme: currentTheme });
-  }, [currentTheme, dispatch, localStorageValue]);
-
-  const handleChange = (event) => {
-    const checked = event.target.checked;
-    const theme = checked ? "dark" : "light";
-    setThemeSelector(checked);
-    dispatch({ type: "SET_THEME", theme });
-    setCurrentTheme(theme);
-  };
-
+export const ThemeToggle = ({ setDarkMode, darkMode }) => {
   return (
     <div className="pin-right">
-      {currentTheme === "dark" ? "🌛" : "🌞"}
+      {darkMode ? "🌛" : "🌞"}
       <Switch
-        checked={themeSelector}
+        checked={darkMode}
         color="default"
-        onChange={handleChange}
+        onChange={(event) => setDarkMode(event.target.checked)}
         name="themeToggle"
-        inputProps={{ "aria-label": "secondary checkbox" }}
+        inputProps={{
+          "aria-label": "secondary checkbox",
+          "data-testid": "toggle-switch",
+        }}
       />
     </div>
   );

@@ -6,10 +6,10 @@ const useStyles = makeStyles((theme) => ({
   link: {
     background: theme.palette.primary.main,
     color: "#fff",
-    padding: "6px 10px 6px 10px",
+    padding: "8px 10px 6px 10px",
     margin: "4px 8px 4px 8px",
     height: 40,
-    width: 64,
+    width: 70,
     display: "block",
     "&:hover": {
       background: lighten(theme.palette.primary.main, 0.1),

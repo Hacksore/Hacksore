@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import { Social } from '.';
+import { Social } from ".";
 
 test("github link exists", () => {
   render(<Social />);
@@ -12,17 +12,19 @@ test("github link exists", () => {
 });
 
 test("linkedin link exists", () => {
-  render(<Social />);  
+  render(<Social />);
 
   const link = screen.getByTestId("linkedin-link");
   fireEvent.click(link);
 
   expect(link).toBeInTheDocument();
-  expect(link.getAttribute("href")).toBe("https://www.linkedin.com/in/seanboult");
+  expect(link.getAttribute("href")).toBe(
+    "https://www.linkedin.com/in/seanboult"
+  );
 });
 
 test("email link exists", () => {
-  render(<Social />);  
+  render(<Social />);
 
   const link = screen.getByTestId("email-link");
   fireEvent.click(link);

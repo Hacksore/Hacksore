@@ -13,9 +13,14 @@ export const Footer = () => {
       <Typography variant="body2">
         Built via commit{" "}
         <a
-          style={{ color: theme.palette.info.light }}
+          style={{
+            color: theme.palette.primary.main,
+            textDecoration: "none",
+            fontWeight: "bold",
+          }}
           rel="noreferrer"
           target="_blank"
+          data-testid="commit-link"
           title="Latest build commit"
           href={`https://github.com/Hacksore/Hacksore/commit/${REACT_APP_COMMIT_HASH}`}
         >

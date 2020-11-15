@@ -27,6 +27,7 @@ export const AboutMe = () => {
         width="256"
         id="profile-pic"
         src="me_irl.png"
+        data-testid="profile-pic"
         alt="Me in real life"
       />
 
