@@ -5,7 +5,10 @@
   "scripts": {
     "start": "concurrently npm:backend npm:frontend",
     "backend": "cd functions && npm run serve",
-    "frontend": "cd personal-site && npm start"
+    "frontend": "cd personal-site && npm start",
+    "install:client": "cd personal-site && npm install",
+    "install:server": "cd functions && npm install",
+    "postinstall": "concurrently npm:install:client npm:install:server"
   },
   "repository": {
     "type": "git",

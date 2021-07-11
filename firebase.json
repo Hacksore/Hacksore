@@ -3,11 +3,20 @@
     "source": "functions"
   },
   "hosting": {
-    "predeploy": ["sh predeploy.sh"],
+    "predeploy": [
+      "sh predeploy.sh"
+    ],
     "public": "personal-site/build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "rewrites": [
-      { "source": "/spin", "function": "app" },
+      {
+        "source": "/presence",
+        "function": "app"
+      },
       {
         "source": "**",
         "destination": "/index.html"
@@ -27,6 +36,12 @@
     },
     "ui": {
       "enabled": true
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "pubsub": {
+      "port": 8085
     }
   }
 }

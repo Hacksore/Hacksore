@@ -44,6 +44,16 @@ export const Social = () => {
         <LinkedIn />
       </a>
       <a
+        title="My Discord"
+        data-testid="discord-link"
+        href="https://discordapp.com/users/378293909610037252"
+        rel="noreferrer"
+        target="_blank"
+        className={classes.link}
+      >
+        <img alt="discord" src="/discord.svg" style={{ width: 24, height: 24 }} />
+      </a>
+      <a
         title="My Linkedin"
         data-testid="email-link"
         href="mailto:sean@boult.me"

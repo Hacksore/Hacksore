@@ -41,3 +41,16 @@
   animation-name: roll;
   animation-iteration-count: 3;
 }
+
+.presese-indicator {
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+.image-wrap {
+  position: relative;
+}

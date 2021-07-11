@@ -1,4 +1,5 @@
 import { Social } from "./components/social";
+import { Projects } from "./components/projects";
 import { Footer } from "./components/footer";
 import { AboutMe } from "./components/aboutMe";
 import { ThemeToggle } from "./components/themeToggle";
@@ -25,6 +26,7 @@ function App() {
         <div className="content-wrap">
           <AboutMe />
           <Social />
+          <Projects />
           <Footer />
         </div>
       </div>
