@@ -15,6 +15,17 @@ const client = new Client({
 
 const app = express();
 
+
+(async () => {
+  const collectionRef = db.collection("bio");
+  const profile = await collectionRef.doc("profile").get();
+  if (!profile.exists) {
+    await collectionRef.doc("profile").set({
+      status: "idle",
+    });
+  }
+})();
+
 app.get("/presence", async (req, res) => {
   const doc = await db.collection("bio").doc("profile").get();
   const data = doc.data();
