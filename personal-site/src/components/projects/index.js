@@ -121,8 +121,8 @@ export const Projects = () => {
     <div className={classes.root}>
       <Grid container spacing={2}>
         {PROJECTS.map((project) => (
-          <Grid item xs={12} md={4} lg={4}>
-            <ProjectCard key={project.name} project={project} />
+          <Grid key={project.name} item xs={12} md={4} lg={4}>
+            <ProjectCard project={project} />
           </Grid>
         ))}
       </Grid>
