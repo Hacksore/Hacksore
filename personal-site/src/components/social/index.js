@@ -65,7 +65,7 @@ export const Social = () => {
       </a>
       <a
         title="Schudle a meeting"
-        data-testid="email-link"
+        data-testid="meeting-link"
         href="https://cal.com/hacksore"
         rel="noreferrer"
         target="_blank"
