@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { GitHub, LinkedIn, Email } from "@material-ui/icons";
+import { GitHub, LinkedIn, Email, CalendarToday } from "@material-ui/icons";
 import { lighten, darken } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +54,7 @@ export const Social = () => {
         <img alt="discord" src="/discord.svg" style={{ width: 24, height: 24 }} />
       </a>
       <a
-        title="My Linkedin"
+        title="My Email"
         data-testid="email-link"
         href="mailto:sean@boult.me"
         rel="noreferrer"
@@ -62,6 +62,16 @@ export const Social = () => {
         className={classes.link}
       >
         <Email />
+      </a>
+      <a
+        title="Schudle a meeting"
+        data-testid="email-link"
+        href="https://cal.com/hacksore"
+        rel="noreferrer"
+        target="_blank"
+        className={classes.link}
+      >
+        <CalendarToday />
       </a>
     </div>
   );

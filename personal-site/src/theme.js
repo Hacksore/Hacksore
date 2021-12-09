@@ -1,18 +1,11 @@
-export const lightTheme = {
-  palette: {
-    primary: {
-      contrastText: "#515151",
-      main: "#5b69d3",
-    },
-  },
-};
+import { createMuiTheme } from "@material-ui/core";
 
-export const darkTheme = {
+export const theme = createMuiTheme({
   palette: {
     primary: {
       contrastText: "#fff",
-      main: "#727cd3",
+      main: "#20212e",
     },
     type: "dark",
   },
-};
+});

@@ -7,11 +7,13 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     fontWeight: "bold",
-    background: lighten(theme.palette.primary.main, 0.1),
+    background: theme.palette.primary.main,
     color: "#fff",
     padding: "8px 10px 6px 10px",
     display: "flex",
     alignItems: "center",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     height: 28,
   },
   link: {
@@ -26,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
     height: 28,
   },
   card: {
-    background: darken(theme.palette.background.default, 0.05),
+    background: darken(theme.palette.background.default, 0.1),
     minHeight: 120,
     margin: "0 12px 0 12px",
     position: "relative",
+    borderRadius: 8,
   },
   content: {
     padding: 12,
@@ -60,33 +63,9 @@ const PROJECTS = [
     status: "alive",
   },
   {
-    name: "drone-mobile",
-    desc: "An unofficial nodejs API wrapper for DroneMobile",
-    url: "https://github.com/Hacksore/drone-mobile",
-    status: "alive",
-  },
-  {
-    name: "react-grid-select",
-    desc: "A grid selection component",
-    url: "https://github.com/Hacksore/react-grid-select",
-    status: "alive",
-  },
-  {
-    name: "garage-plate-detection",
-    desc: "openalpr license plate detection",
-    url: "https://github.com/Hacksore/garage-plate-detection",
-    status: "alive",
-  },
-  {
-    name: "nftbb.io",
-    desc: "Showcase your NFT's",
-    url: "https://nftbb.io",
-    status: "alive",
-  },
-  {
-    name: "streampoll.me",
-    desc: "twitch.tv contests and polls",
-    url: "https://streampoll.me/",
+    name: "overlayed",
+    desc: "A discord overlay built with electron and react",
+    url: "https://overlayed.dev",
     status: "alive",
   },
 ];
