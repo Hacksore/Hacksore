@@ -1,4 +1,4 @@
-import { darken, Grid, lighten, makeStyles } from "@material-ui/core";
+import { darken, Grid, makeStyles } from "@material-ui/core";
 import ExternalIcon from "@material-ui/icons/Launch";
 
 const useStyles = makeStyles((theme) => ({
