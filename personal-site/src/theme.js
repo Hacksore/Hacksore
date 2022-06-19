@@ -1,11 +1,21 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@mui/material";
 
-export const theme = createMuiTheme({
+export const theme = createTheme({
+  shadows: ["none"],
   palette: {
     primary: {
       contrastText: "#fff",
-      main: "#20212e",
+      main: "#000",
     },
-    type: "dark",
+    type: "light",
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        },
+      }, 
+    }, 
   },
 });
