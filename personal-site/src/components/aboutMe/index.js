@@ -15,6 +15,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.down("lg")]: {
       fontSize: 50,
+      margin: 20,
     },
     fontWeight: "bold",
   },
@@ -25,7 +26,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
   "& .image-wrap": {
     width: 100,
     height: 100,
-    marginRight: 26,
+    [theme.breakpoints.up("lg")]: {
+      marginRight: 26,
+    },
     position: "relative",
   },
   "& .avatar": {
@@ -51,7 +54,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const AboutMe = () => {
-  const [profileData, setProfileData] = useState({ status: "online", avatarUrl: "" });
+  const [profileData, setProfileData] = useState({ status: "online", avatarUrl: null, activities: [] });
 
   useEffect(() => {
     fetchPresence();
@@ -68,7 +71,7 @@ export const AboutMe = () => {
       <div className="about-wrap">
         <div className="name">
           <div className="image-wrap">
-            <img className="avatar" src={profileData.avatarUrl} data-testid="avatar" alt="Me in real life" />
+            <img className="avatar" src={profileData.avatarUrl ?? "/discord-default.png"} alt="My discord avatar" />
 
             <div
               className="indicator"
@@ -76,6 +79,9 @@ export const AboutMe = () => {
                 background: STATE_COLORS[profileData.status],
               }}
             />
+            {profileData.activities.length > 0 && <>
+              <Typography variant="subtitle">{profileData.activities[0].name}</Typography>
+            </>}
           </div>
           <Typography className="header">Sean Boult</Typography>
         </div>

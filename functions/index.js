@@ -26,7 +26,6 @@ const app = express();
 })();
 
 app.get("/presence", async (req, res) => {
-  presenceMontitor();
   const doc = await db.collection("bio").doc("profile").get();
   const data = doc.data();
   res.send(data);
@@ -43,20 +42,26 @@ const presenceMontitor = () => {
       data = {
         status: presence.status,
         avatarUrl: `https://cdn.discordapp.com/avatars/${profile.user.id}/${profile.user.avatar}.png`,
+        activities: presence.activities.map(item => ({
+          name: item.name,
+          type: item.type,
+          state: item.state,
+        })),
       };
-          
+
     } catch (err) {
       console.log(err);
       data = {
         status: "offline",
+        activities: [],
       };
     }
 
     const collectionRef = db.collection("bio");
     await collectionRef.doc("profile").set(data);
 
-
-    proccess.exit(0);
+    // exit when done
+    process.exit(0);
   });
 
   client.login(config.discord.token);

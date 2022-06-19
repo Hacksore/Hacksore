@@ -55,6 +55,7 @@ const PROJECTS = [
     name: "bluelinky",
     desc: "An unofficial nodejs API wrapper for Hyundai bluelink",
     repoUrl: "https://github.com/Hacksore/bluelinky",
+    websiteUrl: "https://bluelinky.readme.io",
     status: "alive",
   },
   {
