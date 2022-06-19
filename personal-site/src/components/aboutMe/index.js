@@ -3,6 +3,7 @@ import { Box, styled, Typography } from "@mui/material";
 
 const STATE_COLORS = {
   online: "#90ce5c",
+  offline: "#747f8d",
   idle: "#f2b34d",
   dnd: "#d33f3f",
   unknown: "rgba(0, 0, 0, 0)",

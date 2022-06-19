@@ -25,13 +25,16 @@ const app = express();
   }
 })();
 
-app.get("/presence", async (req, res) => {
+app.get("/presence", async (_, res) => {
   const doc = await db.collection("bio").doc("profile").get();
   const data = doc.data();
   res.send(data);
 });
 
-const presenceMontitor = () => {
+const presenceMontitor = async () => {
+  const collectionRef = db.collection("bio");
+  const existingProfile = await collectionRef.doc("profile").get();
+
   client.on("ready", async () => {
     let data = {};
     try {
@@ -52,12 +55,12 @@ const presenceMontitor = () => {
     } catch (err) {
       console.log(err);
       data = {
+        ...existingProfile.data(),
         status: "offline",
         activities: [],
       };
     }
 
-    const collectionRef = db.collection("bio");
     await collectionRef.doc("profile").set(data);
 
     // exit when done
