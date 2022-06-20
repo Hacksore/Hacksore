@@ -6,9 +6,11 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
+const DISCORD_GUILD_ID = "975086424049213560";
+const DISCORD_USER_ID = "378293909610037252";
+
 const { Client, Intents } = require("discord.js");
-const { GUILDS, GUILD_MEMBERS, GUILD_MESSAGES, GUILD_PRESENCES } =
-  Intents.FLAGS;
+const { GUILDS, GUILD_MEMBERS, GUILD_MESSAGES, GUILD_PRESENCES } = Intents.FLAGS;
 const client = new Client({
   intents: [GUILDS, GUILD_MEMBERS, GUILD_PRESENCES, GUILD_MESSAGES],
 });
@@ -21,11 +23,15 @@ const app = express();
   if (!profile.exists) {
     await collectionRef.doc("profile").set({
       status: "idle",
+      avatarHash: "",
+      activities: [],
+      userId: "",
     });
   }
 })();
 
 app.get("/presence", async (_, res) => {
+  // presenceMontitor();
   const doc = await db.collection("bio").doc("profile").get();
   const data = doc.data();
   res.send(data);
@@ -38,25 +44,26 @@ const presenceMontitor = async () => {
   client.on("ready", async () => {
     let data = {};
     try {
-      const g = client.guilds.cache.get("975086424049213560");
-      const presence = g.presences.cache.get("378293909610037252");
-      const profile = g.members.cache.get("378293909610037252");
+      const g = client.guilds.cache.get(DISCORD_GUILD_ID);
+      const presence = g.presences.cache.get(DISCORD_USER_ID);
+      const profile = g.members.cache.get(DISCORD_USER_ID);
 
       data = {
         status: presence.status,
-        avatarUrl: `https://cdn.discordapp.com/avatars/${profile.user.id}/${profile.user.avatar}.png`,
+        avatarHash: profile.user.avatar,
+        userId: profile.user.id,
         activities: presence.activities.map(item => ({
           name: item.name,
+          details: item.details,
           type: item.type,
           state: item.state,
         })),
       };
-
     } catch (err) {
       console.log(err);
       data = {
         ...existingProfile.data(),
-        status: "offline",
+        status: "unknown",
         activities: [],
       };
     }
@@ -70,8 +77,6 @@ const presenceMontitor = async () => {
   client.login(config.discord.token);
 };
 
-exports.presence = functions.pubsub
-  .schedule("every 1 minutes")
-  .onRun(() => presenceMontitor());
+exports.presence = functions.pubsub.schedule("every 1 minutes").onRun(() => presenceMontitor());
 
-  exports.app = functions.https.onRequest(app);
+exports.app = functions.https.onRequest(app);

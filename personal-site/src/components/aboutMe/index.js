@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { Box, styled, Typography } from "@mui/material";
+import { Box, Skeleton, styled, Typography } from "@mui/material";
+import Presence from "../presence";
+
+const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
 const STATE_COLORS = {
   online: "#90ce5c",
@@ -55,7 +58,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const AboutMe = () => {
-  const [profileData, setProfileData] = useState({ status: "online", avatarUrl: null, activities: [] });
+  const [profileData, setProfileData] = useState({ status: "unknown", avatarHash: "", userId: "", activities: [] });
 
   useEffect(() => {
     fetchPresence();
@@ -67,23 +70,34 @@ export const AboutMe = () => {
       .then(res => setProfileData(res));
   };
 
+  const { userId, avatarHash, activities } = profileData;
+  const ext = avatarHash.startsWith("a_") ? "gif" : "png";
+  const avatarUrl = `${DISCORD_AVATAR_CDN}/${userId}/${avatarHash}.${ext}`;
+
   return (
     <StyledBox>
       <div className="about-wrap">
         <div className="name">
-          <div className="image-wrap">
-            <img className="avatar" src={profileData.avatarUrl ?? "/discord-default.png"} alt="My discord avatar" />
+          {avatarHash ? (
+            <div className="image-wrap">
+              <Presence activities={activities}>
+                <div>
+                  <img className="avatar" src={avatarUrl} alt="My discord avatar" />
 
-            <div
-              className="indicator"
-              style={{
-                background: STATE_COLORS[profileData.status],
-              }}
-            />
-            {profileData.activities.length > 0 && <>
-              <Typography variant="subtitle">{profileData.activities[0].name}</Typography>
-            </>}
-          </div>
+                  <div
+                    className="indicator"
+                    style={{
+                      background: STATE_COLORS[profileData.status],
+                    }}
+                  />
+                </div>
+              </Presence>
+            </div>
+          ) : (
+            <div className="image-wrap">
+              <Skeleton variant="circular" width={100} height={100} />
+            </div>
+          )}
           <Typography className="header">Sean Boult</Typography>
         </div>
       </div>
