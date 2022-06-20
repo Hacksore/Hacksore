@@ -16,6 +16,8 @@ export const theme = createTheme({
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
+          maxWidth: "none",
+          borderRadius: 0,
           background: "rgba(0, 0, 0, 0.9)",
         }
       }

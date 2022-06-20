@@ -31,7 +31,6 @@ const app = express();
 })();
 
 app.get("/presence", async (_, res) => {
-  // presenceMontitor();
   const doc = await db.collection("bio").doc("profile").get();
   const data = doc.data();
   res.send(data);

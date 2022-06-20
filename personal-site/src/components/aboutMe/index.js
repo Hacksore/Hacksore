@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Skeleton, styled, Typography } from "@mui/material";
 import Presence from "../presence";
+import Avatar from "../avatar";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
@@ -31,7 +32,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     width: 100,
     height: 100,
     [theme.breakpoints.up("lg")]: {
-      marginRight: 26,
+      marginRight: 28,
     },
     position: "relative",
   },
@@ -48,12 +49,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
   },
   "& .indicator": {
-    width: 30,
-    height: 30,
+    width: 16,
+    height: 16,
     borderRadius: 20,
     position: "absolute",
-    bottom: 0,
-    right: 0,
+    bottom: 5,
+    right: 6,
   },
 }));
 
@@ -82,8 +83,8 @@ export const AboutMe = () => {
             <div className="image-wrap">
               <Presence activities={activities}>
                 <div>
-                  <img className="avatar" src={avatarUrl} alt="My discord avatar" />
-
+                  {/* <img className="avatar" src={avatarUrl} alt="My discord avatar" /> */}
+                  <Avatar url={avatarUrl} />
                   <div
                     className="indicator"
                     style={{

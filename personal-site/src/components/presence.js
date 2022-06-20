@@ -2,11 +2,14 @@ import { Box, styled, Tooltip, Typography } from "@mui/material";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
-    padding: 10,
+    padding: 4,
     fontWeight: "bold",
     fontSize: 20,
   },
-  textAlign: "left"
+  "& .tooltip": {
+    padding: 4
+  },
+  textAlign: "left",
 }));
 
 const PresenceTooltip = ({ activities }) => {
@@ -35,20 +38,25 @@ const PresenceTooltip = ({ activities }) => {
     }
   });
 
-  console.log(statusElements)
-
-  return statusElements.map(item => <Typography className="activity" key={item.icon}>{item.icon} {item.message}</Typography>);
+  return (
+    <div className="tooltip">
+      {statusElements.map(item => (
+        <Typography className="activity" key={item.icon}>
+          {item.icon} {item.message}
+        </Typography>
+      ))}
+    </div>
+  );
 };
 
 const Presence = ({ activities, children }) => {
-  console.log(activities, children);
   return (
     <StyledBox>
       <Tooltip
         placement="bottom"
         PopperProps={{
           style: {
-            width: 420,
+            width: 400,
           },
           disablePortal: true,
         }}
