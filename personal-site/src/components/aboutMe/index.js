@@ -10,7 +10,7 @@ const STATE_COLORS = {
   offline: "#747f8d",
   idle: "#f2b34d",
   dnd: "#d33f3f",
-  unknown: "rgba(0, 0, 0, 0)",
+  unknown: "#747f8d",
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -54,6 +54,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     borderRadius: 20,
     position: "absolute",
     bottom: 5,
+    border: "1px solid #000",
     right: 6,
   },
 }));

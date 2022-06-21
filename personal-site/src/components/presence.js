@@ -4,7 +4,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
     padding: 4,
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
   },
   "& .tooltip": {
     padding: 4
@@ -25,7 +25,7 @@ const PresenceTooltip = ({ activities }) => {
 
     if (type === "PLAYING") {
       statusElements.push({
-        icon: "🎯",
+        icon: "🧑🏻‍💻",
         message: `${name} - ${state}`,
       });
     }

@@ -42,6 +42,7 @@ const presenceMontitor = async () => {
 
   client.on("ready", async () => {
     let data = {};
+    console.log("discord ready...")
     try {
       const g = client.guilds.cache.get(DISCORD_GUILD_ID);
       const presence = g.presences.cache.get(DISCORD_USER_ID);
@@ -58,8 +59,9 @@ const presenceMontitor = async () => {
           state: item.state,
         })),
       };
+
     } catch (err) {
-      console.log(err);
+      console.log("Discord err", err);
       data = {
         ...existingProfile.data(),
         status: "unknown",
@@ -67,12 +69,22 @@ const presenceMontitor = async () => {
       };
     }
 
+    // update profile data
     await collectionRef.doc("profile").set(data);
 
-    // exit when done
+  });
+
+  client.on("error", err => {
+    console.log("discord error", err);
     process.exit(0);
   });
 
+  client.on("disconnect", err => {
+    console.log("discord disconnect", err);
+    process.exit(0);
+  });
+
+  console.log("logging into discord...");
   client.login(config.discord.token);
 };
 
