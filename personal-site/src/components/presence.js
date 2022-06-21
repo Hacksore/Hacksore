@@ -7,7 +7,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     fontSize: 16,
   },
   "& .tooltip": {
-    padding: 4
+    padding: 4,
   },
   textAlign: "left",
 }));
@@ -40,11 +40,15 @@ const PresenceTooltip = ({ activities }) => {
 
   return (
     <div className="tooltip">
-      {statusElements.map(item => (
-        <Typography className="activity" key={item.icon}>
-          {item.icon} {item.message}
-        </Typography>
-      ))}
+      {statusElements.length === 0 ? (
+        <Typography>Not current activities</Typography>
+      ) : (
+        statusElements.map(item => (
+          <Typography className="activity" key={item.icon}>
+            {item.icon} {item.message}
+          </Typography>
+        ))
+      )}
     </div>
   );
 };

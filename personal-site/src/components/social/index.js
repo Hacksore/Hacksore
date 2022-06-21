@@ -1,4 +1,4 @@
-import { GitHub, LinkedIn, Email, CalendarToday, Article } from "@mui/icons-material";
+import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
@@ -21,17 +21,10 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export const Social = () => {
-
   return (
     <StyledGrid container justifyContent="center">
       <Grid item>
-        <a
-          title="My Github"
-          href="https://github.com/Hacksore"
-          rel="noreferrer"
-          target="_blank"
-          className="link"
-        >
+        <a title="My Github" href="https://github.com/Hacksore" rel="noreferrer" target="_blank" className="link">
           <GitHub />
         </a>
       </Grid>
@@ -47,6 +40,11 @@ export const Social = () => {
         </a>
       </Grid>
       <Grid item>
+        <a title="My Twitter" href="https://twitter.com/hacksore" rel="noreferrer" target="_blank" className="link">
+          <Twitter />
+        </a>
+      </Grid>
+      <Grid item>
         <a
           title="My Discord"
           href="https://discordapp.com/users/378293909610037252"
@@ -58,39 +56,20 @@ export const Social = () => {
         </a>
       </Grid>
       <Grid item>
-        <a
-          title="My Email"
-          href="mailto:sean@boult.me"
-          rel="noreferrer"
-          target="_blank"
-          className="link"
-        >
+        <a title="My Email" href="mailto:sean@boult.me" rel="noreferrer" target="_blank" className="link">
           <Email />
         </a>
       </Grid>
       <Grid item>
-        <a
-          title="Schudle a meeting"
-          href="https://cal.com/hacksore"
-          rel="noreferrer"
-          target="_blank"
-          className="link"
-        >
+        <a title="Schedule a meeting" href="https://cal.com/hacksore" rel="noreferrer" target="_blank" className="link">
           <CalendarToday />
         </a>
       </Grid>
       <Grid item>
-        <a
-          title="My blog posts"
-          href="https://dev.to/hacksore"
-          rel="noreferrer"
-          target="_blank"
-          className="link"
-        >
+        <a title="My blog posts" href="https://dev.to/hacksore" rel="noreferrer" target="_blank" className="link">
           <Article />
         </a>
       </Grid>
-
     </StyledGrid>
   );
 };

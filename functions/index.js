@@ -60,8 +60,10 @@ const presenceMontitor = async () => {
         })),
       };
 
+      console.log("presence update", data);
+
     } catch (err) {
-      console.log("Discord err", err);
+      console.error("Discord err", err);
       data = {
         ...existingProfile.data(),
         status: "unknown",
@@ -72,16 +74,13 @@ const presenceMontitor = async () => {
     // update profile data
     await collectionRef.doc("profile").set(data);
 
+    process.exit(0);
+
   });
 
   client.on("error", err => {
     console.log("discord error", err);
-    process.exit(0);
-  });
-
-  client.on("disconnect", err => {
-    console.log("discord disconnect", err);
-    process.exit(0);
+    process.exit(1);
   });
 
   console.log("logging into discord...");
