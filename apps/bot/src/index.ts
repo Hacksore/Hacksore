@@ -1,6 +1,5 @@
 import { Client, Intents, VoiceState } from "discord.js";
 import admin from "firebase-admin";
-import * as functions from "firebase-functions";
 
 import { readFile } from "fs/promises";
 const serviceAccountStringData = await readFile(new URL("../service_account.json", import.meta.url), "utf8")
@@ -13,7 +12,6 @@ admin.initializeApp({
 });
 
 export const db = admin.database();
-export const config = functions.config();
 
 const DISCORD_MY_ID = "";
 const DISCORD_SERVER_ID = "";

@@ -12,21 +12,14 @@
   "type": "module",
   "main": "dist/index.js",
   "dependencies": {
-    "@google-cloud/connect-firestore": "^2.0.2",
-    "@google-cloud/firestore": "^4.15.1",
-    "discord.js": "^13.8.0",
     "express": "^4.17.3",
-    "express-session": "^1.17.2",
-    "firebase-admin": "^10.1.0",
-    "firebase-functions": "^3.20.1",
-    "got": "^12.0.4",
-    "morgan": "^1.10.0",
+    "firebase-admin": "^10.3.0",
+    "firebase-functions": "^3.21.2",
     "rollup": "^2.70.2"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@rollup/plugin-typescript": "^8.3.2",
-    "concurrently": "^7.0.0",
     "eslint": "^8.11.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.7.0",
