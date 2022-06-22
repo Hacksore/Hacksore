@@ -2,7 +2,7 @@ import { Client, Intents, VoiceState } from "discord.js";
 import admin from "firebase-admin";
 
 import { readFile } from "fs/promises";
-const serviceAccountStringData = await readFile(new URL("../service_account.json", import.meta.url), "utf8")
+const serviceAccountStringData = await readFile(new URL("../service_account.json", import.meta.url), "utf8");
 const serviceAccount = JSON.parse(serviceAccountStringData);
 
 admin.initializeApp({
@@ -13,21 +13,28 @@ admin.initializeApp({
 
 export const db = admin.database();
 
-const DISCORD_MY_ID = "";
-const DISCORD_SERVER_ID = "";
+const DISCORD_MY_ID = "378293909610037252";
+const DISCORD_SERVER_ID = "975086424049213560";
 
 const { DISCORD_TOKEN } = process.env;
 
 const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES],
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_VOICE_STATES],
 });
+
+const isUpdateAllowed = (id: string | undefined, guildId: string | undefined) => {
+  return id === DISCORD_MY_ID && guildId === DISCORD_SERVER_ID;
+};
 
 client.on("ready", async () => {
   console.log("logged in");
 });
 
 client.on("presenceUpdate", async (_, newPres) => {
-  
+  if (!isUpdateAllowed(newPres.user?.id, newPres.guild?.id)) {
+    return;
+  }
+
   const data = {
     status: newPres?.status,
     avatarHash: newPres?.user?.avatar,
@@ -45,15 +52,17 @@ client.on("presenceUpdate", async (_, newPres) => {
 });
 
 client.on("voiceStateUpdate", async (_, newVoiceState: VoiceState) => {
-  const userdata = await db.ref("userdata").get();
+  if (!isUpdateAllowed(newVoiceState?.id, newVoiceState.guild?.id)) {
+    return;
+  }
 
+  const userdataDoc = await db.ref("userdata").get();
   console.log("got streaming update", newVoiceState.streaming);
   // check for streaming state
   db.ref("userdata").set({
-    ...userdata,
-    streaming: newVoiceState.streaming
+    ...userdataDoc.val(),
+    streaming: newVoiceState.streaming,
   });
-
 });
 
 client.login(DISCORD_TOKEN);

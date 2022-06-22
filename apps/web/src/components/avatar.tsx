@@ -3,7 +3,6 @@ import { Box, styled } from "@mui/material";
 const StyledBox = styled(Box, {
   shouldForwardProp: prop => prop !== "url",
 })(({ url }: { url: string }) => ({
-  background: "red",
   width: 100,
   height: 100,
   clipPath: "url('#circle')",
