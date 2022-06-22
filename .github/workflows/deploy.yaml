@@ -14,9 +14,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
-      - name: Build the docker presence image
-        run: docker build -t hacksore/presence:latest .
-        working-directory: apps/bot
+      - name: Build all
+        run: npm run build
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
