@@ -1,0 +1,16 @@
+{
+  "userdata": {
+    "activities": [
+      { "name": "Custom Status", "state": "aeg", "type": "CUSTOM" },
+      {
+        "details": "Editing package.json",
+        "name": "Visual Studio Code",
+        "state": "Workspace: Hacksore",
+        "type": "PLAYING"
+      }
+    ],
+    "avatarHash": "a_9bbadc44aa1bd1cebeeec9c68b8aa2d6",
+    "status": "online",
+    "userId": "378293909610037252"
+  }
+}

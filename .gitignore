@@ -1,4 +1,5 @@
 # Logs
+client.on("")
 logs
 *.log
 npm-debug.log*
@@ -66,3 +67,7 @@ node_modules/
 .runtimeconfig.json
 
 .DS_Store
+
+.turbo/
+dist/
+service_account.json

@@ -1,0 +1,17 @@
+name: Build
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest     
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build turbo apps
+        run: npm run build

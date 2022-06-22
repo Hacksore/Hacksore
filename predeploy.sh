@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# do prebuild only on local machine, skip in CD
+# do prebuild only on local machine, skip in CI
 if [ -z "$CI" ]; then
-  cd personal-site && npm run build
+  npx turbo run build --filter=web
 fi

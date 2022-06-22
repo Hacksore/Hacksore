@@ -1,12 +1,15 @@
 {
   "functions": {
-    "source": "functions"
+    "source": "apps/api"
+  },
+  "database": {
+    "rules": "database.rules.json"
   },
   "hosting": {
     "predeploy": [
       "sh predeploy.sh"
     ],
-    "public": "personal-site/build",
+    "public": "apps/web/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -27,6 +30,7 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  
   "emulators": {
     "functions": {
       "port": 5001
@@ -37,11 +41,8 @@
     "ui": {
       "enabled": true
     },
-    "firestore": {
-      "port": 8080
-    },
-    "pubsub": {
-      "port": 8085
+    "database": {
+      "port": 9000
     }
   }
 }
