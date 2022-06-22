@@ -43,7 +43,7 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   return (
     <div className="tooltip">
       {statusElements.length === 0 ? (
-        <Typography>Not current activities</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>No current activities 😴</Typography>
       ) : (
         statusElements.map(item => (
           <Typography className="activity" key={item.icon}>

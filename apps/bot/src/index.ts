@@ -19,7 +19,12 @@ const DISCORD_SERVER_ID = "975086424049213560";
 const { DISCORD_TOKEN } = process.env;
 
 const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_VOICE_STATES],
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_PRESENCES,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_VOICE_STATES,
+  ],
 });
 
 const isUpdateAllowed = (id: string | undefined, guildId: string | undefined) => {
@@ -63,6 +68,23 @@ client.on("voiceStateUpdate", async (_, newVoiceState: VoiceState) => {
     ...userdataDoc.val(),
     streaming: newVoiceState.streaming,
   });
+});
+
+
+// TODO: this doesnt work for avatars for some reason but works for nicknames
+client.on("guildMemberUpdate", async (_, newMember) => {
+  if (!isUpdateAllowed(newMember?.id, newMember.guild?.id)) {
+    return;
+  }
+
+  const userdataDoc = await db.ref("userdata").get();
+
+  // update anything that changed
+  db.ref("userdata").set({
+    ...userdataDoc.val(),
+    avatarHash: newMember.avatar
+  });
+
 });
 
 client.login(DISCORD_TOKEN);

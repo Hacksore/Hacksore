@@ -6,9 +6,9 @@ on:
 env:
   NODE_VERSION: "16"
   FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-  # TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  # TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-  # TURBO_REMOTE_ONLY: true
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_REMOTE_ONLY: true
 
 jobs:
   deploy:
@@ -45,8 +45,6 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-      - name: Push Bot image
-        run: docker push hacksore/presence-bot:latest
+          password: ${{ secrets.DOCKER_TOKEN }}      
       - name: Deploy to firebase
         run: npm run deploy

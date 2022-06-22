@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --exitcrash src/index.ts",
     "build:dist": "tsc",
-    "build": "docker buildx build --platform=linux/arm/v7 -t hacksore/presence-bot:latest . --load"
+    "build": "docker buildx build --platform=linux/arm/v7 -t hacksore/presence-bot:latest . --load",
+    "deploy": "node deploy.js"
   },
   "type": "module",
   "keywords": [],
