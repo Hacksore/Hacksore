@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@maste
+        uses: actions/checkout@master
       - name: Build the docker presence image
         run: docker build -t hacksore/presence:latest .
         working-directory: apps/bot
