@@ -1,0 +1,17 @@
+name: Test
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build the docker presence image
+        run: docker build -t hacksore/presence:latest .
+        working-directory: apps/bot
+      - name: Deploy to firebase
+        run: echo todo

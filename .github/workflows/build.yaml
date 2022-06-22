@@ -1,8 +1,8 @@
-name: Build and Deploy
+name: Build
 on:
   push:
     branches:
-      - master
+      - "*"
 
 jobs:
   build:
@@ -18,14 +18,3 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build the docker presence image
-        run: docker build -t hacksore/presence:latest . 
-        working-directory: apps/bot
-      - name: Deploy to firebase
-        run: echo todo
-      
