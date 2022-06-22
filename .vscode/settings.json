@@ -1,5 +1,0 @@
-{
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": "file:///Users/hacksore/Code/opensource/Hacksore/.github/workflows/deploy.yaml"
-  }
-}
