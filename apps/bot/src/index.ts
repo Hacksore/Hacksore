@@ -15,6 +15,9 @@ admin.initializeApp({
 export const db = admin.database();
 export const config = functions.config();
 
+const DISCORD_MY_ID = "";
+const DISCORD_SERVER_ID = "";
+
 const { DISCORD_TOKEN } = process.env;
 
 const client = new Client({

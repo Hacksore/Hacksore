@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "nodemon --exitcrash src/index.ts",
-    "build": "docker build -t hacksore/presence-bot:latest ."
+    "build": "docker buildx build --platform=linux/arm/v7 -t hacksore/presence-bot:latest . --load"
   },
   "type": "module",
   "keywords": [],

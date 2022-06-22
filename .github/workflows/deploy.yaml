@@ -16,14 +16,18 @@ jobs:
         uses: actions/checkout@master
       - name: Install
         run: npm ci
+      - name: Set up Docker Buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
       - name: Build all
         run: npm run build
       - name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}       
+          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Push Bot image
-        run: docker push hacksore/presence-bot:latest        
+        run: docker push hacksore/presence-bot:latest
       - name: Deploy to firebase
         run: npm run deploy
