@@ -1,26 +1,27 @@
 {
   "name": "hacksore",
-  "version": "1.0.0",
-  "description": "My site and README",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "start": "concurrently npm:backend npm:frontend",
-    "backend": "cd functions && npm run serve",
-    "frontend": "cd personal-site && npm start",
-    "install:client": "cd personal-site && npm install",
-    "install:server": "cd functions && npm install",
-    "postinstall": "concurrently npm:install:client npm:install:server"
+    "start": "concurrently npm:dev npm:emulator",
+    "emulator": "firebase emulators:start",
+    "dev": "turbo run start",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "deploy": "turbo run deploy --parallel"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Hacksore/Hacksore.git"
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "firebase-tools": "^10.7.2",
+    "prettier": "^2.5.1",
+    "turbo": "^1.2.14"
   },
-  "author": "Hacksore",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Hacksore/Hacksore/issues"
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
   },
-  "homepage": "https://github.com/Hacksore/Hacksore#readme",
-  "dependencies": {
-    "concurrently": "^5.3.0"
-  }
+  "packageManager": "npm@7.24.0"
 }

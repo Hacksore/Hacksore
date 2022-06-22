@@ -1,4 +1,5 @@
 import { Box, Button, Grid, lighten, styled } from "@mui/material";
+import { IProjectInfo } from "../types/project";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .root": {
@@ -74,14 +75,14 @@ const PROJECTS = [
   },
 ];
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project }: { project: IProjectInfo } ) => {
   return (
     <div className="card">
       <div className="header">{project.name}</div>
       <div className="content">
         <div className="desc">{project.desc}</div>
         <div className="bottom">
-          <Button href={project.url} className="link" variant="contained" rel="noreferrer" target="_blank">
+          <Button href={project.repoUrl} className="link" variant="contained" rel="noreferrer" target="_blank">
             Repo
           </Button>
           {project.websiteUrl && (
@@ -100,7 +101,7 @@ export const Projects = () => {
   return (
     <StyledBox>
       <Grid container spacing={2}>
-        {PROJECTS.map(project => (
+        {PROJECTS.map((project: IProjectInfo) => (
           <Grid key={project.name} item xs={12} md={4} lg={4}>
             <ProjectCard project={project} />
           </Grid>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Skeleton, styled, Typography } from "@mui/material";
-import Presence from "../presence";
-import Avatar from "../avatar";
+import Presence from "./presence";
+import Avatar from "./avatar";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 

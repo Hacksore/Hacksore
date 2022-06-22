@@ -1,4 +1,6 @@
 import { Box, styled, Tooltip, Typography } from "@mui/material";
+import React from "react";
+import { Activity } from "../types/activities";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
@@ -12,9 +14,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
   textAlign: "left",
 }));
 
-const PresenceTooltip = ({ activities }) => {
-  const statusElements = [];
-  activities.forEach(item => {
+const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities }) => {
+  const statusElements: {icon: string, message: string}[] = [];
+  activities.forEach((item: Activity) => {
     const { type, name, state, details } = item;
     if (type === "CUSTOM_STATUS") {
       statusElements.push({
@@ -53,7 +55,7 @@ const PresenceTooltip = ({ activities }) => {
   );
 };
 
-const Presence = ({ activities, children }) => {
+const Presence: React.FC<any> = ({ activities, children }) => {
   return (
     <StyledBox>
       <Tooltip
