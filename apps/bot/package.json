@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "nodemon --exitcrash src/index.ts"
+    "start": "nodemon --exitcrash src/index.ts",
+    "build": "docker build -t hacksore/presence:latest ."
   },
   "type": "module",
   "keywords": [],

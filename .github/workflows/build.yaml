@@ -15,7 +15,3 @@ jobs:
         run: npm ci
       - name: Build turbo apps
         run: npm run build
-      - name: Build bot container
-        run: docker build -t hacksore/presence:latest .
-        working-directory: apps/bot
-
