@@ -47,7 +47,6 @@ client.on("voiceStateUpdate", async (_, newVoiceState: VoiceState) => {
   const userdata = await db.ref("userdata").get();
 
   console.log("got streaming update", newVoiceState.streaming);
-
   // check for streaming state
   db.ref("userdata").set({
     ...userdata,

@@ -69,7 +69,7 @@ const PROJECTS = [
   {
     name: "overlayed",
     desc: "A discord overlay built with electron and react",
-    repoUrl: "https://overlayed.dev",
+    repoUrl: "https://github.com/hacksore/overlayed",
     websiteUrl: "https://overlayed.dev",
     status: "alive",
   },

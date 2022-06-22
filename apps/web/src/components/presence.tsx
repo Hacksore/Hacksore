@@ -14,11 +14,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
   textAlign: "left",
 }));
 
-const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities }) => {
+const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
   const statusElements: {icon: string, message: string}[] = [];
   activities.forEach((item: Activity) => {
     const { type, name, state, details } = item;
-    if (type === "CUSTOM_STATUS") {
+    if (type === "CUSTOM") {
       statusElements.push({
         icon: "📝",
         message: state,

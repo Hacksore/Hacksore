@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Box, Skeleton, styled, Typography } from "@mui/material";
 import Presence from "./presence";
 import Avatar from "./avatar";
+import { DataSnapshot, onChildAdded, onChildChanged, onValue, ref } from "firebase/database";
+import { database } from "../App";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
@@ -60,17 +62,16 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const AboutMe = () => {
-  const [profileData, setProfileData] = useState({ status: "unknown", avatarHash: "", userId: "", activities: [] });
+  const [profileData, setProfileData] = useState({ status: "unknown", avatarHash: "", userId: "", activities: [], streaming: false });
 
   useEffect(() => {
-    fetchPresence();
-  }, []);
+    const localRef = ref(database, "userdata");
+    // when anything changes in the doc
+    onValue(localRef, (snapshot: DataSnapshot) => {      
+      setProfileData(snapshot.val());
+    });
 
-  const fetchPresence = () => {
-    fetch("/presence")
-      .then(res => res.json())
-      .then(res => setProfileData(res));
-  };
+  }, []);
 
   const { userId, avatarHash, activities } = profileData;
   const ext = avatarHash.startsWith("a_") ? "gif" : "png";

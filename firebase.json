@@ -9,7 +9,7 @@
     "predeploy": [
       "sh predeploy.sh"
     ],
-    "public": "web/build",
+    "public": "apps/web/dist",
     "ignore": [
       "firebase.json",
       "**/.*",

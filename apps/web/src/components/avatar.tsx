@@ -2,7 +2,7 @@ import { Box, styled } from "@mui/material";
 
 const StyledBox = styled(Box, {
   shouldForwardProp: prop => prop !== "url",
-})(({ url }) => ({
+})(({ url }: { url: string }) => ({
   background: "red",
   width: 100,
   height: 100,
@@ -11,10 +11,10 @@ const StyledBox = styled(Box, {
   backgroundSize: "cover",
 }));
 
-const Avatar = ({ url }) => {
+const Avatar = ({ url }: { url: string }) => {
   return (
     <StyledBox url={url}>
-      <svg class="svg">
+      <svg>
         <clipPath id="circle" clipPathUnits="objectBoundingBox">
           <path
             fill="000"

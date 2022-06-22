@@ -2,7 +2,7 @@
 
 {
   "rules": {
-    "presence": {
+    "userdata": {
       ".read": true
     }  
   }

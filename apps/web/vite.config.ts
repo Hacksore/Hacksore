@@ -10,10 +10,8 @@ export default defineConfig({
   server: {
     open: "http://localhost:3000",
     proxy: {
-      "/api": {
-        target: "http://localhost:5001/buildtray/us-central1/server",
-        changeOrigin: true,
-        cookieDomainRewrite: "http://localhost:5001",
+      "/presence": {
+        target: "http://localhost:5001/biofun/us-central1/app",
       },
     },
   },
