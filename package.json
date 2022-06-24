@@ -11,7 +11,7 @@
     "dev": "turbo run start",
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "deploy": "turbo run deploy --parallel"
+    "deploy": "turbo run deploy --filter=web"
   },
   "devDependencies": {
     "concurrently": "^7.2.1",
