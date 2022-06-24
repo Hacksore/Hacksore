@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { Box, Skeleton, styled, Typography } from "@mui/material";
 import Presence from "./presence";
 import Avatar from "./avatar";
-import { DataSnapshot, onChildAdded, onChildChanged, onValue, ref } from "firebase/database";
+import { DataSnapshot, onValue, ref } from "firebase/database";
 import { database } from "../App";
+import { Profile } from "../types/profile";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
-const STATE_COLORS = {
+export const STATE_COLORS = {
   online: "#90ce5c",
   offline: "#747f8d",
   idle: "#f2b34d",
   dnd: "#d33f3f",
-  unknown: "#747f8d",
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -21,7 +21,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
       fontSize: 100,
     },
     [theme.breakpoints.down("lg")]: {
-      fontSize: 50,
+      fontSize: 80,
       margin: 20,
     },
     fontWeight: "bold",
@@ -62,18 +62,26 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const AboutMe = () => {
-  const [profileData, setProfileData] = useState({ status: "unknown", avatarHash: "", userId: "", activities: [], streaming: false });
+  const [profileData, setProfileData] = useState<Profile>({
+    status: "offline",
+    avatarHash: "",
+    userId: "",
+    activities: [],
+    streaming: false,
+  });
 
   useEffect(() => {
     const localRef = ref(database, "userdata");
     // when anything changes in the doc
-    onValue(localRef, (snapshot: DataSnapshot) => {      
+    const fn = onValue(localRef, (snapshot: DataSnapshot) => {
       setProfileData(snapshot.val());
     });
 
+    return () => fn();
   }, []);
 
-  const { userId, avatarHash, activities } = profileData;
+  const { userId, avatarHash, activities, status } = profileData;
+  
   const ext = avatarHash.startsWith("a_") ? "gif" : "png";
   const avatarUrl = `${DISCORD_AVATAR_CDN}/${userId}/${avatarHash}.${ext}`;
 
@@ -85,12 +93,11 @@ export const AboutMe = () => {
             <div className="image-wrap">
               <Presence activities={activities}>
                 <div>
-                  {/* <img className="avatar" src={avatarUrl} alt="My discord avatar" /> */}
                   <Avatar url={avatarUrl} />
                   <div
                     className="indicator"
                     style={{
-                      background: STATE_COLORS[profileData.status],
+                      background: STATE_COLORS[status],
                     }}
                   />
                 </div>

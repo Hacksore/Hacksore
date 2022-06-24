@@ -2,41 +2,69 @@ import { Box, styled, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { Activity } from "../types/activities";
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(() => ({
   "& .activity": {
     padding: 4,
-    fontWeight: "bold",
-    fontSize: 16,
   },
   "& .tooltip": {
+    width: 250,
     padding: 4,
   },
+  display: "flex",
+  justifyContent: "flex-end",
   textAlign: "left",
+
+  "& .header": {
+    fontSize: 20,
+  },
+  "& .body": {
+    fontSize: 18,
+  },
+  "&. .playing": {},
 }));
 
+const CurrentStatus = ({ name, state, details }: { name: string; state: string; details: string }) => {
+  return (
+    <div>
+      <Typography className="header">{state}</Typography>
+    </div>
+  );
+};
+
+const PlayingActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
+  return (
+    <div>
+      <Typography className="header">{name}</Typography>
+      <Typography className="body">{state}</Typography>
+      <Typography className="body">{details}</Typography>
+    </div>
+  );
+};
+
+const ListeningActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
+  return (
+    <div>
+      <Typography className="header">{name}</Typography>
+      <Typography className="body">{state}</Typography>
+      <Typography className="body">{details}</Typography>
+    </div>
+  );
+};
+
 const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
-  const statusElements: {icon: string, message: string}[] = [];
+  const statusElements: Function[] = [];
   activities.forEach((item: Activity) => {
-    const { type, name, state, details } = item;
+    const { type } = item;
     if (type === "CUSTOM") {
-      statusElements.push({
-        icon: "📝",
-        message: state,
-      });
+      statusElements.push(() => <CurrentStatus {...item} />);
     }
 
     if (type === "PLAYING") {
-      statusElements.push({
-        icon: "🧑🏻‍💻",
-        message: `${name} - ${state}`,
-      });
+      statusElements.push(() => <PlayingActivity {...item} />);
     }
 
     if (type === "LISTENING") {
-      statusElements.push({
-        icon: "🎧",
-        message: `${state} - ${details}`,
-      });
+      statusElements.push(() => <ListeningActivity {...item} />);
     }
   });
 
@@ -45,10 +73,10 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
       {statusElements.length === 0 ? (
         <Typography sx={{ fontWeight: "bold" }}>No current activities 😴</Typography>
       ) : (
-        statusElements.map(item => (
-          <Typography className="activity" key={item.icon}>
-            {item.icon} {item.message}
-          </Typography>
+        statusElements.map((item, idx) => (
+          <div className="activity" key={`activity-${idx}`}>
+            {item()}
+          </div>
         ))
       )}
     </div>
@@ -59,11 +87,10 @@ const Presence: React.FC<any> = ({ activities, children }) => {
   return (
     <StyledBox>
       <Tooltip
+        
+        disableFocusListener
         placement="bottom"
-        PopperProps={{
-          style: {
-            width: 400,
-          },
+        PopperProps={{          
           disablePortal: true,
         }}
         title={<PresenceTooltip activities={activities} />}

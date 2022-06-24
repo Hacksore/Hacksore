@@ -8,8 +8,11 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   "& .link": {
     background: theme.palette.primary.main,
     color: "#fff",
+    [theme.breakpoints.down("lg")]: {
+      marginBottom: 16
+    },
+    marginLeft: 16,
     padding: "8px 10px 6px 10px",
-    margin: "4px 8px 4px 8px",
     height: 40,
     width: 70,
     display: "block",
