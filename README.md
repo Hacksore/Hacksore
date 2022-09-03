@@ -11,6 +11,7 @@
 
 Who doesn't like a nice cold beer?
 
-![beer](https://boult.me/beer.svg)
+![beer](https://boult.me/img/beer.svg)
+
 
  

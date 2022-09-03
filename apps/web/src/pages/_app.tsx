@@ -1,6 +1,9 @@
-import '../styles/globals.css'
+interface AppProps {
+  Component: any,
+  pageProps: any,
+}
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
 }
 

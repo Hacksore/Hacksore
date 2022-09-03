@@ -15,9 +15,9 @@
     "deploy": "turbo run deploy --filter=web"
   },
   "devDependencies": {
-    "concurrently": "^7.2.1",
-    "prettier": "^2.5.1",
-    "turbo": "^1.2.14"
+    "concurrently": "^7.3.0",
+    "prettier": "^2.7.1",
+    "turbo": "^1.4.5"
   },
   "engines": {
     "npm": ">=8.0.0",

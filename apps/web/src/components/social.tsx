@@ -55,7 +55,8 @@ export const Social = () => {
           target="_blank"
           className="link"
         >
-          <img alt="discord" src="/discord.svg" style={{ width: 24, height: 24 }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img alt="discord" src="/img/discord.svg" style={{ width: 24, height: 24 }} />
         </a>
       </Grid>
       <Grid item>
