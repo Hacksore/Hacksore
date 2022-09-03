@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "start": "concurrently npm:dev npm:emulator",
@@ -19,8 +20,7 @@
     "turbo": "^1.2.14"
   },
   "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
-  },
-  "packageManager": "npm@7.24.0"
+    "npm": ">=8.0.0",
+    "node": ">=16.0.0"
+  }
 }
