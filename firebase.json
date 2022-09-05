@@ -1,43 +1,8 @@
 {
-  "functions": {
-    "source": "apps/api"
-  },
   "database": {
     "rules": "database.rules.json"
   },
-  "hosting": {
-    "predeploy": [
-      "sh predeploy.sh"
-    ],
-    "public": "apps/web/dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "/presence",
-        "function": "app"
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  
   "emulators": {
-    "functions": {
-      "port": 5001
-    },
-    "hosting": {
-      "port": 5000
-    },
     "ui": {
       "enabled": true
     },

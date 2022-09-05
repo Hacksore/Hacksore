@@ -1,6 +1,6 @@
 import { Box, styled, Tooltip, Typography } from "@mui/material";
 import React from "react";
-import { Activity } from "../types/activities";
+import { Activity } from "../../types/activities";
 
 const StyledBox = styled(Box)(() => ({
   "& .activity": {
@@ -16,14 +16,14 @@ const StyledBox = styled(Box)(() => ({
 
   "& .header": {
     fontSize: 20,
+    fontWeight: "bold",
   },
   "& .body": {
     fontSize: 18,
   },
-  "&. .playing": {},
 }));
 
-const CurrentStatus = ({ name, state, details }: { name: string; state: string; details: string }) => {
+const CurrentStatus = ({ state }: { name: string; state: string; details: string }) => {
   return (
     <div>
       <Typography className="header">{state}</Typography>
@@ -34,7 +34,7 @@ const CurrentStatus = ({ name, state, details }: { name: string; state: string; 
 const PlayingActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
   return (
     <div>
-      <Typography className="header">{name}</Typography>
+      <Typography className="header">🕹 {name}</Typography>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
     </div>
@@ -44,7 +44,7 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
 const ListeningActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
   return (
     <div>
-      <Typography className="header">{name}</Typography>
+      <Typography className="header">🎧 {name}</Typography>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
     </div>
@@ -83,11 +83,10 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   );
 };
 
-const Presence: React.FC<any> = ({ activities, children }) => {
+export const Presence: React.FC<any> = ({ activities, children }) => {
   return (
     <StyledBox>
       <Tooltip
-        
         disableFocusListener
         placement="bottom"
         PopperProps={{          
@@ -100,5 +99,3 @@ const Presence: React.FC<any> = ({ activities, children }) => {
     </StyledBox>
   );
 };
-
-export default Presence;

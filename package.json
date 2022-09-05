@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "scripts": {
     "start": "concurrently npm:dev npm:emulator",
-    "emulator": "firebase emulators:start --import apps/api/seed",
+    "emulator": "firebase emulators:start --import seed",
     "dev": "turbo run start",
     "build": "turbo run build",
+    "build:web": "turbo run build --filter=web",
     "lint": "turbo run lint",
     "deploy": "turbo run deploy --filter=web"
   },

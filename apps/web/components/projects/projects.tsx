@@ -1,5 +1,5 @@
 import { Box, Button, Grid, lighten, styled } from "@mui/material";
-import { IProjectInfo } from "../types/project";
+import { IProjectInfo } from "../../types/project";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .root": {

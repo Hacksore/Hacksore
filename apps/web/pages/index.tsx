@@ -1,6 +1,8 @@
+import React from "react";
+
 import { Social } from "components/social";
 import { Projects } from "components/projects";
-import { AboutMe } from "components/aboutMe";
+import { About } from "components/about";
 
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -52,13 +54,13 @@ function App() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta property="og:title" content="Sean Boult"></meta>
         <meta property="og:description" content="Personal site listing all my socials"></meta>
-        <meta property="og:image" content="https://boult.me/banner.png"></meta>
+        <meta property="og:image" content="https://boult.me/img/banner.png"></meta>
         <meta property="og:type" content="website"></meta>
       </Head>
 
       <StyledBox>
         <div className="content-wrap">
-          <AboutMe />
+          <About />
           <Social />
           <Projects />
         </div>

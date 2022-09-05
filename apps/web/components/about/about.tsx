@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Box, Skeleton, styled, Typography } from "@mui/material";
-import Presence from "./presence";
-import Avatar from "./avatar";
+import { Presence } from "components/presence";
+import { Avatar } from "components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
-import { database } from "../pages/index";
-import { Profile } from "../types/profile";
+import { database } from "pages/index";
+import { Profile } from "types/profile";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
@@ -61,7 +61,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const AboutMe = () => {
+export const About = () => {
   const [profileData, setProfileData] = useState<Profile>({
     status: "offline",
     avatarHash: "",
@@ -80,8 +80,7 @@ export const AboutMe = () => {
     return () => fn();
   }, []);
 
-  const { userId, avatarHash, activities, status } = profileData;
-  
+  const { userId, avatarHash, activities, status } = profileData;  
   const ext = avatarHash.startsWith("a_") ? "gif" : "png";
   const avatarUrl = `${DISCORD_AVATAR_CDN}/${userId}/${avatarHash}.${ext}`;
 
