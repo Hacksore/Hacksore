@@ -9,11 +9,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "theme";
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
-import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-
-import { initializeApp } from "firebase/app";
 
 import Head from "next/head";
+
+// setup firebase
+import "./firebaseConfig";
 
 const StyledBox = styled(Box)(() => ({
   "& .content-wrap": {
@@ -25,24 +25,6 @@ const StyledBox = styled(Box)(() => ({
   },
 }));
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDBO3X54XXPYYDiL3XEcydaPquCNFzJYVU",
-  authDomain: "biofun.firebaseapp.com",
-  databaseURL: "https://biofun.firebaseio.com",
-  projectId: "biofun",
-  messagingSenderId: "331493792247",
-  appId: "1:331493792247:web:0fc34f987d3a67167976f2",
-  measurementId: "G-HPNGCVE8RB",
-};
-
-export const app = initializeApp(firebaseConfig);
-export const database = getDatabase(app);
-
-// @ts-ignore
-if (process.env.NODE_ENV !== "production") {
-  console.log("Connecting to localhost emulator for realtime db");
-  connectDatabaseEmulator(database, "localhost", 9000);
-}
 
 function App() {
   return (

@@ -3,7 +3,7 @@ import { Box, Skeleton, styled, Typography } from "@mui/material";
 import { Presence } from "components/presence";
 import { Avatar } from "components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
-import { database } from "pages/index";
+import { db } from "pages/firebaseConfig";
 import { Profile } from "types/profile";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
@@ -71,10 +71,13 @@ export const About = () => {
   });
 
   useEffect(() => {
-    const localRef = ref(database, "userdata");
+    const localRef = ref(db, "userdata");
+    
     // when anything changes in the doc
     const fn = onValue(localRef, (snapshot: DataSnapshot) => {
-      setProfileData(snapshot.val());
+      const value = snapshot.val();
+      console.log("client", snapshot)
+      setProfileData(value);
     });
 
     return () => fn();
