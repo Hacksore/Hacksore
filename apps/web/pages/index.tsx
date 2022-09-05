@@ -1,4 +1,5 @@
 import React from "react";
+import type { NextPageContext } from "next";
 
 import { Social } from "components/social";
 import { Projects } from "components/projects";
@@ -25,8 +26,25 @@ const StyledBox = styled(Box)(() => ({
   },
 }));
 
+const META_INFO = {
+  title: "Sean Boult",
+  description: "Personal site listing socials and ways to connect",
+}
 
-function App() {
+interface AppProps {
+  host: string | null
+}
+
+export const getServerSideProps = (context: NextPageContext) => {
+  return {
+    props: {
+      host: context?.req?.headers.host || null
+    }
+  }
+}
+
+function App({ host }: AppProps) {
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -34,10 +52,20 @@ function App() {
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <title>Sean "Hacksore" Boult</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
+        <meta name="title" content="Sean Boult"></meta>
+        <meta name="description" content={META_INFO.description}></meta>
+
         <meta property="og:title" content="Sean Boult"></meta>
-        <meta property="og:description" content="Personal site listing all my socials"></meta>
-        <meta property="og:image" content="https://boult.me/img/banner.png"></meta>
+        <meta property="og:description" content={META_INFO.description}></meta>
+        <meta property="og:image" content={`https://${host}/img/banner.png`}></meta>
         <meta property="og:type" content="website"></meta>
+
+        <meta property="twitter:card" content="summary_large_image"></meta>
+        <meta property="twitter:title" content={META_INFO.title}></meta>
+        <meta property="twitter:description" content={META_INFO.description}></meta>
+        <meta property="twitter:image" content={`https://${host}/img/banner.png`}></meta>
+
       </Head>
 
       <StyledBox>
