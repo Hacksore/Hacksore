@@ -13,7 +13,7 @@ import { styled } from "@mui/system";
 import Head from "next/head";
 
 // setup firebase
-import "./firebaseConfig";
+import "../firebaseConfig";
 
 const StyledBox = styled(Box)(() => ({
   "& .content-wrap": {

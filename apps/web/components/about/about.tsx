@@ -3,7 +3,7 @@ import { Box, Skeleton, styled, Typography } from "@mui/material";
 import { Presence } from "components/presence";
 import { Avatar } from "components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
-import { db } from "pages/firebaseConfig";
+import { db } from "firebaseConfig";
 import { Profile } from "types/profile";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
@@ -76,7 +76,6 @@ export const About = () => {
     // when anything changes in the doc
     const fn = onValue(localRef, (snapshot: DataSnapshot) => {
       const value = snapshot.val();
-      console.log("client", snapshot)
       setProfileData(value);
     });
 

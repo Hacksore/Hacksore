@@ -7,8 +7,10 @@
   ],
   "scripts": {
     "start": "concurrently npm:dev npm:emulator",
+    "start:all": "concurrently npm:dev:all npm:emulator",
     "emulator": "firebase emulators:start --import seed",
-    "dev": "turbo run start",
+    "dev": "turbo run start --filter=web",
+    "dev:all": "turbo run start",
     "build": "turbo run build",
     "build:web": "turbo run build --filter=web",
     "lint": "turbo run lint",
