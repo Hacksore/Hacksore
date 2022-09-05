@@ -1,9 +1,10 @@
-import { spawn, execSync} from "child_process";
+// TODO: do some CF tunnel magic to have the pi pull the latest image
+import { execSync} from "child_process";
 
 const { RASPBERRY_PI_IP } = process.env;
 
 // run a build first
-execSync("npm run build", {
+execSync("yarn build", {
   stdio: "inherit"
 });
 

@@ -35,4 +35,4 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Build turbo apps
-        run: npm run build
+        run: yarn build

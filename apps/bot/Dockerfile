@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install && npm run build:dist
+RUN yarn && yarn build:dist
 
 CMD node dist/index.js
