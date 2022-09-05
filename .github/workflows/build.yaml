@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - "*"
+      - "**"
 
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
