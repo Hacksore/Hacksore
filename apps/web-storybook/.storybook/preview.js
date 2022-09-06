@@ -1,5 +1,6 @@
+
 import { addDecorator } from '@storybook/react';
-import { theme } from "../theme";
+import { theme } from "../../web/theme";
 import { ThemeProvider } from "@mui/material/styles";
 
 export const parameters = {

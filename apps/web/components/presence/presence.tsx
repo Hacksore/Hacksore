@@ -91,7 +91,7 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   return (
     <div className="tooltip">
       {statusElements.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold" }}>Ping me @Hacksore on <IconTwitter /></Typography>
+        <Typography sx={{ fontWeight: "bold", display: "flex" }}>Ping me @Hacksore on <IconTwitter sx={{ ml: 1 }} /></Typography>
       ) : (
         statusElements.map((item, idx) => (
           <div className="activity" key={`activity-${idx}`}>
@@ -107,6 +107,7 @@ export const Presence: React.FC<any> = ({ activities, children }) => {
   return (
     <StyledBox>
       <Tooltip
+        arrow
         disableFocusListener
         placement="bottom"
         PopperProps={{
