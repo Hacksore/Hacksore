@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn install --immutable --immutable-cache --check-cache -w apps/bot && npx turbo run build --filter=apps/bot
+# hack for network timeout...
+RUN yarn install --immutable --immutable-cache --check-cache --network-timeout 1000000 -w apps/bot && npx turbo run build --filter=apps/bot
 
 CMD node apps/bot/dist/index.js
