@@ -31,6 +31,6 @@ jobs:
         with:
           platforms: linux/arm/v7
           context: .
-          dockerfile: apps/bot/Dockerfile
+          dockerfile: ./apps/bot/Dockerfile
           push: true
           tags: hacksore/presence-bot:latest
