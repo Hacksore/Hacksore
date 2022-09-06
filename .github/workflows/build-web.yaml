@@ -1,13 +1,16 @@
-name: Build
+name: Build Web
 on:
   push:
     branches:
       - "**"
-
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
   TURBO_REMOTE_ONLY: true
+  NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+  NEXT_PUBLIC_FIREBASE_DATABASE_URL: ${{ secrets.NEXT_PUBLIC_FIREBASE_DATABASE_URL }}
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+  NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
 
 jobs:
   build:
@@ -33,6 +36,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-        
       - name: Install Dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
-      - name: Build turbo apps
-        run: yarn build
+        run: yarn install --immutable --immutable-cache --check-cache -w apps/web
+      - name: Build
+        run: npx turbo run build --filter=apps/web
