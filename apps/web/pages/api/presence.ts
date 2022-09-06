@@ -2,7 +2,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { get, child, ref } from "firebase/database";
 import { db } from "firebaseConfig";
 
-// not really sure how this is working LUL
+/* i did some debug and found this in the logs:
+[GET] /api/presence
+15:15:06:31
+initFirebase: 0.671ms
+Fetching userdata from firebase...
+fetchUserdata: 13.419ms
+*/
+
+// so it has to be connecting to firebase in the serverless func 
+// then doing its work then commiting sideways (RIP)
+// Working so im not changing it :P
 export default async function handleRoute(_: NextApiRequest, res: NextApiResponse<any>) {
   console.log("Fetching userdata from firebase...");
   console.time("fetchUserdata");
