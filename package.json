@@ -15,7 +15,7 @@
     "build:web": "turbo run build --filter=web",
     "storybook": "turbo run storybook --filter=web-storybook",
     "lint": "turbo run lint",
-    "deploy": "turbo run deploy --filter=web"
+    "deploy": "vercel deploy"
   },
   "devDependencies": {
     "concurrently": "^7.3.0",
