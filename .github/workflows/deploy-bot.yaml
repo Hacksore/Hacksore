@@ -30,7 +30,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           platforms: linux/arm/v7
-          context: .
-          dockerfile: ./apps/bot/Dockerfile
+          context: ./apps/bot
           push: true
           tags: hacksore/presence-bot:latest
