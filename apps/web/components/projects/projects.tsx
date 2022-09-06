@@ -1,5 +1,5 @@
-import { Box, Button, Chip, Grid, lighten, styled, Typography } from "@mui/material";
-import { IProjectInfo } from "../../types/project";
+import { Box, Button, Chip, Grid, lighten, styled, Tooltip, Typography } from "@mui/material";
+import { IProjectInfo, ProjectStatus } from "../../types/project";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   // media widths
@@ -7,10 +7,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
     width: "80%",
   },
   [theme.breakpoints.up("md")]: {
-    width: 800
+    width: 800,
   },
   [theme.breakpoints.up("lg")]: {
-    width: 1000
+    width: 1000,
   },
 
   "& .root": {
@@ -50,9 +50,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
     padding: 12,
     minHeight: 120,
     textAlign: "left",
-    borderLeft: `1px solid ${theme.palette.primary.main}`,
-    borderRight: `1px solid ${theme.palette.primary.main}`,
-    borderBottom: `1px solid ${theme.palette.primary.main}`,
+    borderLeft: `2px solid ${theme.palette.primary.main}`,
+    borderRight: `2px solid ${theme.palette.primary.main}`,
+    borderBottom: `2px solid ${theme.palette.primary.main}`,
   },
   "& .bottom": {
     position: "absolute",
@@ -88,7 +88,7 @@ const PROJECTS = [
     desc: "A discord overlay built with electron and react",
     repoUrl: "https://github.com/hacksore/overlayed",
     websiteUrl: "https://overlayed.dev",
-    status: "alive",
+    status: "shambles",
   },
   {
     name: "drone-mobile",
@@ -107,19 +107,23 @@ const PROJECTS = [
     name: "buildtray",
     desc: "Build notifications for Github",
     websiteUrl: "https://buildtray.com",
-    status: "dead",
+    status: "shambles",
   },
 ];
 
-const StatusBadge = ({ status }: { status: string }) => {
-  if (status === "alive") {
-    return <Chip size="small" sx={{ background: "#59bc2f", color: "#000000" }} label="alive" />;
-  }
-  if (status === "dead") {
-    return <Chip size="small" sx={{ background: "red" }} label="dead" />;
-  }
+const STATUS_COLOR = {
+  alive: "green",
+  dead: "red",
+  shambles: "orange",
+};
 
-  return null;
+const StatusBadge = ({ status }: { status: ProjectStatus }) => {
+  const color = STATUS_COLOR[status];
+  return (
+    <Tooltip title={status}>
+      <Box sx={{ width: 16, height: 16, background: color,  borderRadius: 8 }} />
+    </Tooltip>
+  );
 };
 
 const ProjectCard = ({ project }: { project: IProjectInfo }) => {
@@ -129,7 +133,7 @@ const ProjectCard = ({ project }: { project: IProjectInfo }) => {
         <Typography sx={{ fontWeight: "bold" }}>{project.name}</Typography>
 
         {/* <div className="status">
-          <StatusBadge status={project.status} /> 
+          <StatusBadge status={project.status} />
         </div> */}
       </div>
       <div className="content">

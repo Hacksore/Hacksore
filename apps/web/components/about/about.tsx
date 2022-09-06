@@ -56,7 +56,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     borderRadius: 20,
     position: "absolute",
     bottom: 5,
-    border: `1px solid ${lighten(theme.palette.background.default, 0.4)}`,
+    border: `1px solid ${lighten(theme.palette.background.default, 0.2)}`,
     right: 6,
   },
 }));
@@ -92,8 +92,9 @@ export const About = () => {
         <div className="name">
           {avatarHash ? (
             <div className="image-wrap">
-              <Presence activities={activities}>
+              <Presence status={status} activities={activities}>
                 <div>
+                  {/* TODO: move the indicator to the avatar? */}
                   <Avatar url={avatarUrl} />
                   <div
                     className="indicator"

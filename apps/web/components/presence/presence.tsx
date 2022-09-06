@@ -5,6 +5,7 @@ import IconTerminal from "@mui/icons-material/Terminal";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
 import { Activity } from "../../types/activities";
+import { Status } from "types/presence";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
@@ -27,6 +28,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
     paddingRight: 6,
   },
+  "& .name": {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   "& .body": {
     fontSize: 18,
   },
@@ -37,11 +42,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CurrentStatus = ({ state }: { name: string; state: string; details: string }) => {
+const CurrentStatus = ({ state, activityLength}: { state: string, activityLength: number }) => {
   return (
     <div>
-      <Typography sx={{ fontWeight: "bold" }} variant="h6">{state}</Typography>
-      <hr className="divider" />
+      <Typography>{state}</Typography>
+      { activityLength > 1 && <hr className="divider" /> }
     </div>
   );
 };
@@ -53,7 +58,7 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
         <div className="icon">
           {name === "Visual Studio Code" ? <IconTerminal fontSize="large" /> : <IconGaming fontSize="large" />}
         </div>
-        <Typography sx={{ fontWeight: "bold" }} variant="h6">{name}</Typography>
+        <Typography className="name">{name}</Typography>
       </div>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
@@ -68,7 +73,7 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
         <div className="icon">
           <IconMusic fontSize="large" />
         </div>
-        <Typography sx={{ fontWeight: "bold" }} variant="h6">{name}</Typography>
+        <Typography className="name">{name}</Typography>
       </div>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
@@ -85,13 +90,13 @@ const ACTIVITY_ORDER = [
 const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
   const statusElements: Function[] = [];
 
-  // sort based on order in const
+  // sort based on order in ACTIVITY_ORDER
   activities.sort((a, b) => ACTIVITY_ORDER.indexOf(a.type) - ACTIVITY_ORDER.indexOf(b.type));
 
   activities.forEach((item: Activity) => {
     const { type } = item;
     if (type === "CUSTOM") {
-      statusElements.push(() => <CurrentStatus {...item} />);
+      statusElements.push(() => <CurrentStatus activityLength={activities.length} {...item} />);
     }
 
     if (type === "PLAYING") {
@@ -118,10 +123,22 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   );
 };
 
-export const Presence: React.FC<any> = ({ activities, children }) => {
+interface PresenceProps {
+  activities: Activity[];
+  children: any;
+  status: Status;
+}
+
+export const Presence: React.FC<PresenceProps> = ({ activities, children, status }) => {
+
+  // dont show on DND
+  const disable = status === "dnd";
+
   return (
     <StyledBox>
       <Tooltip
+        disableHoverListener={disable}
+        disableInteractive={disable}
         arrow
         disableFocusListener
         placement="bottom"
