@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Bot
 on:
   push:
     branches:
@@ -46,6 +46,6 @@ jobs:
       - name: Run Buildx (push image)
         run: |
           docker buildx build \
-          --platform platform=linux/arm/v7 \
+          --platform linux/arm/v7 \
           --tag hacksore/presence-bot:latest \
           --output type=image,push=true .
