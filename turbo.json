@@ -3,6 +3,9 @@
     "start": {
       "cache": false
     },
+    "storybook": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]

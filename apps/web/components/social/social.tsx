@@ -1,5 +1,5 @@
 import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/icons-material";
-import { Grid } from "@mui/material";
+import { Grid, Tooltip } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
 
@@ -23,57 +23,58 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
+const SOCIALS = [
+  {
+    title: "Github",
+    url: "https://github.com/hacksore",
+    icon: GitHub
+  },
+  {
+    title: "Linkedin",
+    url: "https://www.linkedin.com/in/seanboult",
+    icon: LinkedIn
+  },
+  {
+    title: "Twitter",
+    url: "https://twitter.com/hacksore",
+    icon: Twitter
+  },
+  {
+    title: "Discord - Hacksore#1984",
+    url: "https://discordapp.com/users/378293909610037252",
+    // eslint-disable-next-line @next/next/no-img-element
+    icon: () => <img alt="discord" src="/img/discord.svg" style={{ width: 24, height: 24 }} />
+  },
+  {
+    title: "Email",
+    url: "mailto:sean@boult.me",
+    icon: Email
+  },
+  {
+    title: "Meeting",
+    url: "https://cal.com/hacksore",
+    icon: CalendarToday
+  },
+  {
+    title: "Blog",
+    url: "https://dev.to/hacksore",
+    icon: Article
+  },
+]
+
 export const Social = () => {
   return (
     <StyledGrid container justifyContent="center">
-      <Grid item>
-        <a title="My Github" href="https://github.com/Hacksore" rel="noreferrer" target="_blank" className="link">
-          <GitHub />
-        </a>
-      </Grid>
-      <Grid item>
-        <a
-          title="My Linkedin"
-          href="https://www.linkedin.com/in/seanboult"
-          rel="noreferrer"
-          target="_blank"
-          className="link"
-        >
-          <LinkedIn />
-        </a>
-      </Grid>
-      <Grid item>
-        <a title="My Twitter" href="https://twitter.com/hacksore" rel="noreferrer" target="_blank" className="link">
-          <Twitter />
-        </a>
-      </Grid>
-      <Grid item>
-        <a
-          title="My Discord"
-          href="https://discordapp.com/users/378293909610037252"
-          rel="noreferrer"
-          target="_blank"
-          className="link"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img alt="discord" src="/img/discord.svg" style={{ width: 24, height: 24 }} />
-        </a>
-      </Grid>
-      <Grid item>
-        <a title="My Email" href="mailto:sean@boult.me" rel="noreferrer" target="_blank" className="link">
-          <Email />
-        </a>
-      </Grid>
-      <Grid item>
-        <a title="Schedule a meeting" href="https://cal.com/hacksore" rel="noreferrer" target="_blank" className="link">
-          <CalendarToday />
-        </a>
-      </Grid>
-      <Grid item>
-        <a title="My blog posts" href="https://dev.to/hacksore" rel="noreferrer" target="_blank" className="link">
-          <Article />
-        </a>
-      </Grid>
+      {SOCIALS.map(item => (
+        <Grid key={item.title} item>
+          <Tooltip arrow title={item.title}>
+            <a href={item.url} rel="noreferrer" target="_blank" className="link">
+              <item.icon />
+            </a>
+          </Tooltip>
+        </Grid>
+      ))}
+     
     </StyledGrid>
   );
 };

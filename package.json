@@ -13,6 +13,7 @@
     "dev:all": "turbo run start",
     "build": "turbo run build",
     "build:web": "turbo run build --filter=web",
+    "storybook": "turbo run storybook --filter=web",
     "lint": "turbo run lint",
     "deploy": "turbo run deploy --filter=web"
   },

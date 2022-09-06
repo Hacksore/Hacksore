@@ -27,8 +27,8 @@ const StyledBox = styled(Box)(() => ({
 }));
 
 const META_INFO = {
-  title: "Sean Boult",
-  description: "Personal site listing socials and ways to connect",
+  title: "Sean Boult - Personal Site",
+  description: "Full stack developer who likes ReactJS. You will most if not all of my socials here.",
 }
 
 interface AppProps {
@@ -53,10 +53,10 @@ function App({ host }: AppProps) {
         <title>Sean "Hacksore" Boult</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-        <meta name="title" content="Sean Boult"></meta>
+        <meta name="title" content={META_INFO.title}></meta>
         <meta name="description" content={META_INFO.description}></meta>
 
-        <meta property="og:title" content="Sean Boult"></meta>
+        <meta property="og:title" content={META_INFO.title}></meta>
         <meta property="og:description" content={META_INFO.description}></meta>
         <meta property="og:image" content={`https://${host}/img/banner.png`}></meta>
         <meta property="og:type" content="website"></meta>

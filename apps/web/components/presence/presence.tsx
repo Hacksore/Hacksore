@@ -1,4 +1,7 @@
 import { Box, styled, Tooltip, Typography } from "@mui/material";
+import IconGaming from "@mui/icons-material/VideogameAsset";
+import IconMusic from "@mui/icons-material/MusicNote";
+import IconTerminal from "@mui/icons-material/Terminal";
 import React from "react";
 import { Activity } from "../../types/activities";
 
@@ -13,10 +16,16 @@ const StyledBox = styled(Box)(() => ({
   display: "flex",
   justifyContent: "flex-end",
   textAlign: "left",
-
   "& .header": {
+    display: "flex",
+    alignItems: "center",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  "& .icon": {
+    display: "flex",
+    alignItems: "center",
+    paddingRight: 6,
   },
   "& .body": {
     fontSize: 18,
@@ -34,7 +43,12 @@ const CurrentStatus = ({ state }: { name: string; state: string; details: string
 const PlayingActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
   return (
     <div>
-      <Typography className="header">🕹 {name}</Typography>
+      <Typography className="header">
+        <div className="icon">
+          {name === "Visual Studio Code" ? <IconTerminal fontSize="large" /> : <IconGaming fontSize="large" />}
+        </div>
+        {name}
+      </Typography>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
     </div>
@@ -44,7 +58,12 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
 const ListeningActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
   return (
     <div>
-      <Typography className="header">🎧 {name}</Typography>
+      <Typography className="header">
+        <div className="icon">
+          <IconMusic fontSize="large" />
+        </div>
+        {name}
+      </Typography>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
     </div>
@@ -89,7 +108,7 @@ export const Presence: React.FC<any> = ({ activities, children }) => {
       <Tooltip
         disableFocusListener
         placement="bottom"
-        PopperProps={{          
+        PopperProps={{
           disablePortal: true,
         }}
         title={<PresenceTooltip activities={activities} />}
