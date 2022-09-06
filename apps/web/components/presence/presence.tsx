@@ -1,12 +1,12 @@
-import { Box, styled, Tooltip, Typography } from "@mui/material";
+import { Box, lighten, styled, Tooltip, Typography } from "@mui/material";
 import IconGaming from "@mui/icons-material/VideogameAsset";
-import IconMusic from "@mui/icons-material/MusicNote";
+import IconMusic from "@mui/icons-material/Headphones";
 import IconTerminal from "@mui/icons-material/Terminal";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
 import { Activity } from "../../types/activities";
 
-const StyledBox = styled(Box)(() => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
     padding: 4,
   },
@@ -20,7 +20,6 @@ const StyledBox = styled(Box)(() => ({
   "& .header": {
     display: "flex",
     alignItems: "center",
-    fontSize: 20,
     fontWeight: "bold",
   },
   "& .icon": {
@@ -31,12 +30,18 @@ const StyledBox = styled(Box)(() => ({
   "& .body": {
     fontSize: 18,
   },
+  "& .divider": {
+    backgroundColor: lighten(theme.palette.primary.main, 0.2),
+    border: "none",
+    height: 1,
+  },
 }));
 
 const CurrentStatus = ({ state }: { name: string; state: string; details: string }) => {
   return (
     <div>
-      <Typography className="header">{state}</Typography>
+      <Typography sx={{ fontWeight: "bold" }} variant="h6">{state}</Typography>
+      <hr className="divider" />
     </div>
   );
 };
@@ -48,7 +53,7 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
         <div className="icon">
           {name === "Visual Studio Code" ? <IconTerminal fontSize="large" /> : <IconGaming fontSize="large" />}
         </div>
-        <Typography>{name}</Typography>
+        <Typography sx={{ fontWeight: "bold" }} variant="h6">{name}</Typography>
       </div>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
@@ -63,7 +68,7 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
         <div className="icon">
           <IconMusic fontSize="large" />
         </div>
-        <Typography>{name}</Typography>
+        <Typography sx={{ fontWeight: "bold" }} variant="h6">{name}</Typography>
       </div>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
@@ -71,8 +76,18 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
   );
 };
 
+const ACTIVITY_ORDER = [
+  "CUSTOM",
+  "PLAYING",
+  "LISTENING"
+]
+
 const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
   const statusElements: Function[] = [];
+
+  // sort based on order in const
+  activities.sort((a, b) => ACTIVITY_ORDER.indexOf(a.type) - ACTIVITY_ORDER.indexOf(b.type));
+
   activities.forEach((item: Activity) => {
     const { type } = item;
     if (type === "CUSTOM") {

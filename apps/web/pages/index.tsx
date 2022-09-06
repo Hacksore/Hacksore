@@ -28,22 +28,10 @@ const StyledBox = styled(Box)(() => ({
 
 const META_INFO = {
   title: "Sean Boult - Personal Site",
-  description: "Full stack developer who likes ReactJS. You will most if not all of my socials here.",
+  description: "Full stack developer who likes ReactJS. You will find most if not all of my socials here.",
 }
 
-interface AppProps {
-  host: string | null
-}
-
-export const getServerSideProps = (context: NextPageContext) => {
-  return {
-    props: {
-      host: context?.req?.headers.host || null
-    }
-  }
-}
-
-function App({ host }: AppProps) {
+function App() {
 
   return (
     <ThemeProvider theme={theme}>
@@ -58,13 +46,13 @@ function App({ host }: AppProps) {
 
         <meta property="og:title" content={META_INFO.title}></meta>
         <meta property="og:description" content={META_INFO.description}></meta>
-        <meta property="og:image" content={`https://${host}/img/banner.png`}></meta>
+        <meta property="og:image" content="https://boult.me/img/banner.png"></meta>
         <meta property="og:type" content="website"></meta>
 
         <meta property="twitter:card" content="summary_large_image"></meta>
         <meta property="twitter:title" content={META_INFO.title}></meta>
         <meta property="twitter:description" content={META_INFO.description}></meta>
-        <meta property="twitter:image" content={`https://${host}/img/banner.png`}></meta>
+        <meta property="twitter:image" content="https://boult.me/img/banner.png"></meta>
 
       </Head>
 
