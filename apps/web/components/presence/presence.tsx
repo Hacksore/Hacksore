@@ -2,6 +2,7 @@ import { Box, styled, Tooltip, Typography } from "@mui/material";
 import IconGaming from "@mui/icons-material/VideogameAsset";
 import IconMusic from "@mui/icons-material/MusicNote";
 import IconTerminal from "@mui/icons-material/Terminal";
+import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
 import { Activity } from "../../types/activities";
 
@@ -90,7 +91,7 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   return (
     <div className="tooltip">
       {statusElements.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold" }}>No current activities 😴</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>Ping me @Hacksore on <IconTwitter /></Typography>
       ) : (
         statusElements.map((item, idx) => (
           <div className="activity" key={`activity-${idx}`}>
