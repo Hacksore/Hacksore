@@ -2,8 +2,8 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY ./apps/bot .
+COPY . .
 
-RUN yarn && yarn build:dist
+RUN yarn install --immutable --immutable-cache --check-cache -w apps/bot && npx turbo run build --filter=apps/bot
 
-CMD node dist/index.js
+CMD node apps/bot/dist/index.js

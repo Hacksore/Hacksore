@@ -5,8 +5,7 @@
   "description": "",
   "scripts": {
     "start": "nodemon --exitcrash src/index.ts",
-    "build": "docker buildx build --platform=linux/arm/v7 -t hacksore/presence-bot:latest . --load",
-    "build:dist": "tsc",
+    "build": "tsc",
     "deploy": "node deploy.js"
   },
   "type": "module",
