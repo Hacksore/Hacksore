@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Skeleton, styled, Typography } from "@mui/material";
+import { Box, lighten, Skeleton, styled, Typography } from "@mui/material";
 import { Presence } from "components/presence";
 import { Avatar } from "components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
@@ -56,7 +56,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     borderRadius: 20,
     position: "absolute",
     bottom: 5,
-    border: "1px solid #000",
+    border: `1px solid ${lighten(theme.palette.background.default, 0.4)}`,
     right: 6,
   },
 }));

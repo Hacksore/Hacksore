@@ -1,4 +1,4 @@
-import { Box, Button, Grid, lighten, styled } from "@mui/material";
+import { Box, Button, Chip, Grid, lighten, styled, Typography } from "@mui/material";
 import { IProjectInfo } from "../../types/project";
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -13,19 +13,23 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     height: 28,
+    "& .status": {
+      display: "flex",
+      width: "100%",
+      flexDirection: "row-reverse"
+    }
   },
   "& .link": {
     textDecoration: "none",
     fontWeight: "bold",
     color: "#fff",
-    padding: "8px 10px 6px 10px",
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
     height: 28,
     "&:hover": {
-      background: lighten(theme.palette.primary.main, 0.3),
-    }
+      background: lighten(theme.palette.primary.main, 0.1),
+    },
   },
   "& .card": {
     margin: "0 12px 0 12px",
@@ -35,7 +39,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
     padding: 12,
     minHeight: 120,
     textAlign: "left",
-    border: "1px solid #000",
+    borderLeft: `1px solid ${theme.palette.primary.main}`,
+    borderRight: `1px solid ${theme.palette.primary.main}`,
+    borderBottom: `1px solid ${theme.palette.primary.main}`,
   },
   "& .bottom": {
     position: "absolute",
@@ -73,26 +79,70 @@ const PROJECTS = [
     websiteUrl: "https://overlayed.dev",
     status: "alive",
   },
+  {
+    name: "drone-mobile",
+    desc: "An unofficial nodejs API wrapper for DroneMobile",
+    repoUrl: "https://github.com/hacksore/drone-mobile",
+    status: "alive",
+  },
+  {
+    name: "react-grid-select",
+    desc: "React component for selecting grid regions",
+    repoUrl: "https://github.com/hacksore/react-grid-select",
+    websiteUrl: "https://hacksore.github.io/react-grid-select/?path=/story/region-selection--basic-example",
+    status: "alive",
+  },
+  {
+    name: "buildtray",
+    desc: "Build notifications for Github",
+    websiteUrl: "https://buildtray.com",
+    status: "dead",
+  },
 ];
 
-const ProjectCard = ({ project }: { project: IProjectInfo } ) => {
+const StatusBadge = ({ status }: { status: string}) => {
+  if (status === "alive") {
+    return <Chip size="small" sx={{ background: "#59bc2f", color: "#000000" }} label="alive" />
+  }
+  if (status === "dead") {
+    return <Chip size="small" sx={{ background: "red"}} label="dead" />
+  }
+
+  return null;
+}
+
+const ProjectCard = ({ project }: { project: IProjectInfo }) => {
   return (
     <div className="card">
-      <div className="header">{project.name}</div>
+      <div className="header">
+        <Typography>{project.name}</Typography>
+
+        {/* <div className="status">
+          <StatusBadge status={project.status} /> 
+        </div> */}
+      </div>
       <div className="content">
         <div className="desc">{project.desc}</div>
         <div className="bottom">
-          <Button href={project.repoUrl} className="link" variant="contained" rel="noreferrer" target="_blank">
-            Repo
-          </Button>
+          {project.repoUrl && (
+            <Button href={project.repoUrl} className="link" variant="contained" rel="noreferrer" target="_blank">
+              Repo
+            </Button>
+          )}
           {project.websiteUrl && (
-            <Button sx={{ ml: 1 }} href={project.websiteUrl} className="link" variant="contained" rel="noreferrer" target="_blank">
+            <Button
+              sx={{ ml: 1 }}
+              href={project.websiteUrl}
+              className="link"
+              variant="contained"
+              rel="noreferrer"
+              target="_blank"
+            >
               Website
             </Button>
           )}
         </div>
       </div>
-
     </div>
   );
 };

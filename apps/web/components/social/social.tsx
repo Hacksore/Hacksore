@@ -17,8 +17,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     width: 70,
     display: "block",
     "&:hover": {
-      background: lighten(theme.palette.primary.main, 0.3),
-      borderBottom: lighten(theme.palette.primary.main, 0.1),
+      background: lighten(theme.palette.primary.main, 0.1),
     },
   },
 }));
