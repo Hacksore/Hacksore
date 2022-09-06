@@ -44,12 +44,12 @@ const CurrentStatus = ({ state }: { name: string; state: string; details: string
 const PlayingActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
   return (
     <div>
-      <Typography className="header">
+      <div className="header">
         <div className="icon">
           {name === "Visual Studio Code" ? <IconTerminal fontSize="large" /> : <IconGaming fontSize="large" />}
         </div>
-        {name}
-      </Typography>
+        <Typography>{name}</Typography>
+      </div>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
     </div>
@@ -59,12 +59,12 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
 const ListeningActivity = ({ name, state, details }: { name: string; state: string; details: string }) => {
   return (
     <div>
-      <Typography className="header">
+      <div className="header">
         <div className="icon">
           <IconMusic fontSize="large" />
         </div>
-        {name}
-      </Typography>
+        <Typography>{name}</Typography>
+      </div>
       <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
     </div>

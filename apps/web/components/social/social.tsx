@@ -1,5 +1,5 @@
 import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/icons-material";
-import { Grid, Tooltip } from "@mui/material";
+import { Grid, Tooltip, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
 
@@ -66,7 +66,7 @@ export const Social = () => {
     <StyledGrid container justifyContent="center">
       {SOCIALS.map(item => (
         <Grid key={item.title} item>
-          <Tooltip arrow title={item.title}>
+          <Tooltip arrow title={<Typography sx={{ fontWeight: "bold" }}>{item.title}</Typography>}>
             <a href={item.url} rel="noreferrer" target="_blank" className="link">
               <item.icon />
             </a>

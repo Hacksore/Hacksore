@@ -111,6 +111,8 @@ export const About = () => {
           )}
           <Typography className="header">Sean Boult</Typography>
         </div>
+        <Typography variant="h5">Full stack developer who likes ReactJS</Typography>
+
       </div>
     </StyledBox>
   );

@@ -2,6 +2,17 @@ import { Box, Button, Chip, Grid, lighten, styled, Typography } from "@mui/mater
 import { IProjectInfo } from "../../types/project";
 
 const StyledBox = styled(Box)(({ theme }) => ({
+  // media widths
+  [theme.breakpoints.up("sm")]: {
+    width: "80%",
+  },
+  [theme.breakpoints.up("md")]: {
+    width: 800
+  },
+  [theme.breakpoints.up("lg")]: {
+    width: 1000
+  },
+
   "& .root": {
     marginTop: 20,
   },
@@ -16,8 +27,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
     "& .status": {
       display: "flex",
       width: "100%",
-      flexDirection: "row-reverse"
-    }
+      flexDirection: "row-reverse",
+    },
   },
   "& .link": {
     textDecoration: "none",
@@ -100,22 +111,22 @@ const PROJECTS = [
   },
 ];
 
-const StatusBadge = ({ status }: { status: string}) => {
+const StatusBadge = ({ status }: { status: string }) => {
   if (status === "alive") {
-    return <Chip size="small" sx={{ background: "#59bc2f", color: "#000000" }} label="alive" />
+    return <Chip size="small" sx={{ background: "#59bc2f", color: "#000000" }} label="alive" />;
   }
   if (status === "dead") {
-    return <Chip size="small" sx={{ background: "red"}} label="dead" />
+    return <Chip size="small" sx={{ background: "red" }} label="dead" />;
   }
 
   return null;
-}
+};
 
 const ProjectCard = ({ project }: { project: IProjectInfo }) => {
   return (
     <div className="card">
       <div className="header">
-        <Typography>{project.name}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>{project.name}</Typography>
 
         {/* <div className="status">
           <StatusBadge status={project.status} /> 
@@ -150,7 +161,7 @@ const ProjectCard = ({ project }: { project: IProjectInfo }) => {
 export const Projects = () => {
   return (
     <StyledBox>
-      <Grid container spacing={2}>
+      <Grid container rowSpacing={4} spacing={1}>
         {PROJECTS.map((project: IProjectInfo) => (
           <Grid key={project.name} item xs={12} md={4} lg={4}>
             <ProjectCard project={project} />
