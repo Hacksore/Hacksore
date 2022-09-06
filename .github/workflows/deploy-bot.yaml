@@ -48,4 +48,5 @@ jobs:
           docker buildx build \
           --platform linux/arm/v7 \
           --tag hacksore/presence-bot:latest \
+          --file ./Dockerfile \  
           --output type=image,push=true .
