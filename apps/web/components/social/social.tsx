@@ -67,7 +67,7 @@ export const Social = () => {
       {SOCIALS.map(item => (
         <Grid key={item.title} item>
           <Tooltip arrow title={<Typography sx={{ fontWeight: "bold" }}>{item.title}</Typography>}>
-            <a href={item.url} rel="noreferrer" target="_blank" className="link">
+            <a href={item.url} rel="noreferrer" target="_blank" aria-label={item.title} className="link">
               <item.icon />
             </a>
           </Tooltip>

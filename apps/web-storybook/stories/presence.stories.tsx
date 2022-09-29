@@ -43,11 +43,12 @@ export const All = () => {
     <Box sx={{ width: 200, background: "lightblue", p: 1 }}>
       <Presence
         activities={[
-          { name: "Custom Status", state: "aeg", type: "CUSTOM" },
+          { name: "Custom Status", state: "aeg", type: "CUSTOM", details: "" },
           {
             details: "Show Me A Sign (with MKLA)",
             name: "League Of Legends",
             type: "PLAYING",
+            state: ""
           },
           {
             details: "Show Me A Sign (with MKLA)",

@@ -5,5 +5,5 @@ export interface IProjectInfo {
   desc: string;
   repoUrl?: string;
   websiteUrl?: string;
-  status: ProjectStatus
+  status: ProjectStatus | string
 }
