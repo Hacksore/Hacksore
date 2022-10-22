@@ -1,5 +1,21 @@
 import Head from "next/head";
 
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { theme } from "theme";
+
+import { Box } from "@mui/material";
+import { styled } from "@mui/system";
+
+const StyledBox = styled(Box)(() => ({
+  "& .content-wrap": {
+    padding: 22,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+  },
+}));
 interface AppProps {
   Component: any;
   pageProps: any;
@@ -14,8 +30,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Sean {`"Hacksore"`} Boult</title>
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"></meta>
+        <title>Sean &quot;Hacksore&quot; Boult</title>
+        <meta
+          name="viewport"
+          content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        ></meta>
         <meta name="title" content={META_INFO.title}></meta>
         <meta name="description" content={META_INFO.description}></meta>
 
@@ -29,7 +48,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="twitter:description" content={META_INFO.description}></meta>
         <meta property="twitter:image" content="https://boult.me/img/banner.png"></meta>
       </Head>
-      <Component {...pageProps} />
+
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <StyledBox>
+          <div className="content-wrap">
+            <Component {...pageProps} />
+          </div>
+        </StyledBox>
+      </ThemeProvider>
     </>
   );
 }

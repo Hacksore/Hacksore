@@ -165,7 +165,6 @@ const ProjectCard = ({ project }: { project: IProjectInfo }) => {
               variant="contained"
               rel="noreferrer"
               target="_blank"
-              title="Project repo"
             >
               Repo
             </Button>
@@ -179,7 +178,6 @@ const ProjectCard = ({ project }: { project: IProjectInfo }) => {
               color="secondary"
               rel="noreferrer"
               target="_blank"
-              title="Project website"
             >
               Website
             </Button>

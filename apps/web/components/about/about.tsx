@@ -21,7 +21,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
       fontSize: 100,
     },
     [theme.breakpoints.down("lg")]: {
-      fontSize: 80,
+      fontSize: 50,
       margin: 20,
     },
     fontWeight: "bold",

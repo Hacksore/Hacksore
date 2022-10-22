@@ -3,10 +3,8 @@
     "start": {
       "cache": false
     },
-    "storybook": {
-      "cache": false
-    },
     "lint": {
+      "outputs": []
     },
     "build": {
       "dependsOn": ["^build"],

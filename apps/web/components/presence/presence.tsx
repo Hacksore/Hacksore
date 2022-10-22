@@ -131,7 +131,7 @@ interface PresenceProps {
 
 export const Presence: React.FC<PresenceProps> = ({ activities, children, status }) => {
 
-  // dont show on DND
+  // don't show on DND
   const disable = status === "dnd";
 
   return (
