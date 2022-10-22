@@ -1,6 +1,4 @@
 import React from "react";
-import type { NextPageContext } from "next";
-
 import { Social } from "components/social";
 import { Projects } from "components/projects";
 import { About } from "components/about";
@@ -29,16 +27,14 @@ const StyledBox = styled(Box)(() => ({
 const META_INFO = {
   title: "Sean Boult - Personal Site",
   description: "Full stack developer who likes ReactJS. You will find most if not all of my socials here.",
-}
+};
 
 function App() {
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Head>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <title>Sean "Hacksore" Boult</title>
+        <title>Sean {`"Hacksore"`} Boult</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
         <meta name="title" content={META_INFO.title}></meta>
@@ -53,7 +49,6 @@ function App() {
         <meta property="twitter:title" content={META_INFO.title}></meta>
         <meta property="twitter:description" content={META_INFO.description}></meta>
         <meta property="twitter:image" content="https://boult.me/img/banner.png"></meta>
-
       </Head>
 
       <StyledBox>

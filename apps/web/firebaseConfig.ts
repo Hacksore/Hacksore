@@ -6,6 +6,7 @@ const EMULATORS_STARTED = "EMULATORS_STARTED";
 
 // keep ts happy
 declare global {
+  // eslint-disable-next-line no-unused-vars
   var EMULATORS_STARTED: boolean;
 }
 
@@ -17,10 +18,8 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 // this is called on the client not the server
-if (typeof window !== undefined) {
-  console.time("initFirebase");
+if (typeof window !== "undefined") {
   initializeApp(firebaseConfig);
-  console.timeEnd("initFirebase");
 }
 
 const app = initializeApp(firebaseConfig);
@@ -35,7 +34,7 @@ function startEmulators() {
 }
 
 // setup emulator only in dev mode
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV !== "production") {
   startEmulators();
 }
 

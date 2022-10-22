@@ -1,16 +1,40 @@
-import { createTheme } from "@mui/material";
+import { createTheme, lighten } from "@mui/material";
+
+declare module "@mui/material/styles" {
+  /* eslint-disable-next-line no-unused-vars */
+  interface Palette {
+    card: {
+      bg: string,
+      border: string
+    }
+  }
+  /* eslint-disable-next-line no-unused-vars */
+  interface PaletteOptions {
+    card: {
+      bg: string,
+      border: string
+    }
+  }
+}
 
 export const theme = createTheme({
   // TODO: wat?
   // @ts-ignore
   shadows:["none"],
   palette: {
+    card: {
+      bg: "#0a0a0a",
+      border: "#161616"
+    },
     background: {
       default: "#000",
     },
     primary: {
       contrastText: "#fff",
-      main: "#1c1c1c",
+      main: "#2149b7",
+    },
+    secondary: {
+      main: "#1e1e1e"
     },
     mode: "dark",
   },
@@ -19,19 +43,12 @@ export const theme = createTheme({
       styleOverrides: {
         tooltip: ({ theme }) => ({
           borderRadius: 0,
-          background: theme.palette.primary.main,
+          background: lighten(theme.palette.background.default, 0.1)
         }),
         arrow: ({ theme }) => ({
-          color: theme.palette.primary.main,
+          color: lighten(theme.palette.background.default, 0.1)
         }),
       },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 0,
-        },
-      },
-    },
+    }
   },
 });

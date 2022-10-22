@@ -2,11 +2,12 @@ import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/i
 import { Grid, Tooltip, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
+import Image from "next/image";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   margin: "20px 0 50px 0",
   "& .link": {
-    background: theme.palette.primary.main,
+    background: theme.palette.secondary.main,
     color: "#fff",
     [theme.breakpoints.down("lg")]: {
       marginBottom: 16
@@ -15,6 +16,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     padding: "8px 10px 6px 10px",
     height: 40,
     width: 70,
+    borderRadius: 4,
     display: "block",
     "&:hover": {
       background: lighten(theme.palette.primary.main, 0.1),
@@ -41,8 +43,7 @@ const SOCIALS = [
   {
     title: "Discord - Hacksore#1984",
     url: "https://discord.gg/rg9sUQ4gvb",
-    // eslint-disable-next-line @next/next/no-img-element
-    icon: () => <img alt="discord" src="/img/discord.svg" style={{ width: 24, height: 24 }} />
+    icon: () => <Image alt="discord" src="/img/discord.svg" width={24} height={24} />
   },
   {
     title: "Email",

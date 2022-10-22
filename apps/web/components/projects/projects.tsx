@@ -1,10 +1,10 @@
-import { Box, Button, Chip, Grid, lighten, styled, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Grid, styled, Tooltip, Typography } from "@mui/material";
 import { IProjectInfo, ProjectStatus } from "../../types/project";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   // media widths
   [theme.breakpoints.up("sm")]: {
-    width: "80%",
+    width: "100%",
   },
   [theme.breakpoints.up("md")]: {
     width: 800,
@@ -18,7 +18,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
   "& .header": {
     fontWeight: "bold",
-    background: theme.palette.primary.main,
     color: "#fff",
     padding: "8px 10px 6px 10px",
     display: "flex",
@@ -38,21 +37,19 @@ const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     height: 28,
-    "&:hover": {
-      background: lighten(theme.palette.primary.main, 0.1),
-    },
   },
   "& .card": {
     margin: "0 12px 0 12px",
+    border: `2px solid ${theme.palette.card.border}`,
+    borderRadius: 10,
+    background: theme.palette.card.bg,
+    padding: 8,
     position: "relative",
   },
   "& .content": {
-    padding: 12,
+    padding: "4px 12px 12px 12px",
     minHeight: 120,
     textAlign: "left",
-    borderLeft: `2px solid ${theme.palette.primary.main}`,
-    borderRight: `2px solid ${theme.palette.primary.main}`,
-    borderBottom: `2px solid ${theme.palette.primary.main}`,
   },
   "& .bottom": {
     position: "absolute",
@@ -91,6 +88,25 @@ const PROJECTS = [
     status: "shambles",
   },
   {
+    name: "overlayed-rust",
+    desc: "A discord overlay built with tauri and react",
+    repoUrl: "https://github.com/hacksore/overlayed-rust",
+    status: "shambles",
+  },
+  {
+    name: "rpc-discord",
+    desc: "A discord RPC library for rust",
+    repoUrl: "https://github.com/hacksore/rpc-discord",
+    status: "shambles",
+  },
+  {
+    name: "u2f",
+    desc: "A Next app that shows websites that accept hardware tokens",
+    repoUrl: "https://github.com/Hacksore/u2f",
+    websiteUrl: "https://u2f.vercel.app",
+    status: "shambles",
+  },
+  {
     name: "drone-mobile",
     desc: "An unofficial nodejs API wrapper for DroneMobile",
     repoUrl: "https://github.com/hacksore/drone-mobile",
@@ -117,11 +133,13 @@ const STATUS_COLOR = {
   shambles: "orange",
 };
 
+// TODO: impl
+// eslint-disable-next-line no-unused-vars
 const StatusBadge = ({ status }: { status: ProjectStatus }) => {
   const color = STATUS_COLOR[status];
   return (
     <Tooltip title={status}>
-      <Box sx={{ width: 16, height: 16, background: color,  borderRadius: 8 }} />
+      <Box sx={{ width: 16, height: 16, background: color, borderRadius: 8 }} />
     </Tooltip>
   );
 };
@@ -140,7 +158,15 @@ const ProjectCard = ({ project }: { project: IProjectInfo }) => {
         <div className="desc">{project.desc}</div>
         <div className="bottom">
           {project.repoUrl && (
-            <Button href={project.repoUrl} className="link" variant="contained" rel="noreferrer" target="_blank">
+            <Button
+              color="secondary"
+              href={project.repoUrl}
+              className="link"
+              variant="contained"
+              rel="noreferrer"
+              target="_blank"
+              title="Project repo"
+            >
               Repo
             </Button>
           )}
@@ -150,8 +176,10 @@ const ProjectCard = ({ project }: { project: IProjectInfo }) => {
               href={project.websiteUrl}
               className="link"
               variant="contained"
+              color="secondary"
               rel="noreferrer"
               target="_blank"
+              title="Project website"
             >
               Website
             </Button>

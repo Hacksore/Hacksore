@@ -36,7 +36,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     fontSize: 18,
   },
   "& .divider": {
-    backgroundColor: lighten(theme.palette.primary.main, 0.2),
+    backgroundColor: lighten(theme.palette.background.default, 0.2),
     border: "none",
     height: 1,
   },
