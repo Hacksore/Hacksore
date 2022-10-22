@@ -1,0 +1,33 @@
+{
+  "name": "Codespaces Node.js Starter",
+  "extensions": [
+    "1Password.op-vscode",
+    "azemoh.one-monokai",
+    "CTC.vscode-tree-extension",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "GitHub.codespaces",
+    "hoovercj.vscode-power-mode",
+    "infarkt.css-to-jss",
+    "mikestead.dotenv",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-ssh",
+    "redhat.vscode-yaml",
+    "usernamehw.errorlens",
+    "vscode-icons-team.vscode-icons",
+    "wayou.vscode-todo-highlight",
+    "wmaurer.change-case",
+    "xabikos.JavaScriptSnippets"
+  ],
+  "forwardPorts": [3000, 4000, 6006, 9000],
+  "dockerFile": "Dockerfile",
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "files.exclude": {
+      "**/CODE_OF_CONDUCT.md": true,
+      "**/LICENSE": true
+    }
+  }
+}
