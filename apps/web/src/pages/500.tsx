@@ -1,4 +1,4 @@
-import App from "pages";
+import App from "../pages";
 
 function Custom500() {
   return <App />;

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Box, lighten, Skeleton, styled, Typography } from "@mui/material";
-import { Presence } from "components/presence";
-import { Avatar } from "components/avatar";
+import { Presence } from "../../components/presence";
+import { Avatar } from "../../components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
-import { db } from "firebaseConfig";
-import { Profile } from "types/profile";
+import { db } from "../../firebaseConfig";
+import { Profile } from "../../types/profile";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 

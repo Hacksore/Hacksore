@@ -40,9 +40,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
   "& .card": {
     margin: "0 12px 0 12px",
-    border: `2px solid ${theme.palette.card.border}`,
+    border: `1px solid ${theme.palette.card.border}`,
     borderRadius: 10,
-    background: theme.palette.card.bg,
     padding: 8,
     position: "relative",
   },

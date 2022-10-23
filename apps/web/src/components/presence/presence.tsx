@@ -5,7 +5,7 @@ import IconTerminal from "@mui/icons-material/Terminal";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
 import { Activity } from "../../types/activities";
-import { Status } from "types/presence";
+import { Status } from "../../types/presence";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {

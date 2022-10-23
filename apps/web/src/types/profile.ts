@@ -1,4 +1,4 @@
-import { STATE_COLORS } from "components/about"
+import { STATE_COLORS } from "../components/about"
 import { Activity } from "./activities";
 
 export type Status = keyof typeof STATE_COLORS;
