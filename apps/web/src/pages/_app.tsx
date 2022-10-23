@@ -1,11 +1,11 @@
 import Head from "next/head";
 
-import { value ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { value theme } from "../theme";
+import { theme } from "../theme";
 
-import { value Box } from "@mui/material";
-import { value styled } from "@mui/system";
+import { Box } from "@mui/material";
+import { styled } from "@mui/system";
 
 const StyledBox = styled(Box)(() => ({
   "& .content-wrap": {
