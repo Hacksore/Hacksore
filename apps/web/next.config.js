@@ -1,3 +1,5 @@
+import withTM from "next-transpile-modules";
+
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: false,
@@ -10,6 +12,6 @@ const nextConfig = {
     locales: ["en"],
     defaultLocale: "en",
   },
-}
+};
 
-export default nextConfig;
+export default withTM([])(nextConfig);

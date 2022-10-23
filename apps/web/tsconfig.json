@@ -19,7 +19,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "baseUrl": ".",
+    "rootDir": "src",
+  
     "typeRoots": [      
       "node_modules/@types"
     ],

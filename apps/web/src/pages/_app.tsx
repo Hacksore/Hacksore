@@ -28,7 +28,7 @@ const META_INFO = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <div>
       <Head>
         <title>Sean &quot;Hacksore&quot; Boult</title>
         <meta name="viewport" content="width=device-width"></meta>
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </div>
         </StyledBox>
       </ThemeProvider>
-    </>
+    </div>
   );
 }
 

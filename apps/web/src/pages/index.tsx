@@ -8,17 +8,18 @@ import "../firebaseConfig";
 
 function App() {
   return (
-    <>
+    <main>
       <section>
         <About />
       </section>
       <section>
         <Social />
       </section>
-      <main>
+
+      <section>
         <Projects />
-      </main>
-    </>
+      </section>
+    </main>
   );
 }
 

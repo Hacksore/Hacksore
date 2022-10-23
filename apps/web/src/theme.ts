@@ -23,18 +23,18 @@ export const theme = createTheme({
   shadows:["none"],
   palette: {
     card: {
-      bg: "#0a0a0a",
-      border: "#161616"
+      bg: "#0D1118",
+      border: "#31363E"
     },
     background: {
-      default: "#000",
+      default: "#03060A",
     },
     primary: {
       contrastText: "#fff",
-      main: "#2149b7",
+      main: "#206FEB",
     },
     secondary: {
-      main: "#1e1e1e"
+      main: "#20262D"
     },
     mode: "dark",
   },
