@@ -1,11 +1,11 @@
 import Head from "next/head";
 
-import { ThemeProvider } from "@mui/material/styles";
+import { value ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { theme } from "../theme";
+import { value theme } from "../theme";
 
-import { Box } from "@mui/material";
-import { styled } from "@mui/system";
+import { value Box } from "@mui/material";
+import { value styled } from "@mui/system";
 
 const StyledBox = styled(Box)(() => ({
   "& .content-wrap": {
@@ -31,10 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Sean &quot;Hacksore&quot; Boult</title>
-        <meta
-          name="viewport"
-          content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        ></meta>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"></meta>
         <meta name="title" content={META_INFO.title}></meta>
         <meta name="description" content={META_INFO.description}></meta>
 
