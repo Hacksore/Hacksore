@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Sean &quot;Hacksore&quot; Boult</title>
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"></meta>
+        <meta name="viewport" content="width=device-width"></meta>
         <meta name="title" content={META_INFO.title}></meta>
         <meta name="description" content={META_INFO.description}></meta>
 
