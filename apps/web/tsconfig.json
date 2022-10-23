@@ -8,7 +8,7 @@
       "ESNext"
     ],
     "allowJs": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -20,7 +20,6 @@
     "noEmit": true,
     "jsx": "preserve",
     "rootDir": "src",
-  
     "typeRoots": [      
       "node_modules/@types"
     ],
