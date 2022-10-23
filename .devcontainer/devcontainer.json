@@ -1,5 +1,6 @@
 {
-  "name": "Codespaces Node.js Starter",
+  "name": "Codespaces Node",
+  "image": "ghcr.io/hacksore/devcontainer:latest",
   "extensions": [
     "1Password.op-vscode",
     "azemoh.one-monokai",
@@ -21,13 +22,27 @@
     "wmaurer.change-case",
     "xabikos.JavaScriptSnippets"
   ],
-  "forwardPorts": [3000, 4000, 6006, 9000],
-  "dockerFile": "Dockerfile",
-  "settings": {
-    "terminal.integrated.defaultProfile.linux": "zsh",
-    "files.exclude": {
-      "**/CODE_OF_CONDUCT.md": true,
-      "**/LICENSE": true
+  "forwardPorts": [3000, 4000, 9000],
+  "portsAttributes": {
+    "9000": {
+      "label": "Firebase realtime db",
+      "onAutoForward": "silent"
+    },
+    "4000": {
+      "label": "Firebase UI",
+      "onAutoForward": "silent"
+    },
+    "3000": {
+      "label": "Next",
+      "onAutoForward": "silent"
     }
+  },
+  "settings": {
+    "terminal.integrated.profiles.linux": {
+      "zsh": {
+        "path": "/usr/bin/zsh"
+      }
+    },
+    "terminal.integrated.defaultProfile.linux": "zsh"
   }
 }
