@@ -33,7 +33,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: null,
       embeds: [
         {
-          description: `[${jobName}] ⏳ Build has started`,
+          description: `[**${jobName}**]\n⏳ Build has started`,
           url: event.workflow_run.html_url,
           color: 13743427,
           fields: [
@@ -57,9 +57,15 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: "<@378293909610037252> please take a look",
       embeds: [
         {
-          description: `[${jobName}] 🚨 Build has failed`,
+          description: `[**${jobName}**]\n🚨 Build has failed`,
           url: event.workflow_run.html_url,
           color: 14695998,
+          fields: [
+            {
+              name: "Commit",
+              value: event.workflow_run.head_commit.message
+            },
+          ],
           author: {
             name: `Build ${event.workflow_run.id}`,
             url: event.workflow_run.html_url,
@@ -75,9 +81,15 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: null,
       embeds: [
         {
-          description: `[${jobName}] ✅ Build has completed without issues 🥳`,
+          description: `[**${jobName}**]\n✅ Build has completed without issues 🥳`,
           url: event.workflow_run.html_url,
           color: 6280543,
+          fields: [
+            {
+              name: "Commit",
+              value: event.workflow_run.head_commit.message
+            },
+          ],
           author: {
             name: `Build ${event.workflow_run.id}`,
             url: event.workflow_run.html_url,
