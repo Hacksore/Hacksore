@@ -46,7 +46,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
             },
           ],
           author: {
-            name: "🟠 ${jobName}",
+            name: `🟠 ${jobName}`,
             url: event.workflow_run.html_url,
           },
         },
