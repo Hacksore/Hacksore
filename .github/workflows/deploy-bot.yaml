@@ -5,7 +5,9 @@ on:
       - "master"
 env:
   NODE_VERSION: "16"
-
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  
 jobs:
   deploy:
     name: Deploy
