@@ -31,6 +31,11 @@ function createMessageFromEvent(event: IWorkflowRun): any {
   const commitMessage = event.workflow_run.head_commit.message;
   const commitAuthor = event.workflow_run.head_commit.author.name;
 
+  const repoName = event.repository.name;
+  const branchName = event.workflow_run.head_branch;
+  const jobUrl = event.workflow_run.html_url;
+  const avatarUrl =  event.workflow_run.actor.avatar_url;
+
   if (event.action === "in_progress" && conclusion === null) {
     return {
       content: null,
@@ -41,13 +46,14 @@ function createMessageFromEvent(event: IWorkflowRun): any {
           color: 13743427,
           fields: [
             {
-              name: "Commit",
+              name: `${repoName}/${branchName}`,
               value: `${commitMessage} - ${commitAuthor}`
             },
           ],
           author: {
+            icon_url: avatarUrl,
             name: `🟠 ${jobName}`,
-            url: event.workflow_run.html_url,
+            url: jobUrl,
           },
         },
       ],
