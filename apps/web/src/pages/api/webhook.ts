@@ -34,7 +34,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
   const repoName = event.repository.name;
   const branchName = event.workflow_run.head_branch;
   const jobUrl = event.workflow_run.html_url;
-  const avatarUrl =  event.workflow_run.actor.avatar_url;
+  const avatarUrl = event.workflow_run.actor.avatar_url;
 
   if (event.action === "in_progress" && conclusion === null) {
     return {
@@ -47,7 +47,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
           fields: [
             {
               name: `${repoName}/${branchName}`,
-              value: `${commitMessage} - ${commitAuthor}`
+              value: `${commitMessage} - ${commitAuthor}`,
             },
           ],
           author: {
@@ -66,18 +66,19 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: "<@378293909610037252>",
       embeds: [
         {
-          description: `Build has failed`,
+          description: "Build has failed",
           url: event.workflow_run.html_url,
-          color: 14695998,
+          color: 13743427,
           fields: [
             {
-              name: "Commit",
-              value: `${commitMessage} - ${commitAuthor}`
+              name: `${repoName}/${branchName}`,
+              value: `${commitMessage} - ${commitAuthor}`,
             },
           ],
           author: {
+            icon_url: avatarUrl,
             name: `🔴 ${jobName}`,
-            url: event.workflow_run.html_url,
+            url: jobUrl,
           },
         },
       ],
@@ -90,18 +91,19 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: null,
       embeds: [
         {
-          description: `Build has completed without issues 🥳`,
+          description: "Build completed successfully",
           url: event.workflow_run.html_url,
-          color: 6280543,
+          color: 13743427,
           fields: [
             {
-              name: "Commit",
-              value: `${commitMessage} - ${commitAuthor}`
+              name: `${repoName}/${branchName}`,
+              value: `${commitMessage} - ${commitAuthor}`,
             },
           ],
           author: {
+            icon_url: avatarUrl,
             name: `🟢 ${jobName}`,
-            url: event.workflow_run.html_url,
+            url: jobUrl,
           },
         },
       ],
