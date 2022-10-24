@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Dependencies
-        run: yarn install --immutable --immutable-cache --check-cache -w apps/web
+        run: yarn install --immutable --immutable-cache --check-cache -w apps/bot
       - name: Build
-        run: yarn turbo run build --filter=web
+        run: yarn turbo run build --filter=bot
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
