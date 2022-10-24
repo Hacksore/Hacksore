@@ -43,7 +43,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
         {
           description: "Build has started",
           url: event.workflow_run.html_url,
-          color: 13743427,
+          color: 15439161,
           fields: [
             {
               name: `${repoName}/${branchName}`,
@@ -68,7 +68,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
         {
           description: "Build has failed",
           url: event.workflow_run.html_url,
-          color: 13743427,
+          color: 13264986,
           fields: [
             {
               name: `${repoName}/${branchName}`,
@@ -93,7 +93,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
         {
           description: "Build completed successfully",
           url: event.workflow_run.html_url,
-          color: 13743427,
+          color: 6280543,
           fields: [
             {
               name: `${repoName}/${branchName}`,
