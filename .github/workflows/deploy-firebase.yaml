@@ -41,6 +41,6 @@ jobs:
           echo "Sourcing env GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json" >> $GITHUB_ENV
       - name: Install firebase-tools
-        run: yarn install global firebase-tools
+        run: yarn global add firebase-tools
       - name: Deploy rules
         run: firebase deploy
