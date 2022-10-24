@@ -10,7 +10,7 @@ env:
   
 jobs:
   build:
-    name: Deploy
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -34,7 +34,10 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable --immutable-cache --check-cache -w apps/bot
       - name: Build
-        run: yarn turbo run build --filter=bot
+        run: |
+          yarn turbo run build --filter=bot
+          pwd && ls -hal
+          ls -hal apps/bot
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
