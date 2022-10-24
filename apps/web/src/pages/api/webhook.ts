@@ -28,22 +28,25 @@ function createMessageFromEvent(event: IWorkflowRun): any {
   const conclusion = event.workflow_run.conclusion;
   const jobName = event.workflow_run.name;
 
+  const commitMessage = event.workflow_run.head_commit.message;
+  const commitAuthor = event.workflow_run.head_commit.author.name;
+
   if (event.action === "in_progress" && conclusion === null) {
     return {
       content: null,
       embeds: [
         {
-          description: `[**${jobName}**]\n⏳ Build has started`,
+          description: "Build has started",
           url: event.workflow_run.html_url,
           color: 13743427,
           fields: [
             {
               name: "Commit",
-              value: event.workflow_run.head_commit.message
+              value: `${commitMessage} - ${commitAuthor}`
             },
           ],
           author: {
-            name: `Build ${event.workflow_run.id}`,
+            name: "🟠 ${jobName}",
             url: event.workflow_run.html_url,
           },
         },
@@ -54,20 +57,20 @@ function createMessageFromEvent(event: IWorkflowRun): any {
 
   if (event.action === "completed" && conclusion === "failure") {
     return {
-      content: "<@378293909610037252> please take a look",
+      content: "<@378293909610037252>",
       embeds: [
         {
-          description: `[**${jobName}**]\n🚨 Build has failed`,
+          description: `Build has failed`,
           url: event.workflow_run.html_url,
           color: 14695998,
           fields: [
             {
               name: "Commit",
-              value: event.workflow_run.head_commit.message
+              value: `${commitMessage} - ${commitAuthor}`
             },
           ],
           author: {
-            name: `Build ${event.workflow_run.id}`,
+            name: `🔴 ${jobName}`,
             url: event.workflow_run.html_url,
           },
         },
@@ -81,17 +84,17 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: null,
       embeds: [
         {
-          description: `[**${jobName}**]\n✅ Build has completed without issues 🥳`,
+          description: `Build has completed without issues 🥳`,
           url: event.workflow_run.html_url,
           color: 6280543,
           fields: [
             {
               name: "Commit",
-              value: event.workflow_run.head_commit.message
+              value: `${commitMessage} - ${commitAuthor}`
             },
           ],
           author: {
-            name: `Build ${event.workflow_run.id}`,
+            name: `🟢 ${jobName}`,
             url: event.workflow_run.html_url,
           },
         },
