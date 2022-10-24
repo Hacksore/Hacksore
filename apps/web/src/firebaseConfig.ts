@@ -19,7 +19,7 @@ const firebaseConfig: FirebaseOptions = {
 
 // this is called on the client not the server
 if (typeof window !== "undefined") {
-  console.log("Connecting to firebase...")
+  console.log("Connecting to firebase on the client...")
   initializeApp(firebaseConfig);
 }
 

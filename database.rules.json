@@ -3,7 +3,12 @@
 {
   "rules": {
     "userdata": {
-      ".read": true
+      ".read": true,
+      ".write": false
+    },
+    "webhooks": {
+      ".read": false,
+      ".write": false
     }  
   }
 }

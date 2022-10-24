@@ -1,16 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import got from "got";
-import { IWorkflowRun } from "../../types/github/workflowRun";
+import { GithubWorkflowRun } from "../../types/github/workflowRun";
+import { GithubIssue } from "../../types/github/issue";
+import { GithubIssueComment } from "../../types/github/issueComment";
+import { db } from "../../firebase";
 
-const { WEBHOOK_REPO_REACT_SKINVIEW3D = "{}", WEBHOOK_REPO_HACKSORE = "{}", WEBHOOK_REPO_TEST = "{}" } = process.env;
-
-const WEBHOOK_MAP: Record<string, string> = {
-  "react-skinview3d": WEBHOOK_REPO_REACT_SKINVIEW3D,
-  hacksore: WEBHOOK_REPO_HACKSORE,
-  test: WEBHOOK_REPO_TEST,
-};
-
-const ALLOWED_EVENTS = ["workflow_run"];
+// events to allow from github
+const ALLOWED_EVENTS = ["workflow_run", "issues", "issue_comment"];
 
 async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
   // replay to discord
@@ -23,7 +19,129 @@ async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
   }).json();
 }
 
-function createMessageFromEvent(event: IWorkflowRun): any {
+function createMessageForIssue(event: GithubIssue): any {
+  const description = event.issue.body;
+  const issueUrl = event.issue.html_url;
+  const issueTitle = event.issue.title;
+
+  const repoName = event.repository.full_name;
+  const avatarUrl = event.sender.avatar_url;
+
+  const author = event.sender.login;
+
+  if (event.action === "created") {
+    return {
+      content: "<@378293909610037252>",
+      embeds: [
+        {
+          description: description.substring(0, 100),
+          url: issueUrl,
+          color: 3764971,
+          fields: [
+            {
+              name: repoName,
+              value: `Issue created by ${author}`,
+            },
+          ],
+          author: {
+            icon_url: avatarUrl,
+            name: issueTitle,
+            url: issueUrl,
+          },
+        },
+      ],
+      username: "Github",
+    };
+  }
+
+  if (event.action === "edited") {
+    return {
+      content: "<@378293909610037252>",
+      embeds: [
+        {
+          description: description.substring(0, 100),
+          url: issueUrl,
+          color: 3764971,
+          fields: [
+            {
+              name: repoName,
+              value: `Issue updated by ${author}`,
+            },
+          ],
+          author: {
+            icon_url: avatarUrl,
+            name: issueTitle,
+            url: issueUrl,
+          },
+        },
+      ],
+      username: "Github",
+    };
+  }
+
+  if (event.action === "closed") {
+    return {
+      content: null,
+      embeds: [
+        {
+          description: description.substring(0, 100),
+          url: issueUrl,
+          color: 3764971,
+          fields: [
+            {
+              name: repoName,
+              value: `Issue closed by ${author}`,
+            },
+          ],
+          author: {
+            icon_url: avatarUrl,
+            name: issueTitle,
+            url: issueUrl,
+          },
+        },
+      ],
+      username: "Github",
+    };
+  }
+}
+
+function createMessageForIssueComment(event: GithubIssueComment): any {
+  const description = event.comment.body;
+  const issueUrl = event.issue.html_url;
+  const issueTitle = event.issue.title;
+
+  const repoName = event.repository.full_name;
+  const avatarUrl = event.sender.avatar_url;
+
+  const author = event.sender.login;
+
+  if (event.action === "created") {
+    return {
+      content: "<@378293909610037252>",
+      embeds: [
+        {
+          description: description.substring(0, 100),
+          url: issueUrl,
+          color: 3764971,
+          fields: [
+            {
+              name: repoName,
+              value: `Issue comment added by ${author}`,
+            },
+          ],
+          author: {
+            icon_url: avatarUrl,
+            name: issueTitle,
+            url: issueUrl,
+          },
+        },
+      ],
+      username: "Github",
+    };
+  }
+}
+
+function createMessageForWorkflow(event: GithubWorkflowRun): any {
   // the status if was good or bad
   const conclusion = event.workflow_run.conclusion;
   const jobName = event.workflow_run.name;
@@ -119,15 +237,55 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     return res.status(420).json({ status: "event not registered" });
   }
 
+  // a stub of shared things
+  const genericEvent = req.body as { action: string, repository: { name: string }};
+
+  // debug log
+  console.log(`Receiving event from github ${eventType}:${genericEvent.action}`);
+
+  // read data from firebase
+  const webhookRefDoc = await db.ref("webhooks").get();
+
+  // the doc from the database
+  const configuredWebhooks: { [key: string]: { url: string } } = webhookRefDoc.val();
+
+  // debug log
+  console.log(configuredWebhooks);
+
+  const url = configuredWebhooks[genericEvent.repository.name.toLowerCase()].url;
+
   // we are getting a build status
   if (eventType === "workflow_run") {
-    const event = req.body as IWorkflowRun;
-
-    // set webhook to discord
-    const url = WEBHOOK_MAP[event.repository.name.toLowerCase()];
+    const event = req.body as GithubWorkflowRun;
 
     try {
-      await sendMessageToDiscord(url, createMessageFromEvent(event));
+      await sendMessageToDiscord(url, createMessageForWorkflow(event));
+    } catch (err: any) {
+      console.log(err.message);
+    }
+
+    return res.status(200).json({ status: "ok" });
+  }
+
+  // we are getting an issue
+  if (eventType === "issues") {
+    const event = req.body as GithubIssue;
+
+    try {
+      await sendMessageToDiscord(url, createMessageForIssue(event));
+    } catch (err: any) {
+      console.log(err.message);
+    }
+
+    return res.status(200).json({ status: "ok" });
+  }
+
+  // we are getting an issue comment
+  if (eventType === "issue_comment") {
+    const event = req.body as GithubIssueComment;
+
+    try {
+      await sendMessageToDiscord(url, createMessageForIssueComment(event));
     } catch (err: any) {
       console.log(err.message);
     }

@@ -3,13 +3,13 @@ import { Social } from "../components/social";
 import { Projects } from "../components/projects";
 import { About } from "../components/about";
 
-// setup firebase
+// setup firebase for client usage
 import "../firebaseConfig";
 
 function App() {
   return (
     <main>
-      <section>
+      <section style={{ display: "flex", justifyContent: "center" }}>
         <About />
       </section>
       <section>
