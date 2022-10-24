@@ -2,6 +2,6 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY dist .
+COPY apps/bot/dist .
 
 CMD node /app/dist/index.js
