@@ -26,13 +26,14 @@ async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
 function createMessageFromEvent(event: IWorkflowRun): any {
   // the status if was good or bad
   const conclusion = event.workflow_run.conclusion;
+  const jobName = event.workflow_run.name;
 
   if (event.action === "in_progress" && conclusion === null) {
     return {
       content: null,
       embeds: [
         {
-          description: "⏳ Build has started",
+          description: `[${jobName}] ⏳ Build has started`,
           url: event.workflow_run.html_url,
           color: 13743427,
           fields: [
@@ -56,7 +57,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: "<@378293909610037252> please take a look",
       embeds: [
         {
-          description: "🚨 Build has failed",
+          description: `[${jobName}] 🚨 Build has failed`,
           url: event.workflow_run.html_url,
           color: 14695998,
           author: {
@@ -74,7 +75,7 @@ function createMessageFromEvent(event: IWorkflowRun): any {
       content: null,
       embeds: [
         {
-          description: "✅ Build has completed without issues 🥳",
+          description: `[${jobName}] ✅ Build has completed without issues 🥳`,
           url: event.workflow_run.html_url,
           color: 6280543,
           author: {

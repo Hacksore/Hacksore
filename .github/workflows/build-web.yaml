@@ -38,4 +38,4 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable --immutable-cache --check-cache -w apps/web
       - name: Build
-        run: npx turbo run build --filter=apps/web
+        run: yarn turbo run build --filter=web
