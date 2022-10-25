@@ -48,9 +48,9 @@ export async function createDiscordChannel({ guildId, name }: CreateChannelOptio
     },
   });
 
-  const body: any = response.body;
+  const body: any = JSON.parse(response.body);
 
-  if (response.statusCode === 200) {
+  if (response.statusCode === 201) {
     return {
       success: true,
       channelId: body.id
@@ -59,7 +59,6 @@ export async function createDiscordChannel({ guildId, name }: CreateChannelOptio
 
   try {
     const json = JSON.parse(response.body);
-
     return {
       success: false,
       error: json.message,

@@ -25,7 +25,6 @@ interface CreateWebHookOption {
  * @docs https://docs.github.com/en/rest/webhooks/repos#create-a-repository-webhook
  */
 export async function createGithubWebhook({ repo, owner, url }: CreateWebHookOption): Promise<CreateWebhookResult> {
-  console.log("Creating hook for", { repo, owner, url });
   const response = await got(`${GITHUB_API_BASE}/repos/${owner}/${repo}/hooks`, {
     method: "POST",
     throwHttpErrors: false,

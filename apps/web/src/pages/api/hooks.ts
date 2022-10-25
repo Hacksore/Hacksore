@@ -4,7 +4,8 @@ import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
 import { db } from "../../firebase";
 import { githubRepoExists, createGithubWebhook } from "api/github";
-import { createDiscordChannel, discordChannelExists } from "api/discord";
+import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "api/discord";
+import got from "got";
 
 export default async function handleRoute(req: NextApiRequest, res: NextApiResponse<any>) {
   const session = await unstable_getServerSession(req, res, authOptions);
@@ -34,11 +35,12 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     /*
     Steps to add a new repo 
     1. ✅ check if a repo exists with that name
-    2. ✅ check we dont have that channel in discord created already
+    2. ✅ check we don't have that channel in discord created already
     1. ✅ create discord channel with the repo as channel name
     2. ✅ create a webhook on github for the repo
-    3. create a webhook for the discord channel
-    4. add the discord webhook to the firebase db
+    3. ✅ create a webhook for the discord channel
+    4. ✅ add the discord webhook to the firebase db
+    5. ✅ send message with the new hook for best e2e
     5. profit????
     */
 
@@ -49,7 +51,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     });
 
     if (!repoExists) {
-      return res.status(400).json({ error: "The repo doesnt exists" });
+      return res.status(400).json({ error: "The repo doesn't exists" });
     }
 
     // create channel
@@ -76,18 +78,47 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     // get the channel id
     const discordChannelId = discordCreateChannelResult.channelId;
 
-    const result = await createGithubWebhook({
+    const createGithubWebhookResult = await createGithubWebhook({
       owner: "Hacksore",
       repo: name,
       // TODO: allow local somehow for testing
       url: "https://boult.me/api/webhook",
     });
 
-    if (!result.success) {
+    if (!createGithubWebhookResult.success) {
+      return res.status(500).json({ error: "Could not create github webhook" });
+    }
+
+    console.log("Creating a webhook for the new channel", discordChannelId);
+    const createDiscordWebhookResult = await createDiscordWebhook({
+      channelId: discordChannelId,
+    });
+
+    if (!createDiscordWebhookResult.success) {
       return res.status(500).json({ error: "Could not create discord webhook" });
     }
 
-    return res.status(200).json({ ok: 1 });
+    // create ref in database
+    const webhookRefDoc = await db.ref("webhooks").get();
+    const currentWebhooks = webhookRefDoc.val();
+
+    if (currentWebhooks[name] === undefined) {
+      db.ref("webhooks").child(name.toLowerCase()).set({
+        url: createDiscordWebhookResult.url,
+      });
+    }
+
+    await got(createDiscordWebhookResult.url, {
+      method: "POST",
+      body: JSON.stringify({
+        content: "<@378293909610037252> repo registered for notifications",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return res.status(200).json({ status: "ok" });
   }
 
   return res.status(200).json({ error: "hmm" });

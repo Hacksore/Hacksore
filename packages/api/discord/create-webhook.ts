@@ -1,66 +1,63 @@
 import got from "got";
 import { DISCORD_API_BASE } from "../constants";
-import { CreateWebhookResult } from "../types";
 
 const { DISCORD_ACCESS_TOKEN } = process.env;
 
 interface CreateWebHookOption {
   /**
-   * The repo name in which to create the webhook
-   */
-  repo: string;
-  /**
    * The owner of the repo, either an org or username
    */
-  owner: string;
-  /**
-   * The callback url of the webhook
-   */
+  channelId: string;
+}
+
+export interface CreateWebhookFailed {
+  success: false;
+  error: Error | string;
+}
+
+export interface CreateWebhookSucceeded {
+  success: true;
   url: string;
 }
 
+export type CreateWebhookResult = CreateWebhookFailed | CreateWebhookSucceeded;
+
 /**
- * Will create a webhook on the provided repo with the given url
- * @param {CreateWebHookOption} param - The repo to create {@link CreateWebHookOption}
- * @docs https://docs.github.com/en/rest/webhooks/repos#create-a-repository-webhook
+ * Will create a webhook on the provided channel
+ * @param {CreateWebhookResult} param - The methods options {@link CreateWebhookResult}
+ * @docs https://discord.com/developers/docs/resources/webhook
  */
-export async function createDiscordWebhook({ repo, owner, url }: CreateWebHookOption): Promise<CreateWebhookResult> {
-  console.log("Creating hook for", { repo, owner, url });
-  const response = await got(`${DISCORD_API_BASE}/repos/${owner}/${repo}/hooks`, {
+export async function createDiscordWebhook({ channelId }: CreateWebHookOption): Promise<CreateWebhookResult> {
+  const response = await got(`${DISCORD_API_BASE}/api/v10/channels/${channelId}/webhooks`, {
     method: "POST",
     throwHttpErrors: false,
     body: JSON.stringify({
-      name: "web",
-      active: true,
-      events: ["push", "pull_request", "workflow_run", "issues", "issue_comment"],
-      config: {
-        url,
-        content_type: "json",
-        insecure_ssl: "0",
-      },
+      name: "github",
     }),
     headers: {
-      Authorization: `Bearer ${DISCORD_ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+      Authorization: `Bot ${DISCORD_ACCESS_TOKEN}`,
     },
   });
 
-  if (response.statusCode === 201) {
+  if (response.statusCode === 200) {
+    const payload = JSON.parse(response.body);
+    
     return {
       success: true,
+      url: `https://discord.com/api/webhooks/${payload.id}/${payload.token}`
     };
   }
 
   try {
-    const json = JSON.parse(response.body);
-
     return {
       success: false,
-      error: json.message,
+      error: response.body
     };
   } catch (err) {
     return {
       success: false,
-      error: "Failed to create hook",
+      error: "Failed to create discord webhook",
     };
   }
 }
