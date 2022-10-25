@@ -72,17 +72,20 @@ export const About = () => {
 
   useEffect(() => {
     const localRef = ref(db, "userdata");
-    
+
     // when anything changes in the doc
-    const fn = onValue(localRef, (snapshot: DataSnapshot) => {
+    const removeListener = onValue(localRef, (snapshot: DataSnapshot) => {
       const value = snapshot.val();
-      setProfileData(value);
+
+      if (value) {
+        setProfileData(value);
+      }
     });
 
-    return () => fn();
+    return () => removeListener();
   }, []);
 
-  const { userId, avatarHash, activities, status } = profileData;  
+  const { userId, avatarHash, activities, status } = profileData;
   const ext = avatarHash.startsWith("a_") ? "gif" : "png";
   const avatarUrl = `${DISCORD_AVATAR_CDN}/${userId}/${avatarHash}.${ext}`;
 
@@ -113,7 +116,6 @@ export const About = () => {
           <Typography className="header">Sean Boult</Typography>
         </div>
         <Typography variant="h5">Full stack developer who likes ReactJS</Typography>
-
       </div>
     </StyledBox>
   );

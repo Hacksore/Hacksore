@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 
-const { FIREBASE_SA_BASE64 = "", NODE_ENV = "development" } = process.env;
+const { FIREBASE_SA_BASE64 = "" } = process.env;
 
 const serviceAccountBuffer = Buffer.from(FIREBASE_SA_BASE64, "base64");
 const serviceAccountStringData = serviceAccountBuffer.toString("utf8");
@@ -8,12 +8,6 @@ const serviceAccount = JSON.parse(serviceAccountStringData);
 
 try {
 
-  // make sure to disable emulator in prod if somehow the env gets set  
-  if (NODE_ENV === "production") {
-    delete process.env["FIREBASE_DATABASE_EMULATOR_HOST"];
-  }
-
-  console.log("initializing firebase app on server", serviceAccount);
   admin.initializeApp({
     // @ts-ignore
     credential: admin.credential.cert(serviceAccount),

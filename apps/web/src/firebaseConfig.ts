@@ -26,17 +26,13 @@ if (typeof window !== "undefined") {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-function startEmulators() {
+// setup emulator only in dev mode
+if (process.env.NODE_ENV !== "production") {
   if (!global[EMULATORS_STARTED]) {
     global[EMULATORS_STARTED] = true;
     console.log("Connecting to firebase emulator");
     connectDatabaseEmulator(db, "localhost", 9000);
   }
-}
-
-// setup emulator only in dev mode
-if (process.env.NODE_ENV !== "production") {
-  startEmulators();
 }
 
 export { db, app };
