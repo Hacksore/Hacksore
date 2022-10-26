@@ -36,5 +36,6 @@ jobs:
         with:
           platforms: linux/arm/v7,linux/amd64
           push: true
-          context: apps/bot
+          context: .
+          file: apps/bot/Dockerfile
           tags: hacksore/presence-bot:latest
