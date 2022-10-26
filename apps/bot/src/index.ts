@@ -1,5 +1,6 @@
-import { Client, Intents, VoiceState } from "discord.js";
+import { Client, GatewayIntentBits, VoiceState } from "discord.js";
 import admin from "firebase-admin";
+import "dotenv/config";
 
 import { readFile } from "fs/promises";
 const serviceAccountStringData = await readFile(new URL("../service_account.json", import.meta.url), "utf8");
@@ -20,10 +21,10 @@ const { DISCORD_TOKEN } = process.env;
 
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_PRESENCES,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_VOICE_STATES,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 
@@ -52,7 +53,6 @@ client.on("presenceUpdate", async (_, newPres) => {
     })),
   };
 
-  console.log("got status update", data);
   db.ref("userdata").set(data);
 });
 
@@ -62,7 +62,6 @@ client.on("voiceStateUpdate", async (_, newVoiceState: VoiceState) => {
   }
 
   const userdataDoc = await db.ref("userdata").get();
-  console.log("got streaming update", newVoiceState.streaming);
   // check for streaming state
   db.ref("userdata").set({
     ...userdataDoc.val(),
@@ -70,8 +69,7 @@ client.on("voiceStateUpdate", async (_, newVoiceState: VoiceState) => {
   });
 });
 
-
-// TODO: this doesnt work for avatars for some reason but works for nicknames
+// TODO: this doesn't work for avatars for some reason but works for nicknames
 client.on("guildMemberUpdate", async (_, newMember) => {
   if (!isUpdateAllowed(newMember?.id, newMember.guild?.id)) {
     return;
@@ -82,9 +80,8 @@ client.on("guildMemberUpdate", async (_, newMember) => {
   // update anything that changed
   db.ref("userdata").set({
     ...userdataDoc.val(),
-    avatarHash: newMember.avatar
+    avatarHash: newMember.avatar,
   });
-
 });
 
 client.login(DISCORD_TOKEN);

@@ -7,8 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "concurrently npm:dev npm:emulator",
-    "start:all": "concurrently npm:dev:all npm:emulator",
+    "start:web": "concurrently npm:dev npm:emulator",
+    "start": "concurrently npm:dev:all npm:emulator",
     "emulator": "firebase emulators:start --import private-seed",
     "dev": "turbo run start --filter=web",
     "dev:all": "turbo run start",
