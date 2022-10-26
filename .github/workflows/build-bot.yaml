@@ -37,5 +37,8 @@ jobs:
           platforms: linux/amd64,linux/arm64/v8
           push: true
           context: .
+          build-args: "--progress=plain"
+          network: host
+          allow: network.host
           file: apps/bot/Dockerfile
           tags: hacksore/presence-bot:latest
