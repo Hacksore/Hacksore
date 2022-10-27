@@ -5,7 +5,7 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import "dotenv/config";
 
-const { DISCORD_TOKEN, FIREBASE_SA_BASE64 } = process.env;
+const { DISCORD_TOKEN, IMAGE_TAG, FIREBASE_SA_BASE64 } = process.env;
 
 export class DiscordPresenceStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -31,7 +31,7 @@ export class DiscordPresenceStack extends cdk.Stack {
 
     const taskDefinition = new ecs.FargateTaskDefinition(this, "DiscordPresenceTask");
     taskDefinition.addContainer("DiscordPresenceContainer", {
-      image: ecs.ContainerImage.fromRegistry("hacksore/presence-bot:latest"),
+      image: ecs.ContainerImage.fromRegistry(`hacksore/presence-bot:${IMAGE_TAG}`),
       memoryLimitMiB: 256,
       environment: {
         DISCORD_TOKEN,

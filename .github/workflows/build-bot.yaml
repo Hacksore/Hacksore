@@ -43,8 +43,12 @@ jobs:
           allow: network.host
           file: apps/bot/Dockerfile
           tags: hacksore/presence-bot:latest
+      - name: Create image docker tag
+        run: |
+          echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c 1-8)" >> $GITHUB_ENV
       - name: Deploy
         uses: peter-evans/repository-dispatch@v2
         if: github.ref == 'refs/heads/master'
         with:
           event-type: deploy-bot-prod
+          client-payload: '{"tag": "$IMAGE_TAG"}'
