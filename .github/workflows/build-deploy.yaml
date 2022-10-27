@@ -1,0 +1,102 @@
+name: Build/Deploy
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
+env:
+  NODE_VERSION: "16"
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  build-web:
+    name: Build Web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-        
+      - name: Install Dependencies
+        run: yarn install --immutable --immutable-cache --check-cache -w apps/web
+      - name: Build
+        run: yarn turbo run build --filter=web
+  build-bot:
+    name: Build Bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Setup buildx
+        uses: docker/setup-buildx-action@v2
+        id: buildx
+        with:
+          install: true
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2 
+      - name: Build and push image
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          platforms: linux/amd64
+          push: true
+          context: .
+          build-args: "--progress=plain"
+          network: host
+          allow: network.host
+          file: apps/bot/Dockerfile
+          tags: "hacksore/presence-bot:$GITHUB_SHA"
+      - name: Deploy
+        uses: peter-evans/repository-dispatch@v2
+        if: github.ref == 'refs/heads/master'
+        with:
+          event-type: deploy-bot-prod
+  deploy-firebase:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build-bot
+    steps:
+      - name: Create google service account file and env var
+        run: |
+          # decode the token into json and write to file, using base64 to not have to mess with the json format
+          echo "Creating file in $HOME/firebase.json"
+          echo "${{ secrets.FIREBASE_SA_BASE64 }}" | base64 --decode > "$HOME/firebase.json"
+          
+          # source the env with the path to the file
+          echo "Sourcing env GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json" >> $GITHUB_ENV
+      - name: Install firebase-tools
+        run: yarn global add firebase-tools
+      - name: Deploy rules
+        run: firebase deploy --only database --non-interactive
+  deploy-bot:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build-bot
+    steps:
+      - name: Deploy
+        if: github.ref == 'refs/heads/master'
+        run: echo todo deploy bot to app engine
