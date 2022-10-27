@@ -1,22 +1,13 @@
-import { Client, GatewayIntentBits, VoiceState } from "discord.js";
-import admin from "firebase-admin";
 import "dotenv/config";
 
-const { DISCORD_TOKEN, FIREBASE_SA_BASE64 = "{}" } = process.env;
-const serviceAccountStringData = Buffer.from(FIREBASE_SA_BASE64, "base64").toString("utf8");
-const serviceAccount = JSON.parse(serviceAccountStringData);
+import { Client, GatewayIntentBits } from "discord.js";
+import { onReady } from "./events/ready.js";
+import { onInteraction } from "./events/interaction.js";
+import { onPresenceUpdate } from "./events/presence-update.js";
+import { onVoiceStateUpdate } from "./events/voice-state-update.js";
+import { onGuildMemberUpdate } from "./events/guild-member-update.js";
 
-admin.initializeApp({
-  // @ts-ignore
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://biofun.firebaseio.com",
-});
-
-export const db = admin.database();
-
-const DISCORD_MY_ID = "378293909610037252";
-const DISCORD_SERVER_ID = "975086424049213560";
-
+export const { DISCORD_TOKEN } = process.env;
 
 const client = new Client({
   intents: [
@@ -27,60 +18,20 @@ const client = new Client({
   ],
 });
 
-const isUpdateAllowed = (id: string | undefined, guildId: string | undefined) => {
-  return id === DISCORD_MY_ID && guildId === DISCORD_SERVER_ID;
-};
+// ready event
+client.on("ready", onReady);
 
-client.on("ready", async () => {
-  console.log("logged in");
-});
+// interaction event
+client.on("interactionCreate", onInteraction);
 
-client.on("presenceUpdate", async (_, newPres) => {
-  if (!isUpdateAllowed(newPres.user?.id, newPres.guild?.id)) {
-    return;
-  }
+// hacked type in
+client.on("presenceUpdate", onPresenceUpdate);
 
-  const data = {
-    status: newPres?.status,
-    avatarHash: newPres?.user?.avatar,
-    userId: newPres?.user?.id,
-    activities: newPres.activities.map(item => ({
-      name: item?.name,
-      details: item?.details,
-      type: item?.type,
-      state: item?.state,
-    })),
-  };
+// check for voice state changes
+client.on("voiceStateUpdate", onVoiceStateUpdate);
 
-  db.ref("userdata").set(data);
-});
+// handle users updating
+client.on("guildMemberUpdate", onGuildMemberUpdate);
 
-client.on("voiceStateUpdate", async (_, newVoiceState: VoiceState) => {
-  if (!isUpdateAllowed(newVoiceState?.id, newVoiceState.guild?.id)) {
-    return;
-  }
-
-  const userdataDoc = await db.ref("userdata").get();
-  // check for streaming state
-  db.ref("userdata").set({
-    ...userdataDoc.val(),
-    streaming: newVoiceState.streaming,
-  });
-});
-
-// TODO: this doesn't work for avatars for some reason but works for nicknames
-client.on("guildMemberUpdate", async (_, newMember) => {
-  if (!isUpdateAllowed(newMember?.id, newMember.guild?.id)) {
-    return;
-  }
-
-  const userdataDoc = await db.ref("userdata").get();
-
-  // update anything that changed
-  db.ref("userdata").set({
-    ...userdataDoc.val(),
-    avatarHash: newMember.avatar,
-  });
-});
-
+// login with the token
 client.login(DISCORD_TOKEN);
