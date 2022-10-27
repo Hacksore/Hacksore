@@ -45,7 +45,7 @@ jobs:
           tags: hacksore/presence-bot:latest
       - name: Create image docker tag
         run: |
-          echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c 1-8)" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_ENV
           echo "set $IMAGE_TAG for the new bot image..."
       - name: Deploy
         uses: peter-evans/repository-dispatch@v2
