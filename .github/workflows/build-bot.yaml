@@ -45,11 +45,11 @@ jobs:
           tags: hacksore/presence-bot:latest
       - name: Create image docker tag
         run: |
-          echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_ENV
-          echo "set $IMAGE_TAG for the new bot image..."
+          echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+          echo "set $IMAGE_TAG for the new bot image (${{ env.GITHUB_SHA }} - $GITHUB_SHA)..."
       - name: Deploy
         uses: peter-evans/repository-dispatch@v2
         if: github.ref == 'refs/heads/master'
         with:
           event-type: deploy-bot-prod
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "$IMAGE_TAG"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ env.IMAGE_TAG }}"}'
