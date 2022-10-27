@@ -2,8 +2,8 @@ import { Client, GatewayIntentBits, VoiceState } from "discord.js";
 import admin from "firebase-admin";
 import "dotenv/config";
 
-import { readFile } from "fs/promises";
-const serviceAccountStringData = await readFile(new URL("../service_account.json", import.meta.url), "utf8");
+const { DISCORD_TOKEN, FIREBASE_SA_BASE64 = "{}" } = process.env;
+const serviceAccountStringData = Buffer.from(FIREBASE_SA_BASE64, "base64").toString("utf8");
 const serviceAccount = JSON.parse(serviceAccountStringData);
 
 admin.initializeApp({
@@ -17,7 +17,6 @@ export const db = admin.database();
 const DISCORD_MY_ID = "378293909610037252";
 const DISCORD_SERVER_ID = "975086424049213560";
 
-const { DISCORD_TOKEN } = process.env;
 
 const client = new Client({
   intents: [
