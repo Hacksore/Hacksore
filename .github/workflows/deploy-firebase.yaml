@@ -45,4 +45,4 @@ jobs:
       - name: Install firebase-tools
         run: yarn global add firebase-tools
       - name: Deploy rules
-        run: firebase deploy --non-interactive
+        run: firebase deploy --only database --non-interactive
