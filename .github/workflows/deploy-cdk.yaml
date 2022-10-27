@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
-          tag: ${{ github.event.client_payload.tag }}
+          ref: ${{ github.event.client_payload.ref }}
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -30,8 +30,13 @@ jobs:
       - name: Install dependencies
         run: yarn
         working-directory: infra
+      - name: Check version
+        run: |
+         echo "IMAGE_TAG=${{ github.event.client_payload.sha }}" >> $GITHUB_ENV
+         echo "Deploying image: hacksore/presence-bot:$IMAGE_TAG"     
+        working-directory: infra
       - name: Deploy stack
         run: yarn cdk deploy --all --require-approval never
         env:
-          IMAGE_TAG: "${{ github.event.client_payload.sha }}"
+          IMAGE_TAG: "$IMAGE_TAG"
         working-directory: infra
