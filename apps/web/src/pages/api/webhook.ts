@@ -6,7 +6,7 @@ import { GithubIssueComment } from "../../types/github/issueComment";
 import { db } from "../../firebase";
 
 // events to allow from github
-const ALLOWED_EVENTS = ["workflow_run", "issues", "issue_comment"];
+const ALLOWED_EVENTS = ["workflow_run", "workflow_job", "issues", "issue_comment"];
 
 async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
   // replay to discord
@@ -159,7 +159,7 @@ function createMessageForWorkflow(event: GithubWorkflowRun): any {
       content: null,
       embeds: [
         {
-          description: "Build has started",
+          description: "Job has started",
           url: event.workflow_run.html_url,
           color: 15439161,
           fields: [
@@ -184,7 +184,7 @@ function createMessageForWorkflow(event: GithubWorkflowRun): any {
       content: "<@378293909610037252>",
       embeds: [
         {
-          description: "Build has failed",
+          description: "Job has failed",
           url: event.workflow_run.html_url,
           color: 13264986,
           fields: [
@@ -209,7 +209,7 @@ function createMessageForWorkflow(event: GithubWorkflowRun): any {
       content: null,
       embeds: [
         {
-          description: "Build completed successfully",
+          description: "Job completed successfully",
           url: event.workflow_run.html_url,
           color: 6280543,
           fields: [
