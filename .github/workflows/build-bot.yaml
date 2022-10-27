@@ -43,3 +43,8 @@ jobs:
           allow: network.host
           file: apps/bot/Dockerfile
           tags: hacksore/presence-bot:latest
+      - name: Deploy
+        uses: peter-evans/repository-dispatch@v2
+        if: github.ref == 'refs/heads/master'
+        with:
+          event-type: deploy-bot-prod
