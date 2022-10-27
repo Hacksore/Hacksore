@@ -26,17 +26,16 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: 'us-east-1'
+          aws-region: "us-east-1"
       - name: Install dependencies
         run: yarn
         working-directory: infra
       - name: Check version
         run: |
-         echo "IMAGE_TAG=${{ github.event.client_payload.sha }}" >> $GITHUB_ENV
-         echo "Deploying image: hacksore/presence-bot:$IMAGE_TAG"     
+          echo "Deploying image: hacksore/presence-bot:${{ github.event.client_payload.sha }}"
         working-directory: infra
       - name: Deploy stack
         run: yarn cdk deploy --all --require-approval never
         env:
-          IMAGE_TAG: "$IMAGE_TAG"
+          IMAGE_TAG: "${{ github.event.client_payload.sha }}"
         working-directory: infra
