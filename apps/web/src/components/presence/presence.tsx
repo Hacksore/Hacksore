@@ -12,6 +12,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
     padding: 4,
   },
   "& .tooltip": {
+    display: "flex",
+    justifyContent: "center",
     width: 250,
     padding: 4,
   },
@@ -40,13 +42,28 @@ const StyledBox = styled(Box)(({ theme }) => ({
     border: "none",
     height: 1,
   },
+  "& .ping": {
+    textDecoration: "none",
+    color: lighten(theme.palette.primary.main, 0.3),
+    marginLeft: 4,
+    marginRight: 4,
+    display: "flex"
+  },
 }));
 
-const CurrentStatus = ({ state, activityLength}: { state: string, activityLength: number }) => {
+const PingLink = () => {
+  return (
+    <a className="ping" href="https://twitter.com/hacksore" target="_blank" rel="noreferrer">
+      @Hacksore
+    </a>
+  );
+};
+
+const CurrentStatus = ({ state, activityLength }: { state: string; activityLength: number }) => {
   return (
     <div>
       <Typography>{state}</Typography>
-      { activityLength > 1 && <hr className="divider" /> }
+      {activityLength > 1 && <hr className="divider" />}
     </div>
   );
 };
@@ -81,11 +98,7 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
   );
 };
 
-const ACTIVITY_ORDER = [
-  "CUSTOM",
-  "PLAYING",
-  "LISTENING"
-]
+const ACTIVITY_ORDER = ["CUSTOM", "PLAYING", "LISTENING"];
 
 const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
   const statusElements: Function[] = [];
@@ -111,7 +124,9 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   return (
     <div className="tooltip">
       {statusElements.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold", display: "flex" }}>Ping me @Hacksore on <IconTwitter sx={{ ml: 1 }} /></Typography>
+        <Typography sx={{ fontWeight: "bold", display: "flex" }}>
+          Ping me <PingLink /> on <IconTwitter sx={{ ml: 1 }} />
+        </Typography>
       ) : (
         statusElements.map((item, idx) => (
           <div className="activity" key={`activity-${idx}`}>
@@ -130,12 +145,11 @@ interface PresenceProps {
 }
 
 export const Presence: React.FC<PresenceProps> = ({ activities, children, status }) => {
-
   // don't show on DND
   const disable = status === "dnd";
 
   return (
-    <StyledBox>
+    <StyledBox id="discord-avatar">
       <Tooltip
         disableHoverListener={disable}
         disableInteractive={disable}

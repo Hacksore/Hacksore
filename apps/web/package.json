@@ -2,7 +2,7 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+
   "scripts": {
     "start": "next dev",
     "serve": "next start",
@@ -24,6 +24,8 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "tsconfig": "*",
+    "eslint-config-custom": "*",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "eslint": "^8.26.0",

@@ -1,6 +1,6 @@
-import withTM from "next-transpile-modules";
+const withTM = require("next-transpile-modules")(["api"]);
 
-const nextConfig = {
+module.exports = withTM({
   reactStrictMode: true,
   // If this is turned on firebase goes wild with and hits call stack
   swcMinify: false,
@@ -8,6 +8,4 @@ const nextConfig = {
     locales: ["en"],
     defaultLocale: "en",
   },
-};
-
-export default withTM(["api"])(nextConfig);
+});

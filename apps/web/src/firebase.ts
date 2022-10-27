@@ -7,7 +7,6 @@ const serviceAccountStringData = serviceAccountBuffer.toString("utf8");
 const serviceAccount = JSON.parse(serviceAccountStringData);
 
 try {
-
   admin.initializeApp({
     // @ts-ignore
     credential: admin.credential.cert(serviceAccount),
