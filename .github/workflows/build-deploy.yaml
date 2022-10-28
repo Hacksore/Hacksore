@@ -115,28 +115,25 @@ jobs:
         with:
           files: |
             infra/**
-      - name: Run step if infra code changes
-        if: steps.changed-files-specific.outputs.any_changed == 'true'
-        run: |
-          echo "One or more files in the docs folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+      # - name: Run step if infra code changes
+      #   if: steps.changed-files-specific.outputs.any_changed == 'true'
+      #   run: |
+      #     echo "One or more files in the docs folder has changed."
+      #     echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
       - uses: actions/setup-node@v3
         with:
           node-version: "${{ env.NODE_VERSION }}"
-      - name: Configure aws credentials
-        uses: aws-actions/configure-aws-credentials@master
+      - name: cdk deploy
+        uses: youyo/aws-cdk-github-actions@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: "us-east-1"
-      - name: Install dependencies
-        run: yarn
-        working-directory: infra
-      - name: Check version
-        run: |
-        working-directory: infra
-      - name: Deploy stack
-        run: npx cdk deploy --all --require-approval never
+          cdk_subcommand: "deploy"
+          cdk_stack: "stack1"
+          cdk_args: "--require-approval never"
+          actions_comment: false
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
   deploy-bot:
     name: Deploy Bot
     runs-on: ubuntu-latest
