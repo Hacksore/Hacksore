@@ -44,7 +44,7 @@ jobs:
       - name: Build
         run: |
           yarn global add vercel
-          vercel pull --yes --environment=prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - uses: actions/upload-artifact@v3
         with:
