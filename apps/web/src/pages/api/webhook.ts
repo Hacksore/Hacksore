@@ -255,7 +255,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   const url = configuredWebhooks[genericEvent.repository.name.toLowerCase()].url;
 
   // we are getting a build status
-  if (eventType === "workflow_run") {
+  if (eventType === "workflow_run" || eventType === "workflow_job") {
     const event = req.body as GithubWorkflowRun;
 
     try {
@@ -294,5 +294,6 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   }
 
   // this can never happen
+  console.log("we didn't find event for", eventType);
   return res.status(500).json({ status: "hmmm" });
 }

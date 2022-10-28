@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
-            ${{ runner.os }}-        
+            ${{ runner.os }}-
       - name: Install Dependencies
         run: yarn install --immutable --immutable-cache --check-cache -w apps/web
       - name: Build
@@ -61,7 +61,7 @@ jobs:
         with:
           install: true
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2 
+        uses: docker/setup-qemu-action@v2
       - name: Build and push image
         id: docker_build
         uses: docker/build-push-action@v3
@@ -94,7 +94,7 @@ jobs:
           # decode the token into json and write to file, using base64 to not have to mess with the json format
           echo "Creating file in $HOME/firebase.json"
           echo "${{ secrets.FIREBASE_SA_BASE64 }}" | base64 --decode > "$HOME/firebase.json"
-          
+
           # source the env with the path to the file
           echo "Sourcing env GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json" >> $GITHUB_ENV
@@ -103,10 +103,37 @@ jobs:
       - name: Deploy rules
         run: firebase deploy --non-interactive
   deploy-bot:
-    name: Deploy Bot
+    name: Deploy Bot Infra
     runs-on: ubuntu-latest
     needs: build-bot
     steps:
-      - name: Deploy App Engine
-        if: github.ref == 'refs/heads/master'
-        run: echo todo deploy bot to app engine
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Get changed files in the docs folder
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v34
+        with:
+          files: |
+            infra/**
+      - name: Run step if infra code changes
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the docs folder has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: "us-east-1"
+      - name: Install dependencies
+        run: yarn
+        working-directory: infra
+      - name: Check version
+        run: |
+        working-directory: infra
+      - name: Deploy stack
+        run: yarn cdk deploy --all --require-approval never
