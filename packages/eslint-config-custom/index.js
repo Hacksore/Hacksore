@@ -1,4 +1,4 @@
 module.exports = {
-  extends: ["recommended", "prettier"],
+  extends: ["prettier"],
   rules: {},
 };
