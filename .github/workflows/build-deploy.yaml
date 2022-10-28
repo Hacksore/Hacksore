@@ -121,13 +121,12 @@ jobs:
       - name: Deploy stack
         run: yarn cdk deploy --all --require-approval never
         working-directory: infra
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Retrieve and Update Secret
         run: |
           EC2_INSTANCE_IP=$(aws cloudformation describe-stacks --stack-name DiscordPresenceStack --query "Stacks[0].Outputs[0].OutputValue")          
           echo "$EC2_INSTANCE_IP" | gh secret set EC2_INSTANCE_IP
-               
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}       
   deploy-bot:
     name: Deploy Bot
     runs-on: ubuntu-latest
