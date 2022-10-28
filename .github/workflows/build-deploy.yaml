@@ -6,13 +6,17 @@ on:
       - "**"
 env:
   NODE_VERSION: "16"
-  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  
   TURBO_REMOTE_ONLY: true
   NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
   NEXT_PUBLIC_FIREBASE_DATABASE_URL: ${{ secrets.NEXT_PUBLIC_FIREBASE_DATABASE_URL }}
   NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
   NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
+  TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  TURBO_TEAM: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
   build-web:
@@ -40,8 +44,8 @@ jobs:
       - name: Build
         run: |
           yarn global add vercel
-          vercel pull --yes
-          vercel build --prod
+          vercel pull --yes --environment=prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - uses: actions/upload-artifact@v3
         with:
           name: web-build
@@ -57,14 +61,10 @@ jobs:
           path: .
       - name: "Test"
         run: ls -hal
-      - uses: amondnet/vercel-action@v20 #deploy
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: "--prod"
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          working-directory: .
+      - name: Deploy
+        run: |
+          yarn global add vercel
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
   build-bot:
     name: Build Bot
     runs-on: ubuntu-latest
