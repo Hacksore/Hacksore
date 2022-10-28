@@ -43,7 +43,7 @@ export class DiscordPresenceStack extends cdk.Stack {
       machineImage: ec2.MachineImage.latestAmazonLinux({
         generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
       }),
-      keyName: "DiscordPresenceKeyPair",
+      keyName: "DiscordPresenceKey",
     });
 
     // 👇 load user data script

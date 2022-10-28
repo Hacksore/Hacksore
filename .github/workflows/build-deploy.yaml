@@ -139,4 +139,20 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
       - name: SSH and Deploy Container
-        run: echo deploy bot
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_INSTANCE_IP }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # pull the latest image
+            docker pull hacksore/presence-bot:latest
+
+            docker run \
+              --restart always \
+              --detach \
+              --name presence \
+              -E DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
+              -E FIREBASE_SA_BASE64="${{ secrets.FIREBASE_SA_BASE64 }}" \
+              hacksore/presence-bot:latest
