@@ -2,14 +2,13 @@ import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as cdk from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { readFileSync } from "fs";
-import { Octokit } from "octokit";
+// import { Octokit } from "octokit";
 
 import { Construct } from "constructs";
 import "dotenv/config";
 
-const { GITHUB_TOKEN } = process.env;
-
-const octokit = new Octokit({ auth: GITHUB_TOKEN });
+// const { GITHUB_TOKEN } = process.env;
+// const octokit = new Octokit({ auth: GITHUB_TOKEN });
 export class DiscordPresenceStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id);
@@ -54,12 +53,12 @@ export class DiscordPresenceStack extends cdk.Stack {
     ec2Instance.addUserData(userDataScript);
 
     // set github action
-    octokit.rest.actions.createOrUpdateRepoSecret({
-      owner: "Hacksore",
-      repo: "Hacksore",
-      secret_name: "EC2_INSTANCE_IP",
-      encrypted_value: ec2Instance.instancePublicIp,
-    });
+    // octokit.rest.actions.createOrUpdateRepoSecret({
+    //   owner: "Hacksore",
+    //   repo: "Hacksore",
+    //   secret_name: "EC2_INSTANCE_IP",
+    //   encrypted_value: ec2Instance.instancePublicIp,
+    // });
 
     // set inside of cf
     new cdk.CfnOutput(this, "DiscordPresenceIp", {
