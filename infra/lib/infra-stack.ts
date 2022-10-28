@@ -52,7 +52,7 @@ export class DiscordPresenceStack extends cdk.Stack {
     // 👇 add user data to the EC2 instance
     ec2Instance.addUserData(userDataScript);
 
-    // set github action
+    // // set github action
     // octokit.rest.actions.createOrUpdateRepoSecret({
     //   owner: "Hacksore",
     //   repo: "Hacksore",

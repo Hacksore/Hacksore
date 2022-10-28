@@ -110,7 +110,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Configure aws credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
@@ -121,6 +121,13 @@ jobs:
       - name: Deploy stack
         run: yarn cdk deploy --all --require-approval never
         working-directory: infra
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Retrieve and Update Secret
+        run: |
+          EC2_INSTANCE_IP=$(aws cloudformation describe-stacks --stack-name DiscordPresenceStack --query "Stacks[0].Outputs[0].OutputValue")          
+          echo "$EC2_INSTANCE_IP" | gh secret set EC2_INSTANCE_IP
+               
   deploy-bot:
     name: Deploy Bot
     runs-on: ubuntu-latest
