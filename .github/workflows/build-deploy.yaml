@@ -136,7 +136,7 @@ jobs:
         run: |
         working-directory: infra
       - name: Deploy stack
-        run: yarn cdk deploy --all --require-approval never
+        run: npx cdk deploy --all --require-approval never
   deploy-bot:
     name: Deploy Bot
     runs-on: ubuntu-latest
