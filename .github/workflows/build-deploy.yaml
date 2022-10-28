@@ -46,10 +46,12 @@ jobs:
           yarn global add vercel
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: "Tar dir"
+        run: tar -zcvf next.tgz .vercel
       - uses: actions/upload-artifact@v3
         with:
           name: web-build
-          path: .vercel
+          path: next.tgz
   deploy-web:
     name: Deploy Web
     runs-on: ubuntu-latest
@@ -59,8 +61,10 @@ jobs:
         with:
           name: web-build
           path: .
-      - name: "Test"
-        run: ls -hal
+      - name: "Untar dir"
+        run: |
+          ls -hal
+          tar -zxvf next.tgz
       - name: Deploy
         run: |
           yarn global add vercel
