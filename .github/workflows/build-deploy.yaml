@@ -124,9 +124,10 @@ jobs:
       - name: Retrieve and Update Secret
         run: |
           EC2_INSTANCE_IP=$(aws cloudformation describe-stacks --stack-name DiscordPresenceStack --query "Stacks[0].Outputs[0].OutputValue")          
+          echo "IP of ec2 instance $EC2_INSTANCE_IP"
           echo "$EC2_INSTANCE_IP" | gh secret set EC2_INSTANCE_IP
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}       
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}       
   deploy-bot:
     name: Deploy Bot
     runs-on: ubuntu-latest
