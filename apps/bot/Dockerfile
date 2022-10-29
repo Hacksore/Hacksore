@@ -34,4 +34,5 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
-CMD node apps/bot/dist/index.js
+# use a shell so we can pass .env vars
+CMD /bin/bash -c node apps/bot/dist/index.js
