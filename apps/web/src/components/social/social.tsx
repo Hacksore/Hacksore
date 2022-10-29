@@ -2,7 +2,6 @@ import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/i
 import { Grid, Tooltip, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
-import Image from "next/image";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   margin: "20px 0 50px 0",
