@@ -70,10 +70,43 @@ jobs:
         run: |
           yarn global add vercel
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+  build-web-prod:
+    name: Build Web Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Build
+        run: |
+          yarn global add vercel
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }} --prod
+      - name: "Tar Directory"
+        run: tar -zcf next.tgz .vercel
+      - uses: actions/upload-artifact@v3
+        with:
+          name: web-build
+          path: next-prod.tgz          
   deploy-web-prod:
     name: Deploy Web (Production)
     runs-on: ubuntu-latest
-    needs: [build-web, deploy-web-beta]
+    needs: [build-web, build-web-prod, deploy-web-beta]
     environment: Production
     steps:
       - uses: actions/download-artifact@v3        
@@ -83,7 +116,7 @@ jobs:
       - name: "Untar Directory"
         run: |
           ls -hal
-          tar -zxf next.tgz
+          tar -zxf next-prod.tgz
       - name: Deploy
         run: |
           yarn global add vercel
