@@ -203,8 +203,11 @@ jobs:
             # pull the latest image
             docker pull hacksore/presence-bot:latest
 
-            # stop the running instance
+            # stop the running instance gracefully
             docker stop presence
+
+            # clean up
+            docker rm presence
 
             # run a new one
             docker run \
