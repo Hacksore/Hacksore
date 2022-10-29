@@ -35,4 +35,4 @@ USER expressjs
 COPY --from=installer /app .
 
 # use a shell so we can pass .env vars
-CMD /bin/bash -c node apps/bot/dist/index.js
+CMD /bin/sh -c node apps/bot/dist/index.js
