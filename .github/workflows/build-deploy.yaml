@@ -71,9 +71,9 @@ jobs:
           yarn global add vercel
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
   deploy-web-prod:
-    name: Deploy Web (PROD)
+    name: Deploy Web (Production)
     runs-on: ubuntu-latest
-    needs: build-web
+    needs: [build-web, deploy-web-beta]
     environment: Production
     steps:
       - uses: actions/download-artifact@v3        
