@@ -23,7 +23,7 @@ function App() {
         <Projects />
       </section>
 
-      <Box sx={{ mt: 4 }} className="giscus" />
+      <Box sx={{ mt: 4, mb: 8 }} className="giscus" />
 
       <Script
         src="https://giscus.app/client.js"
