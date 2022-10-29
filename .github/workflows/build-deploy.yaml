@@ -72,6 +72,7 @@ jobs:
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
   build-web-prod:
     name: Build Web Production
+    needs: [build-web]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
