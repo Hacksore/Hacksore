@@ -52,10 +52,11 @@ jobs:
         with:
           name: web-build
           path: next.tgz
-  deploy-web:
-    name: Deploy Web
+  deploy-web-beta:
+    name: Deploy Web (Preview)
     runs-on: ubuntu-latest
     needs: build-web
+    environment: Beta
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -69,6 +70,24 @@ jobs:
         run: |
           yarn global add vercel
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+  deploy-web-prod:
+    name: Deploy Web (PROD)
+    runs-on: ubuntu-latest
+    needs: build-web
+    environment: Production
+    steps:
+      - uses: actions/download-artifact@v3        
+        with:
+          name: web-build
+          path: .
+      - name: "Untar Directory"
+        run: |
+          ls -hal
+          tar -zxf next.tgz
+      - name: Deploy
+        run: |
+          yarn global add vercel
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --prod
   build-bot:
     name: Build Bot
     runs-on: ubuntu-latest
