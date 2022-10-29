@@ -101,8 +101,8 @@ jobs:
         run: tar -zcf next.tgz .vercel
       - uses: actions/upload-artifact@v3
         with:
-          name: web-build
-          path: next-prod.tgz          
+          name: web-build-prod
+          path: next.tgz          
   deploy-web-prod:
     name: Deploy Web (Production)
     runs-on: ubuntu-latest
@@ -111,12 +111,12 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3        
         with:
-          name: web-build
+          name: web-build-prod
           path: .
       - name: "Untar Directory"
         run: |
           ls -hal
-          tar -zxf next-prod.tgz
+          tar -zxf next.tgz
       - name: Deploy
         run: |
           yarn global add vercel
