@@ -8,8 +8,9 @@ import { SessionProvider } from "next-auth/react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 
-const StyledBox = styled(Box)(() => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   "& .content-wrap": {
+    background: theme.palette.background.default,
     padding: 22,
     display: "flex",
     flexDirection: "column",
@@ -27,7 +28,7 @@ const META_INFO = {
   description: "Full stack developer who likes ReactJS. You will find most if not all of my socials here.",
 };
 
-function MyApp({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <div>
