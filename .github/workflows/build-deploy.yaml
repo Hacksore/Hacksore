@@ -70,7 +70,7 @@ jobs:
           yarn global add vercel
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
   build-web-prod:
-    name: Build Web Production
+    name: Build Web (Production)
     needs: [build-web]
     runs-on: ubuntu-latest
     steps:
@@ -162,6 +162,7 @@ jobs:
   deploy-firebase:
     name: Deploy Firebase
     runs-on: ubuntu-latest
+    needs: build-bot
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -181,57 +182,34 @@ jobs:
         run: yarn global add firebase-tools
       - name: Deploy rules
         run: firebase deploy --non-interactive
-  # deploy-bot-infra:
-  #   name: Deploy Bot Infra
-  #   runs-on: ubuntu-latest
-  #   needs: build-bot
-  #   steps:
-  #     - name: Checkout repo
-  #       uses: actions/checkout@v3
-  #     - name: Configure aws credentials
-  #       uses: aws-actions/configure-aws-credentials@v1-node16
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-  #         aws-region: "us-east-1"
-  #     - name: Install dependencies
-  #       run: yarn
-  #       working-directory: infra
-  #     - name: Deploy stack
-  #       run: yarn cdk deploy --all --require-approval never
-  #       working-directory: infra
-  #     - name: Retrieve and Update Secret
-  #       run: |
-  #         EC2_INSTANCE_IP=$(aws cloudformation describe-stacks --stack-name DiscordPresenceStack --query "Stacks[0].Outputs[0].OutputValue")
-  #         echo "IP of ec2 instance $EC2_INSTANCE_IP"
-  #         echo "$EC2_INSTANCE_IP" | gh secret set EC2_INSTANCE_IP
-  #       env:
-  #         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  # deploy-bot:
-  #   name: Deploy Bot
-  #   runs-on: ubuntu-latest
-  #   needs: deploy-bot-infra
-  #   steps:
-  #     - name: Checkout repo
-  #       uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: "${{ env.NODE_VERSION }}"
-  #     - name: SSH and Deploy Container
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.EC2_INSTANCE_IP }}
-  #         username: ${{ secrets.EC2_USERNAME }}
-  #         key: ${{ secrets.EC2_PRIVATE_KEY }}
-  #         port: 22
-  #         script: |
-  #           # pull the latest image
-  #           docker pull hacksore/presence-bot:latest
+  deploy-bot:
+    name: Deploy Bot
+    runs-on: ubuntu-latest
+    needs: [build-bot, deploy-firebase]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+      - name: SSH and Deploy Container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.BOT_HOST_IP }}
+          username: ${{ secrets.BOT_HOST_USERNAME }}
+          password: ${{ secrets.BOT_HOST_PASSWORD}}
+          port: 22
+          script: |
+            # pull the latest image
+            docker pull hacksore/presence-bot:latest
 
-  #           docker run \
-  #             --restart always \
-  #             --detach \
-  #             --name presence \
-  #             -E DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
-  #             -E FIREBASE_SA_BASE64="${{ secrets.FIREBASE_SA_BASE64 }}" \
-  #             hacksore/presence-bot:latest
+            # stop the running instance
+            docker stop presence
+
+            # run a new one
+            docker run \
+              --restart always \
+              --detach \
+              --name presence \
+              --env-file=.env \
+              hacksore/presence-bot:latest
