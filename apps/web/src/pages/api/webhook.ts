@@ -153,7 +153,7 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
 
   if (event.action === "requested" && conclusion === null) {
     payload.embeds[0].author.name = `🟠 ${jobName}`;
-    payload.embeds[0].description = "Run has started";
+    payload.embeds[0].description = "Run was started";
     payload.embeds[0].color = 15439161;
     return payload;
   }
@@ -201,14 +201,14 @@ function createMessageForWorkflowJob(event: GithubWorkflowJob): any {
 
   if (event.action === "in_progress" && conclusion === null) {
     payload.embeds[0].author.name = `🟠 ${jobName}`;
-    payload.embeds[0].description = "Job has started";
+    payload.embeds[0].description = "Job was started";
     payload.embeds[0].color = 15439161;
     return payload;
   }
 
   if (event.action === "completed" && conclusion === "failure") {
-    payload.embeds[0].author.name = `🟠 ${jobName}`;
-    payload.embeds[0].description = "Job has started";
+    payload.embeds[0].author.name = `🔴 ${jobName}`;
+    payload.embeds[0].description = "Job has failed";
     payload.embeds[0].color = 13264986;
     payload.content = "<@378293909610037252>";
 
@@ -243,64 +243,23 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   // the doc from the database
   const configuredWebhooks: { [key: string]: { url: string } } = webhookRefDoc.val();
 
-  // debug log
-  console.log(configuredWebhooks);
-
   const url = configuredWebhooks[genericEvent.repository.name.toLowerCase()].url;
 
-  // we are getting a build status
-  if (eventType === "workflow_run") {
-    const event = req.body as GithubWorkflowRun;
-
-    try {
-      await sendMessageToDiscord(url, createMessageForWorkflowRun(event));
-    } catch (err: any) {
-      console.log(err.message);
+  try {
+    // we are getting a build status
+    if (eventType === "workflow_run") {
+      await sendMessageToDiscord(url, createMessageForWorkflowRun(req.body));
+    } else if (eventType === "workflow_job") {
+      await sendMessageToDiscord(url, createMessageForWorkflowJob(req.body));
+    } else if (eventType === "issues") {
+      await sendMessageToDiscord(url, createMessageForIssue(req.body));
+    } else if (eventType === "issue_comment") {
+      await sendMessageToDiscord(url, createMessageForIssueComment(req.body));
     }
 
     return res.status(200).json({ status: "ok" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ status: "error handling webhook" });
   }
-
-  // we are getting a build status
-  if (eventType === "workflow_job") {
-    const event = req.body as GithubWorkflowJob;
-
-    try {
-      await sendMessageToDiscord(url, createMessageForWorkflowJob(event));
-    } catch (err: any) {
-      console.log(err.message);
-    }
-
-    return res.status(200).json({ status: "ok" });
-  }
-
-  // we are getting an issue
-  if (eventType === "issues") {
-    const event = req.body as GithubIssue;
-
-    try {
-      await sendMessageToDiscord(url, createMessageForIssue(event));
-    } catch (err: any) {
-      console.log(err.message);
-    }
-
-    return res.status(200).json({ status: "ok" });
-  }
-
-  // we are getting an issue comment
-  if (eventType === "issue_comment") {
-    const event = req.body as GithubIssueComment;
-
-    try {
-      await sendMessageToDiscord(url, createMessageForIssueComment(event));
-    } catch (err: any) {
-      console.log(err.message);
-    }
-
-    return res.status(200).json({ status: "ok" });
-  }
-
-  // this can never happen
-  console.log("we didn't find event for", eventType);
-  return res.status(500).json({ status: "hmmm" });
 }
