@@ -1,7 +1,7 @@
 import { Sender } from "./shared"
 
 export interface GithubWorkflowRun {
-  action: "queued" | "completed" | "failed" | "in_progress",
+  action: "queued" | "completed" | "failed" | "in_progress" | "requested",
   workflow_run: WorkflowRun
   workflow: Workflow
   repository: Repository2

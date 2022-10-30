@@ -129,7 +129,7 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
   const avatarUrl = event.workflow_run.actor.avatar_url;
 
   const payload = {
-    content: null,
+    content: "",
     embeds: [
       {
         description: "",
@@ -151,7 +151,7 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
     username: "Github",
   };
 
-  if (event.action === "in_progress" && conclusion === null) {
+  if (event.action === "requested" && conclusion === null) {
     payload.embeds[0].author.name = `🟠 ${jobName}`;
     payload.embeds[0].description = "Run has started";
     payload.embeds[0].color = 15439161;
@@ -161,6 +161,7 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
   if (event.action === "completed" && conclusion === "failure") {
     payload.embeds[0].author.name = `🔴 ${jobName}`;
     payload.embeds[0].description = "Run has failed";
+    payload.content = "<@378293909610037252>";
     payload.embeds[0].color = 13264986;
     return payload;
   }
