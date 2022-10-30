@@ -5,6 +5,7 @@ import { GithubIssue } from "../../types/github/issue";
 import { GithubIssueComment } from "../../types/github/issue-comment";
 import { db } from "../../firebase";
 import { GithubWorkflowJob } from "../../types/github/workflow-job";
+import { CONFIG_FILES } from "next/dist/shared/lib/constants";
 
 // events to allow from github
 const ALLOWED_EVENTS = ["workflow_run", "workflow_job", "issues", "issue_comment"];
@@ -30,79 +31,51 @@ function createMessageForIssue(event: GithubIssue): any {
 
   const author = event.sender.login;
 
-  if (event.action === "created") {
-    return {
-      content: "<@378293909610037252>",
-      embeds: [
-        {
-          description: description.substring(0, 100),
-          url: issueUrl,
-          color: 3764971,
-          fields: [
-            {
-              name: repoName,
-              value: `Issue created by ${author}`,
-            },
-          ],
-          author: {
-            icon_url: avatarUrl,
-            name: issueTitle,
-            url: issueUrl,
+  const payload = {
+    content: "",
+    embeds: [
+      {
+        description: description.substring(0, 100),
+        url: issueUrl,
+        color: 3764971,
+        fields: [
+          {
+            name: repoName,
+            value: `Issue created by ${author}`,
           },
+        ],
+        author: {
+          icon_url: avatarUrl,
+          name: issueTitle,
+          url: issueUrl,
         },
-      ],
-      username: "Github",
-    };
+      },
+    ],
+    username: "Github",
+  };
+
+  if (event.action === "created") {
+    payload.content = "<@378293909610037252>";
+    payload.embeds[0].fields[0].value = `Issue created by ${author}`;
+    payload.embeds[0].color = 3764971;
+
+    return payload;
   }
 
   if (event.action === "edited") {
-    return {
-      content: "<@378293909610037252>",
-      embeds: [
-        {
-          description: description.substring(0, 100),
-          url: issueUrl,
-          color: 3764971,
-          fields: [
-            {
-              name: repoName,
-              value: `Issue updated by ${author}`,
-            },
-          ],
-          author: {
-            icon_url: avatarUrl,
-            name: issueTitle,
-            url: issueUrl,
-          },
-        },
-      ],
-      username: "Github",
-    };
+    payload.content = "<@378293909610037252>";
+    payload.embeds[0].fields[0].value = `Issue updated by ${author}`;
+    payload.embeds[0].color = 3764971;
+
+    return payload;
   }
 
   if (event.action === "closed") {
-    return {
-      content: null,
-      embeds: [
-        {
-          description: description.substring(0, 100),
-          url: issueUrl,
-          color: 3764971,
-          fields: [
-            {
-              name: repoName,
-              value: `Issue closed by ${author}`,
-            },
-          ],
-          author: {
-            icon_url: avatarUrl,
-            name: issueTitle,
-            url: issueUrl,
-          },
-        },
-      ],
-      username: "Github",
-    };
+    payload.content = "<@378293909610037252>";
+    payload.embeds[0].fields[0].value = `Issue closed by ${author}`;
+    payload.embeds[0].color = 3764971;
+
+    return payload;
   }
 }
 
@@ -155,79 +128,48 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
   const jobUrl = event.workflow_run.html_url;
   const avatarUrl = event.workflow_run.actor.avatar_url;
 
-  if (event.action === "in_progress" && conclusion === null) {
-    return {
-      content: null,
-      embeds: [
-        {
-          description: "Job has started",
-          url: event.workflow_run.html_url,
-          color: 15439161,
-          fields: [
-            {
-              name: `${repoName}/${branchName}`,
-              value: `${commitMessage} - ${commitAuthor}`,
-            },
-          ],
-          author: {
-            icon_url: avatarUrl,
-            name: `🟠 ${jobName}`,
-            url: jobUrl,
+  const payload = {
+    content: null,
+    embeds: [
+      {
+        description: "",
+        url: event.workflow_run.html_url,
+        color: 0,
+        fields: [
+          {
+            name: `${repoName}/${branchName}`,
+            value: `${commitMessage} - ${commitAuthor}`,
           },
+        ],
+        author: {
+          icon_url: avatarUrl,
+          name: "",
+          url: jobUrl,
         },
-      ],
-      username: "Github",
-    };
+      },
+    ],
+    username: "Github",
+  };
+
+  if (event.action === "in_progress" && conclusion === null) {
+    payload.embeds[0].author.name = `🟠 ${jobName}`;
+    payload.embeds[0].description = "Run has started";
+    payload.embeds[0].color = 15439161;
+    return payload;
   }
 
   if (event.action === "completed" && conclusion === "failure") {
-    return {
-      content: "<@378293909610037252>",
-      embeds: [
-        {
-          description: "Job has failed",
-          url: event.workflow_run.html_url,
-          color: 13264986,
-          fields: [
-            {
-              name: `${repoName}/${branchName}`,
-              value: `${commitMessage} - ${commitAuthor}`,
-            },
-          ],
-          author: {
-            icon_url: avatarUrl,
-            name: `🔴 ${jobName}`,
-            url: jobUrl,
-          },
-        },
-      ],
-      username: "Github",
-    };
+    payload.embeds[0].author.name = `🔴 ${jobName}`;
+    payload.embeds[0].description = "Run has failed";
+    payload.embeds[0].color = 13264986;
+    return payload;
   }
 
   if (event.action === "completed" && conclusion === "success") {
-    return {
-      content: null,
-      embeds: [
-        {
-          description: "Job completed successfully",
-          url: event.workflow_run.html_url,
-          color: 6280543,
-          fields: [
-            {
-              name: `${repoName}/${branchName}`,
-              value: `${commitMessage} - ${commitAuthor}`,
-            },
-          ],
-          author: {
-            icon_url: avatarUrl,
-            name: `🟢 ${jobName}`,
-            url: jobUrl,
-          },
-        },
-      ],
-      username: "Github",
-    };
+    payload.embeds[0].author.name = `🟢 ${jobName}`;
+    payload.embeds[0].description = "Run completed successfully";
+    payload.embeds[0].color = 6280543;
+    return CONFIG_FILES;
   }
 }
 
@@ -239,61 +181,45 @@ function createMessageForWorkflowJob(event: GithubWorkflowJob): any {
   const jobUrl = event.workflow_job.html_url;
   const avatarUrl = event.sender.avatar_url;
 
-  if (event.action === "in_progress" && conclusion === null) {
-    return {
-      content: null,
-      embeds: [
-        {
-          description: "Job has started",
-          url: event.workflow_job.html_url,
-          color: 15439161,
-          author: {
-            icon_url: avatarUrl,
-            name: `🟠 ${jobName}`,
-            url: jobUrl,
-          },
+  const payload = {
+    content: "",
+    embeds: [
+      {
+        description: "Job has started",
+        url: event.workflow_job.html_url,
+        color: 15439161,
+        author: {
+          icon_url: avatarUrl,
+          name: "",
+          url: jobUrl,
         },
-      ],
-      username: "Github",
-    };
+      },
+    ],
+    username: "Github",
+  };
+
+  if (event.action === "in_progress" && conclusion === null) {
+    payload.embeds[0].author.name = `🟠 ${jobName}`;
+    payload.embeds[0].description = "Job has started";
+    payload.embeds[0].color = 15439161;
+    return payload;
   }
 
   if (event.action === "completed" && conclusion === "failure") {
-    return {
-      content: "<@378293909610037252>",
-      embeds: [
-        {
-          description: "Job has failed",
-          url: event.workflow_job.html_url,
-          color: 13264986,
-          author: {
-            icon_url: avatarUrl,
-            name: `🔴 ${jobName}`,
-            url: jobUrl,
-          },
-        },
-      ],
-      username: "Github",
-    };
+    payload.embeds[0].author.name = `🟠 ${jobName}`;
+    payload.embeds[0].description = "Job has started";
+    payload.embeds[0].color = 13264986;
+    payload.content = "<@378293909610037252>";
+
+    return payload;
   }
 
   if (event.action === "completed" && conclusion === "success") {
-    return {
-      content: null,
-      embeds: [
-        {
-          description: "Job completed successfully",
-          url: event.workflow_job.html_url,
-          color: 6280543,
-          author: {
-            icon_url: avatarUrl,
-            name: `🟢 ${jobName}`,
-            url: jobUrl,
-          },
-        },
-      ],
-      username: "Github",
-    };
+    payload.embeds[0].author.name = `🟢 ${jobName}`;
+    payload.embeds[0].description = "Job completed successfully";
+    payload.embeds[0].color = 6280543;
+
+    return payload;
   }
 }
 
@@ -305,7 +231,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   }
 
   // a stub of shared things
-  const genericEvent = req.body as { action: string, repository: { name: string }};
+  const genericEvent = req.body as { action: string; repository: { name: string } };
 
   // debug log
   console.log(`Receiving event from github ${eventType}:${genericEvent.action}`);
@@ -333,7 +259,6 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
 
     return res.status(200).json({ status: "ok" });
   }
-
 
   // we are getting a build status
   if (eventType === "workflow_run" || eventType === "workflow_job") {
