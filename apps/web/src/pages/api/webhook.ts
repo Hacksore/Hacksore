@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import got from "got";
-import { GithubWorkflowRun } from "../../types/github/workflowRun";
+import { GithubWorkflowRun } from "../../types/github/workflow-run";
 import { GithubIssue } from "../../types/github/issue";
-import { GithubIssueComment } from "../../types/github/issueComment";
+import { GithubIssueComment } from "../../types/github/issue-comment";
 import { db } from "../../firebase";
+import { GithubWorkflowJob } from "../../types/github/workflow-job";
 
 // events to allow from github
 const ALLOWED_EVENTS = ["workflow_run", "workflow_job", "issues", "issue_comment"];
@@ -141,7 +142,7 @@ function createMessageForIssueComment(event: GithubIssueComment): any {
   }
 }
 
-function createMessageForWorkflow(event: GithubWorkflowRun): any {
+function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
   // the status if was good or bad
   const conclusion = event.workflow_run.conclusion;
   const jobName = event.workflow_run.name;
@@ -230,6 +231,72 @@ function createMessageForWorkflow(event: GithubWorkflowRun): any {
   }
 }
 
+function createMessageForWorkflowJob(event: GithubWorkflowJob): any {
+  // the status if was good or bad
+  const conclusion = event.workflow_job.conclusion;
+  const jobName = event.workflow_job.name;
+
+  const jobUrl = event.workflow_job.html_url;
+  const avatarUrl = event.sender.avatar_url;
+
+  if (event.action === "in_progress" && conclusion === null) {
+    return {
+      content: null,
+      embeds: [
+        {
+          description: "Job has started",
+          url: event.workflow_job.html_url,
+          color: 15439161,
+          author: {
+            icon_url: avatarUrl,
+            name: `🟠 ${jobName}`,
+            url: jobUrl,
+          },
+        },
+      ],
+      username: "Github",
+    };
+  }
+
+  if (event.action === "completed" && conclusion === "failure") {
+    return {
+      content: "<@378293909610037252>",
+      embeds: [
+        {
+          description: "Job has failed",
+          url: event.workflow_job.html_url,
+          color: 13264986,
+          author: {
+            icon_url: avatarUrl,
+            name: `🔴 ${jobName}`,
+            url: jobUrl,
+          },
+        },
+      ],
+      username: "Github",
+    };
+  }
+
+  if (event.action === "completed" && conclusion === "success") {
+    return {
+      content: null,
+      embeds: [
+        {
+          description: "Job completed successfully",
+          url: event.workflow_job.html_url,
+          color: 6280543,
+          author: {
+            icon_url: avatarUrl,
+            name: `🟢 ${jobName}`,
+            url: jobUrl,
+          },
+        },
+      ],
+      username: "Github",
+    };
+  }
+}
+
 export default async function handleRoute(req: NextApiRequest, res: NextApiResponse<any>) {
   const eventType: any = req.headers["x-github-event"] || "unknown";
 
@@ -255,11 +322,25 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   const url = configuredWebhooks[genericEvent.repository.name.toLowerCase()].url;
 
   // we are getting a build status
-  if (eventType === "workflow_run" || eventType === "workflow_job") {
+  if (eventType === "workflow_run") {
     const event = req.body as GithubWorkflowRun;
 
     try {
-      await sendMessageToDiscord(url, createMessageForWorkflow(event));
+      await sendMessageToDiscord(url, createMessageForWorkflowRun(event));
+    } catch (err: any) {
+      console.log(err.message);
+    }
+
+    return res.status(200).json({ status: "ok" });
+  }
+
+
+  // we are getting a build status
+  if (eventType === "workflow_run" || eventType === "workflow_job") {
+    const event = req.body as GithubWorkflowJob;
+
+    try {
+      await sendMessageToDiscord(url, createMessageForWorkflowJob(event));
     } catch (err: any) {
       console.log(err.message);
     }

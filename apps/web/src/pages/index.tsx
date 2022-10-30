@@ -6,7 +6,7 @@ import { Projects } from "../components/projects";
 import { About } from "../components/about";
 
 // setup firebase for client usage
-import "../firebaseConfig";
+import "../firebase-config";
 import { Box } from "@mui/material";
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
         data-reactions-enabled="1"
         data-emit-metadata="0"
         data-input-position="bottom"
-        data-theme="dark_tritanopia"
+        data-theme="dark"
         data-lang="en"
       />
     </main>
