@@ -262,7 +262,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   }
 
   // we are getting a build status
-  if (eventType === "workflow_run" || eventType === "workflow_job") {
+  if (eventType === "workflow_job") {
     const event = req.body as GithubWorkflowJob;
 
     try {
