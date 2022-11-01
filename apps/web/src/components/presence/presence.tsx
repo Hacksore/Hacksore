@@ -5,7 +5,7 @@ import IconTerminal from "@mui/icons-material/Terminal";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
 import { Activity } from "../../types/activities";
-import { Status } from "../../types/presence";
+import { ActivityType, Status } from "../../types/presence";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
@@ -47,7 +47,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     color: lighten(theme.palette.primary.main, 0.3),
     marginLeft: 4,
     marginRight: 4,
-    display: "flex"
+    display: "flex",
   },
 }));
 
@@ -98,7 +98,7 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
   );
 };
 
-const ACTIVITY_ORDER = ["CUSTOM", "PLAYING", "LISTENING"];
+const ACTIVITY_ORDER = [ActivityType.Custom, ActivityType.Game, ActivityType.Listening];
 
 const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
   const statusElements: Function[] = [];
@@ -108,15 +108,16 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
 
   activities.forEach((item: Activity) => {
     const { type } = item;
-    if (type === "CUSTOM") {
+
+    if (type === ActivityType.Custom) {
       statusElements.push(() => <CurrentStatus activityLength={activities.length} {...item} />);
     }
 
-    if (type === "PLAYING") {
+    if (type === ActivityType.Game) {
       statusElements.push(() => <PlayingActivity {...item} />);
     }
 
-    if (type === "LISTENING") {
+    if (type === ActivityType.Listening) {
       statusElements.push(() => <ListeningActivity {...item} />);
     }
   });

@@ -1,5 +1,7 @@
+import { ActivityType } from "./presence";
+
 export interface Activity {
-  type: string;
+  type: ActivityType;
   name: string;
   state: string;
   details: string;
