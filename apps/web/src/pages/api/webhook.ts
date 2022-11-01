@@ -232,7 +232,11 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   }
 
   // a stub of shared things
-  const genericEvent = req.body as { action: string; repository: { name: string } };
+  const genericEvent = req.body as { action: string; repository: { name: string }; sender: { login: string } };
+
+  if (genericEvent.sender.login === "dependabot[bot]") {
+    return res.status(200).json({ status: "No bot events" });
+  }
 
   // debug log
   console.log(`Receiving event from github ${eventType}:${genericEvent.action}`);

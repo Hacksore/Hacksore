@@ -161,7 +161,7 @@ jobs:
           file: apps/bot/Dockerfile
           tags: "hacksore/presence-bot:latest"
   deploy-firebase:
-    name: Deploy Firebase
+    name: Deploy Firebase Rules
     runs-on: ubuntu-latest
     needs: build-bot
     concurrency:
