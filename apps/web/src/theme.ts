@@ -4,27 +4,27 @@ declare module "@mui/material/styles" {
   /* eslint-disable-next-line no-unused-vars */
   interface Palette {
     card: {
-      bg: string,
-      border: string
-    }
+      bg: string;
+      border: string;
+    };
   }
   /* eslint-disable-next-line no-unused-vars */
   interface PaletteOptions {
     card: {
-      bg: string,
-      border: string
-    }
+      bg: string;
+      border: string;
+    };
   }
 }
 
 export const theme = createTheme({
   // TODO: wat?
   // @ts-ignore
-  shadows:["none"],
+  shadows: ["none"],
   palette: {
     card: {
       bg: "#0D1118",
-      border: "#31363E"
+      border: "#31363E",
     },
     background: {
       default: "#03060A",
@@ -34,7 +34,7 @@ export const theme = createTheme({
       main: "#206FEB",
     },
     secondary: {
-      main: "#20262D"
+      main: "#20262D",
     },
     mode: "dark",
   },
@@ -42,13 +42,14 @@ export const theme = createTheme({
     MuiTooltip: {
       styleOverrides: {
         tooltip: ({ theme }) => ({
-          borderRadius: 0,
-          background: lighten(theme.palette.background.default, 0.1)
+          borderRadius: 8,
+          background: theme.palette.card.bg,
+          border: `1px solid ${theme.palette.card.border}`,
         }),
         arrow: ({ theme }) => ({
-          color: lighten(theme.palette.background.default, 0.1)
+          color: theme.palette.card.bg,
         }),
       },
-    }
+    },
   },
 });

@@ -13,6 +13,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
   "& .tooltip": {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     width: 250,
     padding: 4,
@@ -154,7 +155,6 @@ export const Presence: React.FC<PresenceProps> = ({ activities, children, status
       <Tooltip
         disableHoverListener={disable}
         disableInteractive={disable}
-        arrow
         disableFocusListener
         placement="bottom"
         PopperProps={{

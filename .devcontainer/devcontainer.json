@@ -1,48 +1,7 @@
 {
-  "name": "Codespaces Node",
-  "image": "ghcr.io/hacksore/devcontainer:latest",
-  "extensions": [
-    "1Password.op-vscode",
-    "azemoh.one-monokai",
-    "CTC.vscode-tree-extension",
-    "dbaeumer.vscode-eslint",
-    "eamodio.gitlens",
-    "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode",
-    "GitHub.codespaces",
-    "hoovercj.vscode-power-mode",
-    "infarkt.css-to-jss",
-    "mikestead.dotenv",
-    "ms-azuretools.vscode-docker",
-    "ms-vscode-remote.remote-ssh",
-    "redhat.vscode-yaml",
-    "usernamehw.errorlens",
-    "vscode-icons-team.vscode-icons",
-    "wayou.vscode-todo-highlight",
-    "wmaurer.change-case",
-    "xabikos.JavaScriptSnippets"
-  ],
-  "forwardPorts": [3000, 4000, 9000],
-  "portsAttributes": {
-    "9000": {
-      "label": "Firebase realtime db",
-      "onAutoForward": "silent"
-    },
-    "4000": {
-      "label": "Firebase UI",
-      "onAutoForward": "silent"
-    },
-    "3000": {
-      "label": "Next",
-      "onAutoForward": "silent"
-    }
-  },
-  "settings": {
-    "terminal.integrated.profiles.linux": {
-      "zsh": {
-        "path": "/usr/bin/zsh"
-      }
-    },
-    "terminal.integrated.defaultProfile.linux": "zsh"
-  }
+	"name": "Node.js",
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:16",
+
+	// Set `remoteUser` to `root` to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "node"
 }
