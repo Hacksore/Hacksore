@@ -1,8 +1,7 @@
 import got from "got";
 import { DISCORD_API_BASE } from "../constants";
-import { CreateWebhookResult } from "../types";
 
-const { DISCORD_BOT_TOKEN } = process.env;
+const { DISCORD_TOKEN } = process.env;
 
 interface CreateChannelOptions {
   /**
@@ -44,7 +43,7 @@ export async function createDiscordChannel({ guildId, name }: CreateChannelOptio
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+      Authorization: `Bot ${DISCORD_TOKEN}`,
     },
   });
 

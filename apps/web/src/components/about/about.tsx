@@ -3,7 +3,7 @@ import { Box, lighten, Skeleton, styled, Typography } from "@mui/material";
 import { Presence } from "../../components/presence";
 import { Avatar } from "../../components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
-import { db } from "../../firebase-config";
+import { db } from "../../firebase-client";
 import { Profile } from "../../types/profile";
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";

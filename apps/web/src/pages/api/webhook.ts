@@ -3,12 +3,12 @@ import got from "got";
 import { GithubWorkflowRun } from "../../types/github/workflow-run";
 import { GithubIssue } from "../../types/github/issue";
 import { GithubIssueComment } from "../../types/github/issue-comment";
-import { db } from "../../firebase";
+import { db } from "../../firebase-server";
 import { GithubWorkflowJob } from "../../types/github/workflow-job";
-import { CONFIG_FILES } from "next/dist/shared/lib/constants";
 
 // events to allow from github
 const ALLOWED_EVENTS = ["workflow_run", "workflow_job", "issues", "issue_comment"];
+const DISCORD_ID = "378293909610037252";
 
 async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
   // replay to discord
@@ -55,7 +55,7 @@ function createMessageForIssue(event: GithubIssue): any {
   };
 
   if (event.action === "created") {
-    payload.content = "<@378293909610037252>";
+    payload.content = `<@${DISCORD_ID}>`;
     payload.embeds[0].fields[0].value = `Issue created by ${author}`;
     payload.embeds[0].color = 3764971;
 
@@ -63,7 +63,6 @@ function createMessageForIssue(event: GithubIssue): any {
   }
 
   if (event.action === "edited") {
-    payload.content = "<@378293909610037252>";
     payload.embeds[0].fields[0].value = `Issue updated by ${author}`;
     payload.embeds[0].color = 3764971;
 
@@ -71,7 +70,6 @@ function createMessageForIssue(event: GithubIssue): any {
   }
 
   if (event.action === "closed") {
-    payload.content = "<@378293909610037252>";
     payload.embeds[0].fields[0].value = `Issue closed by ${author}`;
     payload.embeds[0].color = 3764971;
 
@@ -91,7 +89,7 @@ function createMessageForIssueComment(event: GithubIssueComment): any {
 
   if (event.action === "created") {
     return {
-      content: "<@378293909610037252>",
+      content: `<@${DISCORD_ID}>`,
       embeds: [
         {
           description: description.substring(0, 100),
@@ -159,9 +157,9 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
   }
 
   if (event.action === "completed" && conclusion === "failure") {
+    payload.content = `<@${DISCORD_ID}>`;
     payload.embeds[0].author.name = `🔴 ${jobName}`;
     payload.embeds[0].description = "Run has failed";
-    payload.content = "<@378293909610037252>";
     payload.embeds[0].color = 13264986;
     return payload;
   }
@@ -170,7 +168,14 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
     payload.embeds[0].author.name = `🟢 ${jobName}`;
     payload.embeds[0].description = "Run completed successfully";
     payload.embeds[0].color = 6280543;
-    return CONFIG_FILES;
+    return payload;
+  }
+
+  if (event.action === "completed" && conclusion === "cancelled") {
+    payload.embeds[0].author.name = `⚪ ${jobName}`;
+    payload.embeds[0].description = "Run was cancelled";
+    payload.embeds[0].color = 6280543;
+    return payload;
   }
 }
 
@@ -225,15 +230,16 @@ function createMessageForWorkflowJob(event: GithubWorkflowJob): any {
 }
 
 export default async function handleRoute(req: NextApiRequest, res: NextApiResponse<any>) {
-  const eventType: any = req.headers["x-github-event"] || "unknown";
-
-  if (!ALLOWED_EVENTS.includes(eventType)) {
-    return res.status(420).json({ status: "event not registered" });
-  }
+  const eventType = req.headers["x-github-event"] as string || "unknown";
 
   // a stub of shared things
   const genericEvent = req.body as { action: string; repository: { name: string }; sender: { login: string } };
 
+  if (!ALLOWED_EVENTS.includes(eventType)) {
+    return res.status(420).json({ status: `event not registered - ${eventType}:${genericEvent.action}` });
+  }
+
+  // don't allow bots they are spammy
   if (genericEvent.sender.login === "dependabot[bot]") {
     return res.status(200).json({ status: "No bot events" });
   }
@@ -247,6 +253,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   // the doc from the database
   const configuredWebhooks: { [key: string]: { url: string } } = webhookRefDoc.val();
 
+  // pull out the webhook url from the db
   const url = configuredWebhooks[genericEvent.repository.name.toLowerCase()].url;
 
   try {
@@ -264,6 +271,6 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     return res.status(200).json({ status: "ok" });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ status: "error handling webhook" });
+    return res.status(500).json({ status: `error handling webhook for ${eventType}:${genericEvent.action}` });
   }
 }

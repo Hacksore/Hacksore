@@ -6,7 +6,7 @@ import { Projects } from "../components/projects";
 import { About } from "../components/about";
 
 // setup firebase for client usage
-import "../firebase-config";
+import "../firebase-client";
 import { Box } from "@mui/material";
 
 function App() {

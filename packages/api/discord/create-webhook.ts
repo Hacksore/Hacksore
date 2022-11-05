@@ -1,7 +1,7 @@
 import got from "got";
 import { DISCORD_API_BASE } from "../constants";
 
-const { DISCORD_BOT_TOKEN } = process.env;
+const { DISCORD_TOKEN } = process.env;
 
 interface CreateWebHookOption {
   /**
@@ -36,7 +36,7 @@ export async function createDiscordWebhook({ channelId }: CreateWebHookOption): 
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+      Authorization: `Bot ${DISCORD_TOKEN}`,
     },
   });
 

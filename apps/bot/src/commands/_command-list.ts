@@ -1,4 +1,4 @@
 import { CommandInt } from "../types.js";
-import ping from "./ping.js";
+import webhooks from "./webhooks.js";
 
-export const CommandList: CommandInt[] = [ping];
+export const CommandList: CommandInt[] = [webhooks];

@@ -13,8 +13,6 @@ if (!DISCORD_TOKEN) {
   throw new Error("You must set a DISCORD_TOKEN");
 }
 
-console.log("DISCORD TOKEN", DISCORD_TOKEN);
-
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,

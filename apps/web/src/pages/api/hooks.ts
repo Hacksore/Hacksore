@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
-import { db } from "../../firebase";
+import { db } from "../../firebase-server";
 import { githubRepoExists, createGithubWebhook } from "api/github";
 import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "api/discord";
 import got from "got";
@@ -45,6 +45,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     */
 
     // create channel
+    console.log("Checking if repo exists")
     const repoExists = await githubRepoExists({
       owner: "hacksore",
       repo: name,
@@ -55,6 +56,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     }
 
     // create channel
+    console.log("Checking if discord channel exists")
     const channelExists = await discordChannelExists({
       guildId,
       name,
@@ -65,6 +67,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     }
 
     // create channel
+    console.log("Creating discord channel")
     const discordCreateChannelResult = await createDiscordChannel({
       guildId,
       name,
@@ -78,6 +81,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     // get the channel id
     const discordChannelId = discordCreateChannelResult.channelId;
 
+    console.log("Creating github webhook");
     const createGithubWebhookResult = await createGithubWebhook({
       owner: "Hacksore",
       repo: name,
@@ -89,7 +93,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
       return res.status(500).json({ error: "Could not create github webhook" });
     }
 
-    console.log("Creating a webhook for the new channel", discordChannelId);
+    console.log("Creating discord webhook for the new channel", discordChannelId);
     const createDiscordWebhookResult = await createDiscordWebhook({
       channelId: discordChannelId,
     });
@@ -99,15 +103,14 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     }
 
     // create ref in database
-    const webhookRefDoc = await db.ref("webhooks").get();
-    const currentWebhooks = webhookRefDoc.val();
+    // const webhookRefDoc = await db.ref("webhooks").get();
+    // const currentWebhooks = webhookRefDoc.val();
 
-    if (currentWebhooks[name] === undefined) {
-      db.ref("webhooks").child(name.toLowerCase()).set({
-        url: createDiscordWebhookResult.url,
-      });
-    }
+    db.ref("webhooks").child(name.toLowerCase()).set({
+      url: createDiscordWebhookResult.url,
+    });
 
+    console.log("sending message that it was registered");
     await got(createDiscordWebhookResult.url, {
       method: "POST",
       body: JSON.stringify({

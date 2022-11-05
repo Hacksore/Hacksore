@@ -1,7 +1,7 @@
 import got from "got";
 import { DISCORD_API_BASE } from "../constants";
 
-const { DISCORD_BOT_TOKEN } = process.env;
+const { DISCORD_TOKEN } = process.env;
 
 interface CreateChannelOptions {
   /**
@@ -24,7 +24,7 @@ export async function discordChannelExists({ guildId, name }: CreateChannelOptio
     method: "GET",
     throwHttpErrors: false,
     headers: {
-      Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+      Authorization: `Bot ${DISCORD_TOKEN}`,
     },
   });
 

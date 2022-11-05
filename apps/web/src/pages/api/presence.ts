@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { get, child, ref } from "firebase/database";
-import { db } from "../../firebase-config";
+import { db } from "../../firebase-client";
 
 /* i did some debug and found this in the logs:
 [GET] /api/presence

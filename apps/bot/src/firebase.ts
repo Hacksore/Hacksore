@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 
-const { FIREBASE_SA_BASE64 = "{}" } = process.env;
+const { FIREBASE_SA_BASE64 = "" } = process.env;
 const serviceAccountStringData = Buffer.from(FIREBASE_SA_BASE64, "base64").toString("utf8");
 const serviceAccount = JSON.parse(serviceAccountStringData);
 
