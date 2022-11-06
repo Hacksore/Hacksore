@@ -4,7 +4,7 @@ import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
-  margin: "20px 0 50px 0",
+  margin: "20px 0 28px 0",
   "& .link": {
     background: theme.palette.secondary.main,
     color: "#fff",
