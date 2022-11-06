@@ -156,6 +156,7 @@ export const Presence: React.FC<PresenceProps> = ({ activities, children, status
         disableHoverListener={disable}
         disableInteractive={disable}
         disableFocusListener
+        arrow
         placement="bottom"
         PopperProps={{
           disablePortal: true,

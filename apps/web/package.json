@@ -2,7 +2,6 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
-
   "scripts": {
     "start": "next dev",
     "serve": "next start",
@@ -21,16 +20,17 @@
     "next": "^12.3.1",
     "next-auth": "^4.15.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.6.0"
   },
   "devDependencies": {
-    "tsconfig": "*",
-    "eslint-config-custom": "*",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "eslint": "^8.26.0",
+    "eslint-config-custom": "*",
     "eslint-config-next": "^12.3.1",
     "next-transpile-modules": "^9.1.0",
+    "tsconfig": "*",
     "typescript": "^4.8.4"
   }
 }

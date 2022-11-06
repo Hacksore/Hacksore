@@ -48,6 +48,9 @@ export const theme = createTheme({
         }),
         arrow: ({ theme }) => ({
           color: theme.palette.card.bg,
+          "&::before": {
+            border: `1px solid ${theme.palette.card.border}`,
+          },
         }),
       },
     },
