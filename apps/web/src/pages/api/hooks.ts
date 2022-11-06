@@ -7,6 +7,8 @@ import { githubRepoExists, createGithubWebhook } from "api/github";
 import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "api/discord";
 import got from "got";
 
+const WEBHOOK_DOMAIN = process.env.NODE_ENV === "production" ? "boult.me" : "local.boult.me"
+
 export default async function handleRoute(req: NextApiRequest, res: NextApiResponse<any>) {
   const session = await unstable_getServerSession(req, res, authOptions);
   if (session?.user?.id !== "996134") {
@@ -86,7 +88,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
       owner: "Hacksore",
       repo: name,
       // TODO: allow local somehow for testing
-      url: "https://boult.me/api/webhook",
+      url: `https://${WEBHOOK_DOMAIN}/api/webhook`,
     });
 
     if (!createGithubWebhookResult.success) {

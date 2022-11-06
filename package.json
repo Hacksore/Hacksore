@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "start:web": "concurrently npm:dev npm:emulator",
-    "start": "concurrently npm:dev:all npm:emulator",
+    "start": "concurrently npm:dev:all npm:emulator npm:tunnel",
+    "tunnel": "cloudflared tunnel --url http://localhost:3000 run webhooks",
     "emulator": "firebase emulators:start --import private-seed",
     "dev": "turbo run start --filter=web",
     "dev:all": "turbo run start",

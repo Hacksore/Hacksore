@@ -1,4 +1,4 @@
 import { CommandInt } from "../types.js";
-import webhooks from "./webhooks.js";
+import subs from "./subs.js";
 
-export const CommandList: CommandInt[] = [webhooks];
+export const CommandList: CommandInt[] = [subs];

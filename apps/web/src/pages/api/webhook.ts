@@ -5,6 +5,7 @@ import { GithubIssue } from "../../types/github/issue";
 import { GithubIssueComment } from "../../types/github/issue-comment";
 import { db } from "../../firebase-server";
 import { GithubWorkflowJob } from "../../types/github/workflow-job";
+import { Colors } from "api/constants";
 
 // events to allow from github
 const ALLOWED_EVENTS = ["workflow_run", "workflow_job", "issues", "issue_comment"];
@@ -28,7 +29,6 @@ function createMessageForIssue(event: GithubIssue): any {
 
   const repoName = event.repository.full_name;
   const avatarUrl = event.sender.avatar_url;
-
   const author = event.sender.login;
 
   const payload = {
@@ -57,21 +57,21 @@ function createMessageForIssue(event: GithubIssue): any {
   if (event.action === "created") {
     payload.content = `<@${DISCORD_ID}>`;
     payload.embeds[0].fields[0].value = `Issue created by ${author}`;
-    payload.embeds[0].color = 3764971;
+    payload.embeds[0].color = Colors.Green;
 
     return payload;
   }
 
   if (event.action === "edited") {
     payload.embeds[0].fields[0].value = `Issue updated by ${author}`;
-    payload.embeds[0].color = 3764971;
+    payload.embeds[0].color = Colors.Green;
 
     return payload;
   }
 
   if (event.action === "closed") {
     payload.embeds[0].fields[0].value = `Issue closed by ${author}`;
-    payload.embeds[0].color = 3764971;
+    payload.embeds[0].color = Colors.Blue;
 
     return payload;
   }
@@ -152,7 +152,7 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
   if (event.action === "requested" && conclusion === null) {
     payload.embeds[0].author.name = `🟠 ${jobName}`;
     payload.embeds[0].description = "Run was started";
-    payload.embeds[0].color = 15439161;
+    payload.embeds[0].color = Colors.Orange;
     return payload;
   }
 
@@ -160,21 +160,21 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
     payload.content = `<@${DISCORD_ID}>`;
     payload.embeds[0].author.name = `🔴 ${jobName}`;
     payload.embeds[0].description = "Run has failed";
-    payload.embeds[0].color = 13264986;
+    payload.embeds[0].color = Colors.Red;
     return payload;
   }
 
   if (event.action === "completed" && conclusion === "success") {
     payload.embeds[0].author.name = `🟢 ${jobName}`;
     payload.embeds[0].description = "Run completed successfully";
-    payload.embeds[0].color = 6280543;
+    payload.embeds[0].color = Colors.Green;
     return payload;
   }
 
   if (event.action === "completed" && conclusion === "cancelled") {
     payload.embeds[0].author.name = `⚪ ${jobName}`;
     payload.embeds[0].description = "Run was cancelled";
-    payload.embeds[0].color = 6280543;
+    payload.embeds[0].color = Colors.Gray;
     return payload;
   }
 }
@@ -207,14 +207,14 @@ function createMessageForWorkflowJob(event: GithubWorkflowJob): any {
   if (event.action === "in_progress" && conclusion === null) {
     payload.embeds[0].author.name = `🟠 ${jobName}`;
     payload.embeds[0].description = "Job was started";
-    payload.embeds[0].color = 15439161;
+    payload.embeds[0].color = Colors.Orange;
     return payload;
   }
 
   if (event.action === "completed" && conclusion === "failure") {
     payload.embeds[0].author.name = `🔴 ${jobName}`;
     payload.embeds[0].description = "Job has failed";
-    payload.embeds[0].color = 13264986;
+    payload.embeds[0].color = Colors.Red;
     payload.content = "<@378293909610037252>";
 
     return payload;
@@ -223,14 +223,14 @@ function createMessageForWorkflowJob(event: GithubWorkflowJob): any {
   if (event.action === "completed" && conclusion === "success") {
     payload.embeds[0].author.name = `🟢 ${jobName}`;
     payload.embeds[0].description = "Job completed successfully";
-    payload.embeds[0].color = 6280543;
+    payload.embeds[0].color = Colors.Green;
 
     return payload;
   }
 }
 
 export default async function handleRoute(req: NextApiRequest, res: NextApiResponse<any>) {
-  const eventType = req.headers["x-github-event"] as string || "unknown";
+  const eventType = (req.headers["x-github-event"] as string) || "unknown";
 
   // a stub of shared things
   const genericEvent = req.body as { action: string; repository: { name: string }; sender: { login: string } };
@@ -252,9 +252,14 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
 
   // the doc from the database
   const configuredWebhooks: { [key: string]: { url: string } } = webhookRefDoc.val();
+  const repo = genericEvent.repository.name.toLowerCase();
+
+  if (configuredWebhooks[repo] === undefined) {
+    return res.status(200).json({ status: "this repo is not registered for webhooks" });
+  }
 
   // pull out the webhook url from the db
-  const url = configuredWebhooks[genericEvent.repository.name.toLowerCase()].url;
+  const url = configuredWebhooks[repo].url;
 
   try {
     // we are getting a build status
@@ -269,8 +274,8 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     }
 
     return res.status(200).json({ status: "ok" });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    console.log(err.message);
     return res.status(500).json({ status: `error handling webhook for ${eventType}:${genericEvent.action}` });
   }
 }
