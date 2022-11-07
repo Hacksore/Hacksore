@@ -153,7 +153,7 @@ const PROJECTS: ProjectInfo[] = [
     name: "buildtray",
     desc: "Build notifications for Github",
     websiteUrl: "https://buildtray.com",
-    tech: ["nodejs", "firebase", "typescript"],
+    tech: ["nodejs", "firebase", "react", "typescript"],
   },
 ];
 

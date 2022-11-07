@@ -2,6 +2,7 @@ import { darken, styled } from "@mui/material";
 import { Html, Head, Main, NextScript } from "next/document";
 
 const StyledBody = styled("body")(({ theme }) => ({
+  colorScheme: "dark",
   "&::-webkit-scrollbar": {
     width: 8,
   },

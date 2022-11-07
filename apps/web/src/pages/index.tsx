@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Script from "next/script";
 
 import { Social } from "../components/social";
@@ -9,52 +9,14 @@ import { About } from "../components/about";
 import "../firebase-client";
 import { Box, Button, styled } from "@mui/material";
 
-const StyledMain = styled("main")(({ theme }) => ({
-  "@keyframes rotate": {
-    "100%": {
-      transform: "rotate(1turn);",
-    },
-  },
+const StyledMain = styled("main")(() => ({
   "& .giscus": {
-    position: "relative",
-    zIndex: 0,
-    borderRadius: 10,
-    overflow: "hidden",
     padding: 12,
-  },
-  "& .animated": {
-    "&::after": {
-      content: "''",
-      position: "absolute",
-      zIndex: "-1",
-      left: 3,
-      top: 3,
-      width: "calc(100% - 6px)",
-      height: "calc(100% - 6px)",
-      background: theme.palette.background.default,
-      borderRadius: 8,
-    },
-    "&::before": {
-      content: "''",
-      position: "absolute",
-      zIndex: "-2",
-      left: "-50%",
-      top: "-50%",
-      width: "200%",
-      height: "200%",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "50% 50%, 50% 50%",
-      backgroundPosition: "0 0, 100% 0, 100% 100%, 0 100%",
-      backgroundImage:
-        "linear-gradient(#399953, #399953), linear-gradient(#fbb300, #fbb300), linear-gradient(#d53e33, #d53e33), linear-gradient(#377af5, #377af5)",
-      animation: "rotate .9s linear infinite",
-    },
   },
 }));
 
 function App() {
-  const [animated, setAnimated] = useState(false);
-  const gicusRef = useRef();
+  const giscusRef = useRef<HTMLDivElement>();
   return (
     <StyledMain>
       <section style={{ display: "flex", justifyContent: "center" }}>
@@ -68,12 +30,8 @@ function App() {
         <Button
           sx={{ mb: 4 }}
           onClick={() => {
-            const element: any = gicusRef.current;
-            if (!element) return;
-            element.scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
-            setAnimated(true);
-            // remove it after a few
-            setTimeout(() => setAnimated(false), 2000);
+            if (!giscusRef.current) return;
+            giscusRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
           }}
           size="large"
           variant="contained"
@@ -86,9 +44,9 @@ function App() {
       <section>
         <Projects />
       </section>
-      
+
       <section>
-        <Box ref={gicusRef} sx={{ mt: 4, mb: 8 }} id="giscus-container" className={`giscus ${animated ? "animated" : null}`} />
+        <Box ref={giscusRef} sx={{ mt: 4, mb: 8 }} className="giscus" />
       </section>
 
       <Script
