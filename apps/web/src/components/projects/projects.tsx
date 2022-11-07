@@ -28,6 +28,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
   "& .root": {
     marginTop: 20,
   },
+  "& .desc": {
+    marginTop: 4,
+  },
   "& .header": {
     fontWeight: "bold",
     color: "#fff",
@@ -68,7 +71,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
     right: 0,
     width: "100%",
     display: "flex",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
+    alignItems: "center",
     padding: "0 10px 10px 0",
   },
   "& .icon": {
@@ -188,10 +192,9 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
       <div className="content">
         <div className="desc">{project.desc}</div>
 
-        <Box sx={{ mt: 1, mb: 1 }}>{project?.tech && renderIconsFromLanguage(project.tech)}</Box>
-
         <div className="bottom">
-          <>
+          <Box sx={{ diplay: "flex", flex: 3, ml: 2 }}>{project?.tech && renderIconsFromLanguage(project.tech)}</Box>
+          <Box sx={{ display: "flex", flex: 1, justifyContent: "right" }}>
             {project.repoUrl && (
               <Button
                 color="secondary"
@@ -217,7 +220,7 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
                 Website
               </Button>
             )}
-          </>
+          </Box>
         </div>
       </div>
     </div>

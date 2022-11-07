@@ -1,15 +1,34 @@
 {
   "userdata": {
     "activities": [
-      { "name": "Custom Status", "state": "aeg", "type": "CUSTOM" },
       {
-        "details": "Editing package.json",
+        "name": "Custom Status",
+        "state": "🔥",
+        "type": 4
+      },
+      {
+        "details": "Howling Abyss (ARAM)",
+        "name": "League of Legends",
+        "state": "In Lobby",
+        "type": 0
+      },
+      {
+        "details": "Editing biofun.json",
         "name": "Visual Studio Code",
         "state": "Workspace: Hacksore",
-        "type": "PLAYING"
+        "type": 0
+      },
+      {
+        "details": "Vigilante Shit",
+        "name": "Spotify",
+        "state": "Taylor Swift",
+        "type": 2
       }
     ],
     "avatarHash": "b14d10a31863288c1ad744e393a1937a",
+    "clientStatus": {
+      "desktop": "online"
+    },
     "status": "online",
     "userId": "378293909610037252"
   }

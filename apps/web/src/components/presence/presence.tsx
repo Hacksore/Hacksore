@@ -93,8 +93,8 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
         </div>
         <Typography className="name">{name}</Typography>
       </div>
-      <Typography className="body">{state}</Typography>
       <Typography className="body">{details}</Typography>
+      <Typography className="body">{state}</Typography>
     </div>
   );
 };
