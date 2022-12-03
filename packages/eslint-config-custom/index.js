@@ -1,4 +1,9 @@
 module.exports = {
+  parser: "@typescript-eslint/parser",
   extends: ["prettier"],
-  rules: {},
+  plugins: ["deprecation"],
+  rules: {
+    // TODO: get this working
+    "deprecation/deprecation": "error", // or "error" to have stricter rule
+  },
 };
