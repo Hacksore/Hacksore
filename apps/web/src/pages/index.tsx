@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Social } from "../components/social";
 import { Projects } from "../components/projects";
 import { About } from "../components/about";
+import { Analytics } from "@vercel/analytics/react";
 
 // setup firebase for client usage
 import "../firebase-client";
@@ -31,7 +32,7 @@ function App() {
           sx={{ mb: 4 }}
           onClick={() => {
             if (!giscusRef.current) return;
-            giscusRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+            giscusRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           }}
           size="large"
           variant="contained"
@@ -63,6 +64,8 @@ function App() {
         data-theme="dark"
         data-lang="en"
       />
+
+      <Analytics />
     </StyledMain>
   );
 }

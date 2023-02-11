@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
+    "@vercel/analytics": "^0.1.8",
     "firebase": "^9.9.4",
     "firebase-admin": "^11.2.0",
     "got": "^12.5.2",
