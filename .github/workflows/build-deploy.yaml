@@ -204,7 +204,7 @@ jobs:
         with:
           host: ${{ secrets.BOT_HOST_IP }}
           username: ${{ secrets.BOT_HOST_USERNAME }}
-          password: ${{ secrets.BOT_HOST_PASSWORD}}
+          key: ${{ secrets.BOT_HOST_PRIVATE_KEY}}
           port: 22
           script: |
             # pull the latest image
