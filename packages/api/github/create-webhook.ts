@@ -51,7 +51,6 @@ export async function createGithubWebhook({ repo, owner, url }: CreateWebHookOpt
 
   try {
     const json = JSON.parse(response.body);
-    console.log(json)
     return {
       success: false,
       error: json.message,

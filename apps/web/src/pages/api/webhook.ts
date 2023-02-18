@@ -8,7 +8,7 @@ import { GithubWorkflowJob } from "../../types/github/workflow-job";
 import { Colors } from "api/constants";
 
 // events to allow from github
-const ALLOWED_EVENTS = ["workflow_run", "workflow_job", "issues", "issue_comment"];
+const ALLOWED_EVENTS = ["ping", "workflow_run", "workflow_job", "issues", "issue_comment"];
 const DISCORD_ID = "378293909610037252";
 
 async function sendMessageToDiscord(url: string, payload: any): Promise<any> {

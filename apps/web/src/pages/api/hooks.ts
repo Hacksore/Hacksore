@@ -7,7 +7,7 @@ import { githubRepoExists, createGithubWebhook } from "api/github";
 import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "api/discord";
 import got from "got";
 
-const WEBHOOK_DOMAIN = process.env.NODE_ENV === "production" ? "boult.me" : "local.boult.me"
+const WEBHOOK_DOMAIN = "boult.me";
 
 export default async function handleRoute(req: NextApiRequest, res: NextApiResponse<any>) {
   const session = await unstable_getServerSession(req, res, authOptions);
@@ -28,7 +28,6 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
   }
 
   if (req.method === "POST") {
-    console.log(req.body);
     const { name } = req.body;
 
     // hard code for now
@@ -76,7 +75,6 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     });
 
     if (!discordCreateChannelResult.success) {
-      console.log(discordCreateChannelResult.error);
       return res.status(500).json({ error: "Something went wrong creating the discord channel" });
     }
 

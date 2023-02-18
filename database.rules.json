@@ -9,18 +9,6 @@
     "webhooks": {
       ".read": false,
       ".write": false
-    },
-    "config": {
-      ".read": false,
-      ".write": false
-    },
-    "verfied": {
-      ".read": false,
-      ".write": false
-    },
-    "admins": {
-      ".read": false,
-      ".write": false
-    }  
+    }
   }
 }
