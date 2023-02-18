@@ -1,10 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import got from "got";
-import { GithubWorkflowRun } from "../../types/github/workflow-run";
-import { GithubIssue } from "../../types/github/issue";
-import { GithubIssueComment } from "../../types/github/issue-comment";
+import { IssueCommentCreatedEvent, IssuesEvent, WorkflowRunEvent, WorkflowJobEvent } from "@octokit/webhooks-types";
+
 import { db } from "../../firebase-server";
-import { GithubWorkflowJob } from "../../types/github/workflow-job";
 import { Colors } from "api/constants";
 
 // events to allow from github
@@ -12,7 +10,7 @@ const ALLOWED_EVENTS = ["ping", "workflow_run", "workflow_job", "issues", "issue
 const DISCORD_ID = "378293909610037252";
 
 async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
-  // replay to discord
+  // send the mssage to discord
   await got(url, {
     method: "POST",
     body: JSON.stringify(payload),
@@ -22,7 +20,7 @@ async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
   }).json();
 }
 
-function createMessageForIssue(event: GithubIssue): any {
+function createMessageForIssue(event: IssuesEvent): any {
   const description = event.issue.body;
   const issueUrl = event.issue.html_url;
   const issueTitle = event.issue.title;
@@ -35,7 +33,7 @@ function createMessageForIssue(event: GithubIssue): any {
     content: "",
     embeds: [
       {
-        description: description.substring(0, 100),
+        description: description?.substring(0, 100),
         url: issueUrl,
         color: 3764971,
         fields: [
@@ -54,7 +52,7 @@ function createMessageForIssue(event: GithubIssue): any {
     username: "Github",
   };
 
-  if (event.action === "created") {
+  if (event.action === "opened") {
     payload.content = `<@${DISCORD_ID}>`;
     payload.embeds[0].fields[0].value = `Issue created by ${author}`;
     payload.embeds[0].color = Colors.Green;
@@ -77,7 +75,7 @@ function createMessageForIssue(event: GithubIssue): any {
   }
 }
 
-function createMessageForIssueComment(event: GithubIssueComment): any {
+function createMessageForIssueComment(event: IssueCommentCreatedEvent): any {
   const description = event.comment.body;
   const issueUrl = event.issue.html_url;
   const issueTitle = event.issue.title;
@@ -113,7 +111,7 @@ function createMessageForIssueComment(event: GithubIssueComment): any {
   }
 }
 
-function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
+function createMessageForWorkflowRun(event: WorkflowRunEvent): any {
   // the status if was good or bad
   const conclusion = event.workflow_run.conclusion;
   const jobName = event.workflow_run.name;
@@ -179,7 +177,7 @@ function createMessageForWorkflowRun(event: GithubWorkflowRun): any {
   }
 }
 
-function createMessageForWorkflowJob(event: GithubWorkflowJob): any {
+function createMessageForWorkflowJob(event: WorkflowJobEvent): any {
   // the status if was good or bad
   const conclusion = event.workflow_job.conclusion;
   const jobName = event.workflow_job.name;

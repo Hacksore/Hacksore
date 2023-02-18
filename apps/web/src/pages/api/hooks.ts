@@ -102,10 +102,6 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
       return res.status(500).json({ error: "Could not create discord webhook" });
     }
 
-    // create ref in database
-    // const webhookRefDoc = await db.ref("webhooks").get();
-    // const currentWebhooks = webhookRefDoc.val();
-
     db.ref("webhooks").child(name.toLowerCase()).set({
       url: createDiscordWebhookResult.url,
     });
