@@ -1,10 +1,21 @@
 import { Box, Button, Grid, styled, Typography } from "@mui/material";
-import { IProjectInfo, ProjectStatus } from "../../types/project";
 import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 
+import { IProjectInfo, ProjectStatus } from "../../types/project";
+
+// I hate this btw 😅
+const TypescriptIcon = ({ style, className }: { style: any; className: string }) => {
+  return (
+    <div style={{ display: "inline-block", position: "relative" }}>
+      <SiTypescript className={className} style={{ ...style, zIndex: 10, position: "relative" }} />
+      <div style={{ position: "absolute", top: 2, left: 2, width: 20, height: 20, background: "#ffffff", zIndex: 1 }} />
+    </div>
+  );
+};
+
 const lanagueToIcons: Record<string, { icon: any; color: string }> = {
-  typescript: { icon: SiTypescript, color: "#3178C6" },
+  typescript: { icon: TypescriptIcon, color: "#3178C6" },
   nodejs: { icon: SiNodedotjs, color: "#5FA04E" },
   nextjs: { icon: TbBrandNextjs, color: "#fff" },
   electron: { icon: SiElectron, color: "#8CEAF9" },
@@ -56,7 +67,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     margin: "0 12px 0 12px",
     border: `1px solid ${theme.palette.card.border}`,
     background: theme.palette.card.bg,
-    borderRadius: 10,
+    borderRadius: ".375rem",
     padding: 8,
     position: "relative",
   },
@@ -164,7 +175,11 @@ const PROJECTS: ProjectInfo[] = [
 const renderIconsFromLanguage = (langs: string[]) =>
   langs.map((lang: string) => {
     const Element = lanagueToIcons[lang].icon;
-    return <Element className="tech-icon" style={{ color: lanagueToIcons[lang].color }} key={lang} />;
+    return (
+      <span key={lang}>
+        <Element className="tech-icon" style={{ color: lanagueToIcons[lang].color }} />
+      </span>
+    );
   });
 
 const STATUS_COLOR = {
@@ -174,7 +189,9 @@ const STATUS_COLOR = {
 
 const StatusBadge = ({ status }: { status: ProjectStatus }) => {
   const color = STATUS_COLOR[status];
-  return <Box sx={{ fontSize: 12, padding: "2px 12px 2px 12px", background: color, borderRadius: 8 }}>{status}</Box>;
+  return (
+    <Box sx={{ fontSize: 12, padding: "2px 12px 2px 12px", background: color, borderRadius: ".375rem" }}>{status}</Box>
+  );
 };
 
 const ProjectCard = ({ project }: { project: ProjectInfo }) => {

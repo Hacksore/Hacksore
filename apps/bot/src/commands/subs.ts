@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, CommandInteraction } from "discord.js";
+import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
 import { db } from "../firebase.js";
 import { CommandInt } from "../types.js";
 
@@ -32,10 +32,25 @@ const commandData = new SlashCommandBuilder()
 const command: CommandInt = {
   data: commandData,
   execute: async (interaction: CommandInteraction) => {
+    // I guess how you get the sub command
+    const { name: method = "list" } = interaction.options.data[0];
 
-    const repos = await getAllRepos();
+    console.log(method);
+    if (method === "add") {
+      interaction.reply("You want to add a repo, cool");
+    }
 
-    interaction.reply(repos.join("\n"));
+    if (method === "list") {
+      const repos = await getAllRepos();
+      const exampleEmbed = new EmbedBuilder()
+        .setColor(0x0099ff)
+        .setTitle("Repos")
+        .setURL("https://discord.js.org/")
+        .addFields(
+          repos.map(item => ({ name: item, value: item })),
+        )
+      interaction.reply({ embeds: [exampleEmbed] });
+    }
   },
 };
 

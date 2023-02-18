@@ -42,7 +42,7 @@ export const theme = createTheme({
     MuiTooltip: {
       styleOverrides: {
         tooltip: ({ theme }) => ({
-          borderRadius: 8,
+          borderRadius: ".375rem",
           background: theme.palette.card.bg,
           border: `1px solid ${theme.palette.card.border}`,
         }),
