@@ -9,33 +9,33 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@babel/core": "^7.19.6",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/icons-material": "^5.10.9",
-    "@mui/material": "^5.10.10",
-    "@vercel/analytics": "^0.1.8",
+    "@babel/core": "^7.20.12",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
+    "@vercel/analytics": "^0.1.10",
     "clsx": "^1.2.1",
-    "firebase": "^9.9.4",
-    "firebase-admin": "^11.2.0",
-    "got": "^12.5.2",
-    "nanoid": "^4.0.0",
-    "next": "^12.3.1",
-    "next-auth": "^4.15.0",
+    "firebase": "^9.17.1",
+    "firebase-admin": "^11.5.0",
+    "got": "^12.5.3",
+    "nanoid": "^4.0.1",
+    "next": "^13.1.6",
+    "next-auth": "^4.19.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.40.0",
-    "react-icons": "^4.6.0"
+    "react-hook-form": "^7.43.1",
+    "react-icons": "^4.7.1"
   },
   "devDependencies": {
     "@octokit/webhooks-types": "^6.10.0",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
-    "eslint": "^8.26.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "eslint": "^8.34.0",
     "eslint-config-custom": "*",
-    "eslint-config-next": "^12.3.1",
-    "next-transpile-modules": "^9.1.0",
+    "eslint-config-next": "^13.1.6",
+    "next-transpile-modules": "^10.0.0",
     "tsconfig": "*",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.5"
   }
 }
