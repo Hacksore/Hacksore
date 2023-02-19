@@ -130,9 +130,9 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
           Ping me <PingLink /> on <IconTwitter sx={{ ml: 1 }} />
         </Typography>
       ) : (
-        statusElements.map((item, idx) => (
+        statusElements.map((Component, idx) => (
           <div className="activity" key={`activity-${idx}`}>
-            {item()}
+            <Component />
           </div>
         ))
       )}
