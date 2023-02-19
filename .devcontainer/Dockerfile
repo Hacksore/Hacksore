@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/javascript-node:18
+FROM mcr.microsoft.com/devcontainers/javascript-node:16-bullseye
 
 RUN apt update -y && apt install default-jre -y
 

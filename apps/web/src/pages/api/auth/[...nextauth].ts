@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 // import FacebookProvider from "next-auth/providers/facebook";
 // import GoogleProvider from "next-auth/providers/google";
@@ -12,7 +12,7 @@ const {
   // GOOGLE_CLIENT_SECRET = "",
 } = process.env;
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     GithubProvider({
@@ -29,17 +29,11 @@ export const authOptions = {
     // }),
   ],
   callbacks: {
-    async session({ session, token }: any) {
-      const sessionData = {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub,
-        },
-        expires: session.expires,
-      };
+    async session({ session, token }) {
+      session.user.id = token.sub;
+      session.user.testing = "ok";
 
-      return sessionData;
+      return session;
     },
   },
 };

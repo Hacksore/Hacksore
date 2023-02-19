@@ -1,25 +1,28 @@
 import admin from "firebase-admin";
 
-const { FIREBASE_SA_BASE64 = "" } = process.env;
+const { FIREBASE_SA_BASE64 } = process.env;
+console.log(process.env);
+
+if (!FIREBASE_SA_BASE64) {
+  throw new Error("You must provide a FIREBASE_SA_BASE64 variable");
+}
 
 const serviceAccountBuffer = Buffer.from(FIREBASE_SA_BASE64, "base64");
 const serviceAccountStringData = serviceAccountBuffer.toString("utf8");
-const serviceAccount = JSON.parse(serviceAccountStringData);
+const serviceAccount: admin.ServiceAccount = JSON.parse(serviceAccountStringData);
 
-try {
-  admin.initializeApp({
-    // @ts-ignore
-    credential: admin.credential.cert(serviceAccount),
-    // TODO: constant?
-    databaseURL: "https://biofun.firebaseio.com",
-  });
-} catch (error: any) {
-  /*
-   * We skip the "already exists" message which is
-   * not an actual error when we're hot-reloading.
-   */
-  if (!/already exists/u.test(error.message)) {
-    console.error("Firebase admin initialization error", error.stack);
+if (!admin.apps.length) {
+  try {
+    console.log("firebase server initializeApp...");
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      // TODO: constant?
+      databaseURL: "https://biofun.firebaseio.com",
+    });
+
+    console.log("initialized firebase server app!");
+  } catch (error: any) { 
+    console.log(error);
   }
 }
 

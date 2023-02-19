@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
 import { db } from "../../firebase-server";
 import { githubRepoExists, createGithubWebhook } from "api/github";
@@ -10,7 +10,13 @@ import got from "got";
 const WEBHOOK_DOMAIN = "boult.me";
 
 export default async function handleRoute(req: NextApiRequest, res: NextApiResponse<any>) {
-  const session = await unstable_getServerSession(req, res, authOptions);
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    return res.status(401).json({
+      error: "Not signed in",
+    });
+  }
+
   if (session?.user?.id !== "996134") {
     return res.status(401).json({
       error: "only Sean can do this bruv",
@@ -19,12 +25,16 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
 
   if (req.method === "GET") {
     // read data from firebase
-    const webhookRefDoc = await db.ref("webhooks").get();
+    try {
+      const webhookRefDoc = await db.ref("webhooks").get();
 
-    // the doc from the database
-    const configuredWebhooks: { [key: string]: { url: string } } = webhookRefDoc.val();
+      // the doc from the database
+      const configuredWebhooks: { [key: string]: { url: string } } = webhookRefDoc.val();
 
-    return res.status(200).json(configuredWebhooks);
+      return res.status(200).json(configuredWebhooks);
+    } catch (err) {
+      return res.status(500).json({ error: "something went wrong" });
+    }
   }
 
   if (req.method === "POST") {
@@ -46,7 +56,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     */
 
     // create channel
-    console.log("Checking if repo exists")
+    console.log("Checking if repo exists");
     const repoExists = await githubRepoExists({
       owner: "hacksore",
       repo: name,
@@ -57,7 +67,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     }
 
     // create channel
-    console.log("Checking if discord channel exists")
+    console.log("Checking if discord channel exists");
     const channelExists = await discordChannelExists({
       guildId,
       name,
@@ -68,7 +78,7 @@ export default async function handleRoute(req: NextApiRequest, res: NextApiRespo
     }
 
     // create channel
-    console.log("Creating discord channel")
+    console.log("Creating discord channel");
     const discordCreateChannelResult = await createDiscordChannel({
       guildId,
       name,

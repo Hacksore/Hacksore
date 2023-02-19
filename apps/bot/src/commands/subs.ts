@@ -35,7 +35,6 @@ const command: CommandInt = {
     // I guess how you get the sub command
     const { name: method = "list" } = interaction.options.data[0];
 
-    console.log(method);
     if (method === "add") {
       interaction.reply("You want to add a repo, cool");
     }

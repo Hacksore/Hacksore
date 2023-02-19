@@ -5,13 +5,14 @@
   "description": "",
   "scripts": {
     "start": "nodemon src/index.ts",
-    "build": "tsc",
+    "clean": "rimraf dist",
+    "build": "yarn clean && tsc",
     "lint": "eslint 'src/**/*'"
   },
   "type": "module",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Hacksore",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.14.0",
     "dotenv": "^16.0.3",
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "discord.js": "^14.7.1",
-    "firebase-admin": "^11.5.0"
+    "firebase-admin": "^11.5.0",
+    "rimraf": "^4.1.2"
   }
 }

@@ -221,3 +221,6 @@ jobs:
               --name presence \
               --env-file=.env \
               hacksore/presence-bot:latest
+
+            # print for validation
+            docker ps

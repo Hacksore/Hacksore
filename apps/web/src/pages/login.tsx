@@ -8,6 +8,7 @@ function Login() {
       {session ? (
         <>
           Signed in as {session?.user?.email} <br />
+          <pre style={{ textAlign: "left" }}>{JSON.stringify(session, null, 2)}</pre>
           <button onClick={() => signOut()}>Sign out</button>
         </>
       ) : (
