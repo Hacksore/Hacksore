@@ -1,5 +1,6 @@
 {
-  "action": "completed",
+  "$schema": "https://unpkg.com/@octokit/webhooks-schemas@6.10.0/schema.json",
+  "action": "requested",
   "workflow_run": {
     "id": 4211981566,
     "name": "Build and Deploy (fails)",
@@ -10,8 +11,8 @@
     "display_title": "Build and Deploy (fails)",
     "run_number": 50,
     "event": "workflow_dispatch",
-    "status": "completed",
-    "conclusion": "failure",
+    "status": "queued",
+    "conclusion": null,
     "workflow_id": 38275286,
     "check_suite_id": 11064411110,
     "check_suite_node_id": "CS_kwDOHDgTzs8AAAACk32D5g",
