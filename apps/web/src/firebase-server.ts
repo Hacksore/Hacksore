@@ -1,7 +1,6 @@
 import admin from "firebase-admin";
 
 const { FIREBASE_SA_BASE64 } = process.env;
-console.log(process.env);
 
 if (!FIREBASE_SA_BASE64) {
   throw new Error("You must provide a FIREBASE_SA_BASE64 variable");

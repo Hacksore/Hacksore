@@ -1,9 +1,9 @@
 {
   "$schema": "https://unpkg.com/@octokit/webhooks-schemas@6.10.0/schema.json",
-  "action": "requested",
+  "action": "completed",
   "workflow_run": {
     "id": 4211981566,
-    "name": "Build and Deploy (queued)",
+    "name": "Build and Deploy (cancelled)",
     "node_id": "WFR_kwLOHDgTzs77Dbz-",
     "head_branch": "main",
     "head_sha": "258e1650b4f7ce64d617419e3e0f14c9624ee6d8",
@@ -11,8 +11,8 @@
     "display_title": "Build and Deploy (fails)",
     "run_number": 50,
     "event": "workflow_dispatch",
-    "status": "queued",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "cancelled",
     "workflow_id": 38275286,
     "check_suite_id": 11064411110,
     "check_suite_node_id": "CS_kwDOHDgTzs8AAAACk32D5g",

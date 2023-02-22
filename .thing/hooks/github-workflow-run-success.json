@@ -3,7 +3,7 @@
   "action": "completed",
   "workflow_run": {
     "id": 4211981566,
-    "name": "Build and Deploy (fails)",
+    "name": "Build and Deploy (success)",
     "node_id": "WFR_kwLOHDgTzs77Dbz-",
     "head_branch": "main",
     "head_sha": "258e1650b4f7ce64d617419e3e0f14c9624ee6d8",
