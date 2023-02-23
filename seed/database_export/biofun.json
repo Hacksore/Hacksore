@@ -33,8 +33,8 @@
     "userId": "378293909610037252"
   },
   "webhooks": {
-    "test": {
-      "url": "http://lol" 
+    "fake": {
+      "url": "https://example.com"
     }
   }
 }

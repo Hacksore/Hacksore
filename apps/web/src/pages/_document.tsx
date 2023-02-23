@@ -1,5 +1,6 @@
 import { darken, styled } from "@mui/material";
 import { Html, Head, Main, NextScript } from "next/document";
+import MainLayout from "../layouts/main";
 
 const StyledBody = styled("body")(({ theme }) => ({
   colorScheme: "dark",
@@ -23,7 +24,9 @@ export default function Document() {
     <Html>
       <Head />
       <StyledBody>
-        <Main />
+        <MainLayout>
+          <Main />
+        </MainLayout>
         <NextScript />
       </StyledBody>
     </Html>

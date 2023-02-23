@@ -124,11 +124,18 @@ const PROJECTS: ProjectInfo[] = [
     tech: ["typescript", "react"],
   },
   {
+    name: "Hacksore",
+    desc: "The site you are currently viewing",
+    repoUrl: "https://github.com/hacksore/hacksore",
+    websiteUrl: "https://boult.me",
+    status: "alive",
+    tech: ["typescript", "react"],
+  },
+  {
     name: "react-grid-select",
     desc: "React component for selecting grid regions",
     repoUrl: "https://github.com/hacksore/react-grid-select",
     websiteUrl: "https://hacksore.github.io/react-grid-select/?path=/story/region-selection--basic-example",
-    status: "alive",
     tech: ["typescript", "react"],
   },
   {
@@ -157,13 +164,6 @@ const PROJECTS: ProjectInfo[] = [
     websiteUrl: "https://u2f.vercel.app",
     tech: ["nextjs", "typescript", "react"],
   },
-  {
-    name: "drone-mobile",
-    desc: "An unofficial nodejs API wrapper for DroneMobile",
-    repoUrl: "https://github.com/hacksore/drone-mobile",
-    tech: ["nodejs", "typescript"],
-  },
-
   {
     name: "buildtray",
     desc: "Build notifications for Github",
