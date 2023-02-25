@@ -1,7 +1,6 @@
 import { Box, Button, Grid, styled, Typography } from "@mui/material";
 import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
-
 import { IProjectInfo, ProjectStatus } from "../../types/project";
 
 // I hate this btw 😅

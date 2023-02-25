@@ -4,16 +4,17 @@ import { Presence } from "../../components/presence";
 import { Avatar } from "../../components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
 import { db } from "../../firebase-client";
-import { Profile } from "../../types/profile";
-
-const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
+import { Profile } from "@boult/types";
 
 export const STATE_COLORS = {
   online: "#90ce5c",
   offline: "#747f8d",
+  invisible: "#747f8d",
   idle: "#f2b34d",
   dnd: "#d33f3f",
 };
+
+const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .header": {
@@ -86,7 +87,7 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
   }, []);
 
   const { userId, avatarHash, activities, status } = profileData;
-  const ext = avatarHash.startsWith("a_") ? "gif" : "png";
+  const ext = avatarHash?.startsWith("a_") ? "gif" : "png";
   const avatarUrl = `${DISCORD_AVATAR_CDN}/${userId}/${avatarHash}.${ext}`;
 
   return (

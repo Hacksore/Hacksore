@@ -4,8 +4,7 @@ import IconMusic from "@mui/icons-material/Headphones";
 import IconTerminal from "@mui/icons-material/Terminal";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
-import { Activity } from "../../types/activities";
-import { ActivityType, Status } from "../../types/presence";
+import { Activity, ActivityType, PresenceStatus } from "@boult/types";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
@@ -99,7 +98,7 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
   );
 };
 
-const ACTIVITY_ORDER = [ActivityType.Custom, ActivityType.Game, ActivityType.Listening];
+const ACTIVITY_ORDER = [ActivityType.Custom, ActivityType.Playing, ActivityType.Listening];
 
 const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
   const statusElements: Function[] = [];
@@ -114,7 +113,7 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
       statusElements.push(() => <CurrentStatus activityLength={activities.length} {...item} />);
     }
 
-    if (type === ActivityType.Game) {
+    if (type === ActivityType.Playing) {
       statusElements.push(() => <PlayingActivity {...item} />);
     }
 
@@ -143,7 +142,7 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
 interface PresenceProps {
   activities: Activity[];
   children: any;
-  status: Status;
+  status: PresenceStatus;
 }
 
 export const Presence: React.FC<PresenceProps> = ({ activities, children, status }) => {
