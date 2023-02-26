@@ -1,14 +1,16 @@
 {
   "name": "@boult/types",
   "version": "0.0.0",
-  "main": "./index.ts",
-  "types": "./index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.ts*\""
+    "start": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts"
   },
   "devDependencies": {
-    "tsconfig": "*"
+    "tsconfig": "*",
+    "tsup": "^6.6.3"
   }
 }

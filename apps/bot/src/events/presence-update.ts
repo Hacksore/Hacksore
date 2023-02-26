@@ -2,14 +2,14 @@ import { Presence } from "discord.js";
 import { db } from "../firebase.js";
 import { isUpdateAllowed } from "../util.js";
 
-import { Activity, ActivityType, Profile } from "@boult/types";
+import type { Activity, Profile } from "@boult/types/src";
+import { ActivityType } from "@boult/types";
 
 export const onPresenceUpdate = async (_oldPres: Presence | null, newPres: Presence): Promise<void> => {
   if (!isUpdateAllowed(newPres.user?.id, newPres.guild?.id)) {
     return;
   }
 
-  console.log("pres update");
   const prevDataSnapshot = await db.ref("userdata").get()
   const previousUserdata: Profile = prevDataSnapshot.val();
 
