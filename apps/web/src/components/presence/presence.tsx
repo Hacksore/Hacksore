@@ -4,7 +4,7 @@ import IconMusic from "@mui/icons-material/Headphones";
 import IconTerminal from "@mui/icons-material/Terminal";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
-import { Activity, ActivityType, PresenceStatus } from "@boult/types/src";
+import { Activity, ActivityType, PresenceStatus } from "@boult/types";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {

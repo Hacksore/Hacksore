@@ -13,7 +13,7 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./types"],
     "paths": {
-      "@boult/types": ["packages/types/src"],
+      "@boult/types": ["libs/types/src"],
     },
     "types": ["node"]
   }

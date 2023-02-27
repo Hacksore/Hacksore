@@ -5304,9 +5304,9 @@ join-path@^1.1.1:
     valid-url "^1"
 
 jose@^4.10.0, jose@^4.10.4, jose@^4.9.3:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-4.12.0.tgz#7f00cd2f82499b91623cd413b7b5287fd52651ed"
-  integrity sha512-wW1u3cK81b+SFcHjGC8zw87yuyUweEFe0UJirrXEw1NasW00eF7sZjeG3SLBGz001ozxQ46Y9sofDvhBmWFtXQ==
+  version "4.12.2"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.12.2.tgz#45894e27079ebebe211300c5e59cc4ce7bd96347"
+  integrity sha512-DGcMJCoICP0/yP/KLTfJ1dgyyHXVkiEwDPUdUsej4+8ywnutO3Q7SIL6UY1l67Ox0nzOs/sC2BkbIcdfy/nWYw==
 
 joycon@^3.0.1:
   version "3.1.1"
@@ -6427,9 +6427,9 @@ minipass@^3.0.0, minipass@^3.1.1, minipass@^3.1.6:
     yallist "^4.0.0"
 
 minipass@^4.0.0:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/minipass/-/minipass-4.2.1.tgz#084031141113657662d40f66f9c2329036892128"
-  integrity sha512-KS4CHIsDfOZetnT+u6fwxyFADXLamtkPxkGScmmtTW//MlRrImV+LtbmbJpLQ86Hw7km/utbfEfndhGBrfwvlA==
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/minipass/-/minipass-4.2.4.tgz#7d0d97434b6a19f59c5c3221698b48bbf3b2cd06"
+  integrity sha512-lwycX3cBMTvcejsHITUgYj6Gy6A7Nh4Q6h9NP4sTHY1ccJlC7yKzDmiShEHsJ16Jf1nKGDEaiHxiltsJEvk0nQ==
 
 minizlib@^2.1.1, minizlib@^2.1.2:
   version "2.1.2"
@@ -6540,13 +6540,6 @@ next-auth@^4.19.2:
     preact "^10.6.3"
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
-
-next-transpile-modules@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-10.0.0.tgz#7152880048835acb64d05fc7aa34910cbe7994da"
-  integrity sha512-FyeJ++Lm2Fq31gbThiRCrJlYpIY9QaI7A3TjuhQLzOix8ChQrvn5ny4MhfIthS5cy6+uK1AhDRvxVdW17y3Xdw==
-  dependencies:
-    enhanced-resolve "^5.10.0"
 
 next@^13.2.1:
   version "13.2.1"
@@ -8682,9 +8675,11 @@ unist-util-generated@^2.0.0:
   integrity sha512-qF72kLmPxAw0oN2fwpWIqbXAVyEqUzDHMsbtPvOudIlUzXYFIeQIuxXQCRCFh22B7cixvU0MG7m3MW8FTq/S+A==
 
 unist-util-is@^5.0.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/unist-util-is/-/unist-util-is-5.2.0.tgz#37eed0617b76c114fd34d44c201aa96fd928b309"
-  integrity sha512-Glt17jWwZeyqrFqOK0pF1Ded5U3yzJnFr8CG1GMjCWTp9zDo2p+cmD6pWbZU8AgM5WU3IzRv6+rBwhzsGh6hBQ==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/unist-util-is/-/unist-util-is-5.2.1.tgz#b74960e145c18dcb6226bc57933597f5486deae9"
+  integrity sha512-u9njyyfEh43npf1M+yGKDGVPbY/JWEemg5nH05ncKPfi+kBbKBJoTdsogMu33uhytuLlv9y0O7GH7fEdwLdLQw==
+  dependencies:
+    "@types/unist" "^2.0.0"
 
 unist-util-position-from-estree@^1.0.0, unist-util-position-from-estree@^1.1.0:
   version "1.1.2"

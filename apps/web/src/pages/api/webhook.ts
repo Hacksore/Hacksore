@@ -3,14 +3,14 @@ import got from "got";
 import { IssueCommentCreatedEvent, IssuesEvent, WorkflowRunEvent, WorkflowJobEvent } from "@octokit/webhooks-types";
 
 import { db } from "../../firebase-server";
-import { Colors } from "api/constants";
+import { Colors } from "@boult/api/constants";
 
 // events to allow from github
 const ALLOWED_EVENTS = ["ping", "workflow_run", "workflow_job", "issues", "issue_comment"];
 const DISCORD_ID = "378293909610037252";
 
 async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
-  // send the mssage to discord
+  // send the message to discord
   await got(url, {
     method: "POST",
     body: JSON.stringify(payload),

@@ -29,9 +29,9 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 # Don't run production as root
-RUN addgroup --system --gid 1001 expressjs
-RUN adduser --system --uid 1001 expressjs
-USER expressjs
+RUN addgroup --system --gid 1001 discord
+RUN adduser --system --uid 1001 discord
+USER discord
 COPY --from=installer /app .
 
 # run node

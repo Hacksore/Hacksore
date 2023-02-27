@@ -2,7 +2,7 @@ import { Presence } from "discord.js";
 import { db } from "../firebase.js";
 import { isUpdateAllowed } from "../util.js";
 
-import type { Activity, Profile } from "@boult/types/src";
+import type { Activity, Profile } from "@boult/types";
 import { ActivityType } from "@boult/types";
 
 export const onPresenceUpdate = async (_oldPres: Presence | null, newPres: Presence): Promise<void> => {

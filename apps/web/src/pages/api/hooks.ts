@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
 import { db } from "../../firebase-server";
-import { githubRepoExists, createGithubWebhook } from "api/github";
-import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "api/discord";
+import { githubRepoExists, createGithubWebhook } from "@boult/api/github";
+import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "@boult/api/discord";
 import got from "got";
 
 const WEBHOOK_DOMAIN = "boult.me";
