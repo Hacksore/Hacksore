@@ -6,7 +6,8 @@
     "start": "next dev",
     "serve": "next start",
     "build": "next build",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rimraf node_modules .next .turbo dist"
   },
   "dependencies": {
     "@babel/core": "^7.20.12",

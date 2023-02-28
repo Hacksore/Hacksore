@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf tsconfig.tsbuildinfo .turbo dist"
+    "clean": "rimraf node_modules tsconfig.tsbuildinfo .turbo dist"
   },
   "devDependencies": {
     "tsconfig": "*"
