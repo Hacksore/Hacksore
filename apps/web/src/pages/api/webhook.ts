@@ -3,7 +3,7 @@ import got from "got";
 import { IssueCommentCreatedEvent, IssuesEvent, WorkflowRunEvent, WorkflowJobEvent } from "@octokit/webhooks-types";
 
 import { db } from "../../firebase-server";
-import { Colors } from "@boult/api/constants";
+import { Colors } from "@boult/api";
 
 // events to allow from github
 const ALLOWED_EVENTS = ["ping", "workflow_run", "workflow_job", "issues", "issue_comment"];

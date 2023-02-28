@@ -1,6 +1,38 @@
 {
   "name": "@boult/api",
   "version": "0.0.0",
-  "main": "index.ts",
-  "dependencies": {}
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "require": "./dist/core/index.cjs",
+      "import": "./dist/core/index.js"
+    },
+    "./github": {
+      "types": "./dist/github/index.d.ts",
+      "require": "./dist/github/index.cjs",
+      "import": "./dist/github/index.js"
+    },
+    "./discord": {
+      "types": "./dist/discord/index.d.ts",
+      "require": "./dist/discord/index.cjs",
+      "import": "./dist/discord/index.js"
+    }
+  },
+  "scripts": {
+    "start": "tsup 'src/**/*.ts' --format esm,cjs --dts --watch",
+    "build": "tsup 'src/**/*.ts' --format esm,cjs --dts"
+  },
+  "devDependencies": {
+    "tsconfig": "*",
+    "tsup": "^6.6.3"
+  }
 }

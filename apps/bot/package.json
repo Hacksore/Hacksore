@@ -21,7 +21,8 @@
     "ts-node": "^10.9.1",
     "tsconfig": "*",
     "typescript": "^4.9.5",
-    "@boult/types": "*"
+    "@boult/types": "*",
+    "@boult/api": "*"
   },
   "dependencies": {
     "discord.js": "^14.7.1",

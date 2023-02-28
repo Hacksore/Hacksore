@@ -1,5 +1,5 @@
 import got from "got";
-import { DISCORD_API_BASE } from "../constants";
+import { DISCORD_API_BASE } from "../constants.js";
 
 const { DISCORD_TOKEN } = process.env;
 

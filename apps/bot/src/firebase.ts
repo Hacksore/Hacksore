@@ -5,9 +5,8 @@ const serviceAccountStringData = Buffer.from(FIREBASE_SA_BASE64, "base64").toStr
 const serviceAccount = JSON.parse(serviceAccountStringData);
 
 admin.initializeApp({
-  // @ts-ignore
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://biofun.firebaseio.com",
 });
 
-export const db = admin.database();
+export const db: any = admin.database();

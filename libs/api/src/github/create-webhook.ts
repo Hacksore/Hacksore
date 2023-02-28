@@ -1,6 +1,6 @@
 import got from "got";
-import { GITHUB_API_BASE } from "../constants";
-import { CreateWebhookResult } from "../types";
+import { GITHUB_API_BASE } from "../constants.js";
+import { CreateWebhookResult } from "../types.js";
 
 const { GITHUB_ACCESS_TOKEN } = process.env;
 

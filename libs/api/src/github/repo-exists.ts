@@ -1,5 +1,5 @@
 import got from "got";
-import { GITHUB_API_BASE } from "../constants";
+import { GITHUB_API_BASE } from "../constants.js";
 
 const { GITHUB_ACCESS_TOKEN } = process.env;
 
