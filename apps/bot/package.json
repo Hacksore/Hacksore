@@ -4,7 +4,7 @@
   "private": true,
   "description": "",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "yarn clean && nodemon src/index.ts",
     "clean": "rimraf dist",
     "build": "yarn clean && tsc",
     "lint": "eslint 'src/**/*'"

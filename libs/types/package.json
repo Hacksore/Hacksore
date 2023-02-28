@@ -6,8 +6,9 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "start": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "build": "tsup src/index.ts --format esm,cjs --dts"
+    "_start": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "_build": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "tsc"
   },
   "devDependencies": {
     "tsconfig": "*",

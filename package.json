@@ -16,6 +16,7 @@
     "dev:all": "turbo run start",
     "build": "turbo run build",
     "build:web": "turbo run build --filter=web",
+    "tsc": "tsc -b --watch",
     "lint": "turbo run lint",
     "deploy": "firebase deploy && vercel deploy"
   },

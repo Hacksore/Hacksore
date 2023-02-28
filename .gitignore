@@ -76,3 +76,5 @@ service_account.json
 .vercel
 private-seed
 .env
+
+tsconfig.tsbuildinfo
