@@ -6,12 +6,10 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "_start": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "_build": "tsup src/index.ts --format esm,cjs --dts",
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rimraf tsconfig.tsbuildinfo .turbo dist"
   },
   "devDependencies": {
-    "tsconfig": "*",
-    "tsup": "^6.6.3"
+    "tsconfig": "*"
   }
 }

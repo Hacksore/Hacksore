@@ -5,7 +5,7 @@
   "description": "",
   "scripts": {
     "start": "yarn clean && nodemon src/index.ts",
-    "clean": "rimraf dist",
+    "clean": "rimraf tsconfig.tsbuildinfo .turbo dist",
     "build": "yarn clean && tsc",
     "lint": "eslint 'src/**/*'"
   },
@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "discord.js": "^14.7.1",
-    "firebase-admin": "^11.5.0",
-    "rimraf": "^4.1.2"
+    "firebase-admin": "^11.5.0"
   }
 }

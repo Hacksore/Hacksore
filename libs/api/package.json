@@ -24,13 +24,11 @@
     }
   },
   "scripts": {
-    "_start": "tsup 'src/**/*.ts' --format esm,cjs --dts --watch",
-    "_build": "tsup 'src/**/*.ts' --format esm,cjs --dts",
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rimraf tsconfig.tsbuildinfo .turbo dist"
   },
   "devDependencies": {
-    "tsconfig": "*",
-    "tsup": "^6.6.3"
+    "tsconfig": "*"
   },
   "dependencies": {
     "got": "^12.5.3"
