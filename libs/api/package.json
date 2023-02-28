@@ -31,5 +31,8 @@
   "devDependencies": {
     "tsconfig": "*",
     "tsup": "^6.6.3"
+  },
+  "dependencies": {
+    "got": "^12.5.3"
   }
 }
