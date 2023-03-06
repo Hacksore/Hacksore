@@ -18,7 +18,7 @@
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.9",
     "@next/mdx": "^13.1.6",
-    "@vercel/analytics": "^0.1.10",
+    "@vercel/analytics": "^0.1.11",
     "clsx": "^1.2.1",
     "firebase": "^9.17.1",
     "firebase-admin": "^11.5.0",
