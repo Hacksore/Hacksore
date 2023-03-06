@@ -14,7 +14,7 @@
   "author": "Hacksore",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.14.2",
+    "@types/node": "^18.14.6",
     "dotenv": "^16.0.3",
     "eslint-config-custom": "*",
     "nodemon": "^2.0.20",
