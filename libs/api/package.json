@@ -31,6 +31,6 @@
     "tsconfig": "*"
   },
   "dependencies": {
-    "got": "^12.5.3"
+    "got": "^12.6.0"
   }
 }
