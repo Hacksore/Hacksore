@@ -25,7 +25,7 @@
     "concurrently": "^7.6.0",
     "firebase-tools": "^11.23.1",
     "prettier": "^2.8.4",
-    "turbo": "^1.8.1",
+    "turbo": "^1.8.3",
     "rimraf": "^4.1.2"
   },
   "engines": {
