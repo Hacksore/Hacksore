@@ -1,6 +1,6 @@
 import { Header } from "../components/header"
 
-const MainLayout = ({ children }: any) => {
+const MainLayout = ({ children }: { children: JSX.Element }) => {
   return (
     <>
       <Header />

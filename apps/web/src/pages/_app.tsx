@@ -4,14 +4,16 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../theme";
 import { SessionProvider } from "next-auth/react";
+import { Analytics } from "@vercel/analytics/react";
 
 import { Box } from "@mui/material";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .content-wrap": {
     background: theme.palette.background.default,
     padding: 22,
+    paddingBottom: 100,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -58,6 +60,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           </StyledBox>
         </ThemeProvider>
       </div>
+      <Analytics />
     </SessionProvider>
   );
 }

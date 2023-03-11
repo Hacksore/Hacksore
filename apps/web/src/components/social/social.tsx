@@ -42,7 +42,6 @@ const SOCIALS = [
   {
     title: "Discord - Hacksore#1984",
     url: "https://discord.gg/rg9sUQ4gvb",
-    // eslint-disable-next-line @next/next/no-img-element
     icon: () => <img alt="discord" src="/img/discord.svg" width={24} height={24} />
   },
   {

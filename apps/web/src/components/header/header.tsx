@@ -8,7 +8,7 @@ const StyledBox = styled(Box)(() => ({
   "& a": {
     textDecoration: "none",
     color: "#fff",
-    "& > *": { fontWeight: "bold" }
+    "& > *": { fontWeight: "bold" },
   },
 }));
 
@@ -17,23 +17,15 @@ export const Header = () => {
     <StyledBox>
       <AppBar component="nav" elevation={0} position="absolute" sx={{ background: "rgba(0,0,0,0)" }}>
         <Toolbar>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ fontWeight: "bold", flexGrow: 1 }}
-          >
+          <Typography variant="h5" component="div" sx={{ fontWeight: "bold", flexGrow: 1 }}>
             <Link href="/">
-              <Typography variant="h4">
-                Sean Boult
-              </Typography>
+              <Typography variant="h5">/home</Typography>
             </Link>
           </Typography>
           <Box>
             {navItems.map(item => (
               <Link key={item} href={item}>
-                <Typography variant="h5">
-                  {item}
-                </Typography>
+                <Typography variant="h5">{item}</Typography>
               </Link>
             ))}
           </Box>

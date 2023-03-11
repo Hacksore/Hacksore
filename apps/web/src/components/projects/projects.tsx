@@ -13,7 +13,7 @@ const TypescriptIcon = ({ style, className }: { style: any; className: string })
   );
 };
 
-const lanagueToIcons: Record<string, { icon: any; color: string }> = {
+const languageToIcons: Record<string, { icon: any; color: string }> = {
   typescript: { icon: TypescriptIcon, color: "#3178C6" },
   nodejs: { icon: SiNodedotjs, color: "#5FA04E" },
   nextjs: { icon: TbBrandNextjs, color: "#fff" },
@@ -131,11 +131,11 @@ const PROJECTS: ProjectInfo[] = [
     tech: ["typescript", "react"],
   },
   {
-    name: "react-grid-select",
-    desc: "React component for selecting grid regions",
-    repoUrl: "https://github.com/hacksore/react-grid-select",
-    websiteUrl: "https://hacksore.github.io/react-grid-select/?path=/story/region-selection--basic-example",
-    tech: ["typescript", "react"],
+    name: "onepassword-secret-util",
+    desc: "Enhance 1password secret expansion with the opx CLI",
+    repoUrl: "https://github.com/Hacksore/onepassword-secret-util",
+    websiteUrl: "https://crates.io/crates/onepassword-secret-util",
+    tech: ["rust"],
   },
   {
     name: "overlayed",
@@ -173,10 +173,10 @@ const PROJECTS: ProjectInfo[] = [
 
 const renderIconsFromLanguage = (langs: string[]) =>
   langs.map((lang: string) => {
-    const Element = lanagueToIcons[lang].icon;
+    const Element = languageToIcons[lang].icon;
     return (
       <span key={lang}>
-        <Element className="tech-icon" style={{ color: lanagueToIcons[lang].color }} />
+        <Element className="tech-icon" style={{ color: languageToIcons[lang].color }} />
       </span>
     );
   });
