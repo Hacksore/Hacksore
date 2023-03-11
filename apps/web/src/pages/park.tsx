@@ -1,10 +1,33 @@
 "use client";
-import { Box, Button, styled, TextField, Typography } from "@mui/material";
-import { useEffect } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { infer as Infer, object, string } from "zod";
+import { TransitionProps } from "@mui/material/transitions";
+import React from "react";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const StyledBox = styled(Box)(() => ({
   width: "100%",
@@ -19,20 +42,18 @@ const StyledBox = styled(Box)(() => ({
 }));
 
 const schema = object({
-  firstName: string().min(2).max(255),
-  lastName: string().max(255),
-  vehicleMake: string().max(255),
-  vehicleModel: string().max(255),
-  vehicleColor: string().max(255),
-  licensePlate: string().max(255),
-  licensePlateState: string().max(255),
+  name: string({}).nonempty(),
+  vehicleMake: string().nonempty(),
+  vehicleModel: string().nonempty(),
+  vehicleColor: string().nonempty(),
+  licensePlate: string().nonempty(),
+  licensePlateState: string().nonempty(),
 });
 
 type ParkingForm = Infer<typeof schema>;
 
 const defaultValues: ParkingForm = {
-  firstName: "",
-  lastName: "",
+  name: "",
   vehicleMake: "",
   vehicleModel: "",
   vehicleColor: "",
@@ -53,6 +74,8 @@ const getSavedData = (): ParkingForm => {
 };
 
 function Park() {
+  const [open, setOpen] = useState(false);
+
   const {
     handleSubmit,
     setValue,
@@ -88,39 +111,28 @@ function Park() {
     }
   }, []);
 
+  const handleClose = () => {
+    setOpen(false);
+    reset();
+    localStorage.removeItem("form");
+  };
+
   return (
     <StyledBox>
       <Typography sx={{ p: 2, fontWeight: "bold" }} variant="h3">
-        Register for Parking
+        🚘 Parking
       </Typography>
       <form>
         <Controller
-          name="firstName"
+          name="name"
           control={control}
           render={({ field: { ref, ...field } }) => (
             <TextField
-              fullWidth
               className="input"
-              error={Boolean(errors.firstName)}
-              helperText={errors.firstName?.message}
+              error={Boolean(errors.name)}
+              helperText={errors.name?.message}
               inputRef={ref}
-              label="First Name"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          name="lastName"
-          control={control}
-          render={({ field: { ref, ...field } }) => (
-            <TextField
-              fullWidth
-              className="input"
-              error={Boolean(errors.lastName)}
-              helperText={errors.lastName?.message}
-              inputRef={ref}
-              label="Last name"
+              label="Name"
               {...field}
             />
           )}
@@ -131,10 +143,9 @@ function Park() {
           control={control}
           render={({ field: { ref, ...field } }) => (
             <TextField
-              fullWidth
               className="input"
-              error={Boolean(errors.licensePlate)}
-              helperText={errors.licensePlate?.message}
+              error={Boolean(errors.vehicleMake)}
+              helperText={errors.vehicleMake?.message}
               inputRef={ref}
               label="Vehicle Make"
               {...field}
@@ -147,10 +158,9 @@ function Park() {
           control={control}
           render={({ field: { ref, ...field } }) => (
             <TextField
-              fullWidth
               className="input"
-              error={Boolean(errors.licensePlate)}
-              helperText={errors.licensePlate?.message}
+              error={Boolean(errors.vehicleModel)}
+              helperText={errors.vehicleModel?.message}
               inputRef={ref}
               label="Vehicle Model"
               {...field}
@@ -163,10 +173,9 @@ function Park() {
           control={control}
           render={({ field: { ref, ...field } }) => (
             <TextField
-              fullWidth
               className="input"
-              error={Boolean(errors.licensePlate)}
-              helperText={errors.licensePlate?.message}
+              error={Boolean(errors.vehicleColor)}
+              helperText={errors.vehicleColor?.message}
               inputRef={ref}
               label="Vehicle Color"
               {...field}
@@ -179,7 +188,6 @@ function Park() {
           control={control}
           render={({ field: { ref, ...field } }) => (
             <TextField
-              fullWidth
               className="input"
               error={Boolean(errors.licensePlate)}
               helperText={errors.licensePlate?.message}
@@ -195,10 +203,9 @@ function Park() {
           control={control}
           render={({ field: { ref, ...field } }) => (
             <TextField
-              fullWidth
               className="input"
-              error={Boolean(errors.licensePlate)}
-              helperText={errors.licensePlate?.message}
+              error={Boolean(errors.licensePlateState)}
+              helperText={errors.licensePlateState?.message}
               inputRef={ref}
               label="License Plate State"
               {...field}
@@ -206,20 +213,35 @@ function Park() {
           )}
         />
 
+        <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>Reset Form Data?</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              If you reset the form data it will clear the form and also remove the data when you visit the app again!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button color="secondary" variant="contained" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleClose}>
+              Reset
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <Box sx={{ mt: 2 }}>
-          <Button
-            sx={{ mr: 1 }}
-            onClick={() => {
-              reset();
-              localStorage.removeItem("form");
-            }}
-            variant="contained"
-            color="secondary"
-          >
+          <Button sx={{ mr: 1 }} onClick={() => setOpen(true)} variant="contained" color="secondary">
             Reset
           </Button>
           <Button sx={{ ml: 1 }} onClick={handleSubmit(onSubmit)} variant="contained">
-            Submit
+            Register Vehicle
           </Button>
         </Box>
       </form>
