@@ -1,5 +1,4 @@
-import React, { useRef } from "react";
-import Script from "next/script";
+import React from "react";
 
 import { About } from "../components/about";
 import { Analytics } from "@vercel/analytics/react";
@@ -8,6 +7,8 @@ import PC from "../mdx/pc.mdx";
 
 import { Box, styled, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import Head from "next/head";
+
+import GiscusComponent from "@giscus/react";
 
 const StyledMain = styled("main")(() => ({
   "& .giscus": {
@@ -28,7 +29,6 @@ const platformComponents = {
 };
 
 function Uses() {
-  const giscusRef = useRef<HTMLDivElement>();
   const [platform, setPlatform] = React.useState<"mac" | "pc">("mac");
   const PlatformComponent = platformComponents[platform];
 
@@ -64,28 +64,26 @@ function Uses() {
             </ToggleButton>
           </ToggleButtonGroup>
 
-            <PlatformComponent />
-
+          <PlatformComponent />
         </section>
 
         <section>
-          <Box ref={giscusRef} sx={{ mt: 4, mb: 8 }} className="giscus" />
+          <Box sx={{ mt: 4, mb: 8 }} className="giscus">
+            <GiscusComponent
+              repo="Hacksore/Hacksore"
+              repoId="MDEwOlJlcG9zaXRvcnkzNDExNDE2OTY"
+              category="General"
+              categoryId="DIC_kwDOEJiE_c4CSRHB"
+              theme="dark"
+              mapping="title"
+              reactionsEnabled="1"
+              emitMetadata="0"
+              inputPosition="bottom"
+              lang="en"
+            />
+          </Box>
         </section>
       </div>
-      <Script
-        src="https://giscus.app/client.js"
-        data-repo="Hacksore/Hacksore"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkyNzg0MzA5NzM="
-        data-category="General"
-        data-category-id="DIC_kwDOEJiE_c4CSRHB"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="dark"
-        data-lang="en"
-      />
 
       <Analytics />
     </StyledMain>
