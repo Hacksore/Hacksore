@@ -1,8 +1,7 @@
 export const DISCORD_API_BASE = "https://discord.com";
 export const GITHUB_API_BASE = "https://api.github.com";
 
-// TODO: move to file
-const rgbToDecimal = (r: number, g: number, b: number): number => {
+export const rgbToDecimal = (r: number, g: number, b: number): number => {
   return r * 65536 + g * 256 + b;
 }
 

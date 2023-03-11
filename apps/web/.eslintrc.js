@@ -3,6 +3,6 @@
  */
 module.exports = {
   root: true,
-  extends: ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime", "custom"],
+  extends: ["plugin:@next/next/recommended", "eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime", "custom"],
   plugins: ["import", "react"],
 };
