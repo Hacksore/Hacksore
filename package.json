@@ -22,11 +22,13 @@
     "clean": "turbo clean"
   },
   "devDependencies": {
+    "@playwright/test": "^1.31.2",
     "concurrently": "^7.6.0",
+    "dotenv": "^16.0.3",
     "firebase-tools": "^11.23.1",
     "prettier": "^2.8.4",
-    "turbo": "^1.8.3",
-    "rimraf": "^4.3.0"
+    "rimraf": "^4.3.0",
+    "turbo": "^1.8.3"
   },
   "engines": {
     "node": ">=16.0.0"

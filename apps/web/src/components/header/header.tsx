@@ -5,6 +5,7 @@ const navItems = ["/uses"];
 
 const StyledBox = styled(Box)(() => ({
   display: "flex",
+  height: 20,
   "& a": {
     textDecoration: "none",
     color: "#fff",
