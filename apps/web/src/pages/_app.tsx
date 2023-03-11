@@ -19,6 +19,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
     textAlign: "center",
   },
+  "& a": {
+    color: theme.palette.primary.contrastText,
+    fontWeight: "bold",
+  },
 }));
 interface AppProps {
   Component: any;
