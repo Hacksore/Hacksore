@@ -4,5 +4,8 @@
     "MKLA",
     "Rvcnky",
     "Wrek"
+  ],
+  "github-actions.workflows.pinned.workflows": [
+    ".github/workflows/build-deploy.yaml"
   ]
 }
