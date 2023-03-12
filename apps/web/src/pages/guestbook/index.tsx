@@ -1,16 +1,13 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { About } from "../../components/about";
 import GiscusComponent from "@giscus/react";
 
 function GuestBook() {
   return (
-    <Box sx={{ width: "100%" }}>
-      <section style={{ display: "flex", justifyContent: "center" }}>
-        <About hideTagline />
-      </section>
-
-      <section>
-        <Box sx={{ mt: 4, mb: 8 }} className="giscus">
+    <Box>
+      <About hideTagline />
+      <Grid>
+        <Grid item>
           <GiscusComponent
             repo="Hacksore/Hacksore"
             repoId="MDEwOlJlcG9zaXRvcnkzNDExNDE2OTY"
@@ -23,8 +20,8 @@ function GuestBook() {
             inputPosition="bottom"
             lang="en"
           />
-        </Box>
-      </section>
+        </Grid>
+      </Grid>
     </Box>
   );
 }
