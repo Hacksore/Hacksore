@@ -32,12 +32,6 @@ jobs:
         run: yarn install -w apps/web -w libs/api
       - name: Build
         run: yarn turbo build --scope=web --scope=api --scope=types
-      - name: "Tar Directory"
-        run: tar -zcf next.tgz .vercel
-      - uses: actions/upload-artifact@v3
-        with:
-          name: web-build
-          path: next.tgz
   build-bot:
     name: Build Bot
     runs-on: ubuntu-latest
@@ -54,7 +48,7 @@ jobs:
           install: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
-      - name: Build and push image
+      - name: Docker
         id: docker_build
         uses: docker/build-push-action@v3
         with:
