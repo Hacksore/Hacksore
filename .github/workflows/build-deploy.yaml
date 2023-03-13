@@ -1,9 +1,9 @@
 name: Build/Deploy
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - "master"
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
 env:
   NODE_VERSION: "18"
   TURBO_REMOTE_ONLY: true
