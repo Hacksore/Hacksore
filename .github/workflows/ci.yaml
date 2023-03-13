@@ -1,0 +1,68 @@
+name: CI
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
+env:
+  NODE_VERSION: "18"
+  TURBO_REMOTE_ONLY: true
+  NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+  NEXT_PUBLIC_FIREBASE_DATABASE_URL: ${{ secrets.NEXT_PUBLIC_FIREBASE_DATABASE_URL }}
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+  NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
+  TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  TURBO_TEAM: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  build-web:
+    name: Build Web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: yarn
+      - name: Install
+        run: yarn install -w apps/web
+      - name: Build
+        run: yarn turbo build --filter=web 
+      - name: "Tar Directory"
+        run: tar -zcf next.tgz .vercel
+      - uses: actions/upload-artifact@v3
+        with:
+          name: web-build
+          path: next.tgz
+  build-bot:
+    name: Build Bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+      - name: Setup buildx
+        uses: docker/setup-buildx-action@v2
+        id: buildx
+        with:
+          install: true
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Build and push image
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          platforms: linux/amd64
+          push: false
+          context: .
+          build-args: "--progress=plain"
+          network: host
+          allow: network.host
+          file: apps/bot/Dockerfile
+          tags: "hacksore/presence-bot:latest"
