@@ -31,7 +31,7 @@ interface AppProps {
 
 const META_INFO = {
   title: "Sean Boult - Personal Site",
-  description: "Full stack developer who likes ReactJS. You will find most if not all of my socials here.",
+  description: "Full Stack Developer Who Likes React",
 };
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {

@@ -1,5 +1,5 @@
 import { Box, Button, Grid, styled, Typography } from "@mui/material";
-import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
+import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron, SiNextdotjs } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import { IProjectInfo, ProjectStatus } from "../../types/project";
 
@@ -128,7 +128,7 @@ const PROJECTS: ProjectInfo[] = [
     repoUrl: "https://github.com/hacksore/hacksore",
     websiteUrl: "https://boult.me",
     status: "alive",
-    tech: ["typescript", "react"],
+    tech: ["typescript", "react", "firebase", "nextjs"],
   },
   {
     name: "onepassword-secret-util",
