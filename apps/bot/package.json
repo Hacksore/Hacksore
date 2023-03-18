@@ -14,15 +14,15 @@
   "author": "Hacksore",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.15.1",
+    "@boult/api": "*",
+    "@boult/types": "*",
+    "@types/node": "^18.15.3",
     "dotenv": "^16.0.3",
     "eslint-config-custom": "*",
     "nodemon": "^2.0.21",
     "ts-node": "^10.9.1",
     "tsconfig": "*",
-    "typescript": "^4.9.5",
-    "@boult/types": "*",
-    "@boult/api": "*"
+    "typescript": "^5.0.2"
   },
   "dependencies": {
     "discord.js": "^14.8.0",
