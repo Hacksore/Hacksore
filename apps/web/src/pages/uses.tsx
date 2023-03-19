@@ -16,9 +16,6 @@ const StyledMain = styled("main")(() => ({
   "& .content": {
     textAlign: "left",
   },
-  "& .section": {
-    maxWidth: 500,
-  },
   "& hr": {
     borderStyle: "solid",
     borderColor: "#161616",
