@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Mac from "../mdx/mac.mdx";
 import PC from "../mdx/pc.mdx";
@@ -7,7 +7,6 @@ import { Box, styled, ToggleButton, ToggleButtonGroup, Typography } from "@mui/m
 import { SiWindows, SiApple } from "react-icons/si";
 import Head from "next/head";
 import GiscusComponent from "@giscus/react";
-import { useRouter } from "next/router";
 
 const StyledMain = styled("main")(() => ({
   maxWidth: 760,
@@ -32,30 +31,8 @@ const platformComponents = {
 };
 
 function Uses() {
-  const router = useRouter();
-  // const { platform: selectedPlatform =  "mac" }: any = router.query;
-
   const [platform, setPlatform] = useState<"mac" | "pc">("mac");
   const PlatformComponent = platformComponents[platform];
-
-  // useEffect(() => {
-  //   console.log("sp", selectedPlatform);
-  //   setPlatform(selectedPlatform);
-  // }, [selectedPlatform]);
-
-  // side effect to allow you to save state of the tab in the query param
-  useEffect(() => {
-    router.push(
-      {
-        pathname: "/uses",
-        query: {
-          platform,
-        },
-      },
-      undefined,
-      { shallow: true }
-    );
-  }, [platform]);
 
   return (
     <StyledMain>
