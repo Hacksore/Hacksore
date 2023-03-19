@@ -2,7 +2,7 @@
 
 👨🏻‍💻​​ ​​​​​​​​​​​ I like to code random things
 
-👽  Enjoy developing ReactJS apps
+👽  Enjoy developing React apps
 
 🚘  Minor league car hacktivist
 

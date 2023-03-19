@@ -21,7 +21,7 @@ const StyledBody = styled("body")(({ theme }) => ({
 
 export default function Document() {
   return (
-    <Html>
+    <Html lang="en">
       <Head />
       <StyledBody>
         <MainLayout>
