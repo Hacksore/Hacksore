@@ -109,6 +109,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "${{ env.NODE_VERSION }}"
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}          
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
@@ -132,7 +138,9 @@ jobs:
           network: host
           allow: network.host
           file: apps/bot/Dockerfile
-          tags: "hacksore/presence-bot:latest"
+          tags: |
+            hacksore/presence-bot:latest
+            ghcr.io/hacksore/presence-bot:latest
   deploy-firebase:
     name: Deploy Firebase Rules
     runs-on: ubuntu-latest
