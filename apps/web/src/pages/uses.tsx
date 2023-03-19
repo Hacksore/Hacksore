@@ -38,8 +38,11 @@ function Uses() {
       <Head>
         <title>Sean Boult /uses</title>
       </Head>
+      <Typography variant="h2" sx={{ mt: 4, mb: 4, fontWeight: "bold" }}>Uses</Typography>
 
       <div className="content">
+        <Shared />
+
         <ToggleButtonGroup
           value={platform}
           exclusive
@@ -57,7 +60,6 @@ function Uses() {
           </ToggleButton>
         </ToggleButtonGroup>
 
-        <Shared />
         <PlatformComponent />
 
         <Typography sx={{ mt: 4 }}>
