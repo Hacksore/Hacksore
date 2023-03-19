@@ -1,11 +1,13 @@
-import React from "react";
+import { useState, useEffect } from "react";
 
 import Mac from "../mdx/mac.mdx";
 import PC from "../mdx/pc.mdx";
 import Shared from "../mdx/shared.mdx";
 import { Box, styled, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { SiWindows, SiApple } from "react-icons/si";
 import Head from "next/head";
 import GiscusComponent from "@giscus/react";
+import { useRouter } from "next/router";
 
 const StyledMain = styled("main")(() => ({
   maxWidth: 760,
@@ -30,15 +32,39 @@ const platformComponents = {
 };
 
 function Uses() {
-  const [platform, setPlatform] = React.useState<"mac" | "pc">("mac");
+  const router = useRouter();
+  // const { platform: selectedPlatform =  "mac" }: any = router.query;
+
+  const [platform, setPlatform] = useState<"mac" | "pc">("mac");
   const PlatformComponent = platformComponents[platform];
+
+  // useEffect(() => {
+  //   console.log("sp", selectedPlatform);
+  //   setPlatform(selectedPlatform);
+  // }, [selectedPlatform]);
+
+  // side effect to allow you to save state of the tab in the query param
+  useEffect(() => {
+    router.push(
+      {
+        pathname: "/uses",
+        query: {
+          platform,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [platform]);
 
   return (
     <StyledMain>
       <Head>
         <title>Sean Boult /uses</title>
       </Head>
-      <Typography variant="h2" sx={{ mt: 4, mb: 4, fontWeight: "bold" }}>Uses</Typography>
+      <Typography variant="h2" sx={{ mt: 4, mb: 4, fontWeight: "bold" }}>
+        Uses
+      </Typography>
 
       <div className="content">
         <Shared />
@@ -53,10 +79,10 @@ function Uses() {
           sx={{ mb: 4, mt: 4 }}
         >
           <ToggleButton sx={{ width: 100 }} value="mac" aria-label="left aligned">
-            Mac
+            <SiApple /> <Typography sx={{ ml: 1 }}>Mac</Typography>
           </ToggleButton>
           <ToggleButton sx={{ width: 100 }} value="pc" aria-label="right aligned">
-            PC
+            <SiWindows /> <Typography sx={{ ml: 1 }}>PC</Typography>
           </ToggleButton>
         </ToggleButtonGroup>
 
@@ -81,7 +107,6 @@ function Uses() {
           />
         </Box>
       </div>
-
     </StyledMain>
   );
 }
