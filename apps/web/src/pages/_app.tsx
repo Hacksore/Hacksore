@@ -3,7 +3,6 @@ import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../theme";
-import { SessionProvider } from "next-auth/react";
 import { Analytics } from "@vercel/analytics/react";
 
 import { Box } from "@mui/material";
@@ -34,9 +33,9 @@ const META_INFO = {
   description: "Full Stack Developer Who Likes React",
 };
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <>
       <div>
         <Head>
           <title>Sean &quot;Hacksore&quot; Boult</title>
@@ -65,7 +64,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         </ThemeProvider>
       </div>
       <Analytics />
-    </SessionProvider>
+    </>
   );
 }
 
