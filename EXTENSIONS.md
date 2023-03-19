@@ -1,3 +1,8 @@
+# My Extensions
+
+This content was generated with `npx extdump@latest` go check out the [vscode-extension-markdown](https://github.com/Hacksore/vscode-extension-markdown) project if you want to learn more.
+
+
 | Icon | Extension |
 | --- | --- |
 | <a href="https://marketplace.visualstudio.com/items?itemName=1Password.op-vscode"><img width="100" src="https://1password.gallerycdn.vsassets.io/extensions/1password/op-vscode/1.0.4/1666885238083/Microsoft.VisualStudio.Services.Icons.Small" alt="1Password"> | <h3><a href="https://marketplace.visualstudio.com/items?itemName=1Password.op-vscode">1Password</a></h3>Say goodbye to plaintext secrets in your code |
