@@ -116,7 +116,7 @@ const PROJECTS: ProjectInfo[] = [
   },
   {
     name: "react-skinview3d",
-    desc: "React component for rendering a minecraft skin",
+    desc: "React component for rendering Minecraft skins",
     repoUrl: "https://github.com/hacksore/react-skinview3d",
     websiteUrl: "https://hacksore.github.io/react-skinview3d/?path=/story/all-stories--basic",
     status: "alive",
