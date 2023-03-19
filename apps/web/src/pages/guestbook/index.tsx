@@ -5,7 +5,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     width: "100%",
   },
-  [theme.breakpoints.up("lg")]: {
+  [theme.breakpoints.up("md")]: {
     width: 760,
   },
 }));
