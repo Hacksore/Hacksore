@@ -2,6 +2,7 @@ name: Build/Deploy
 on:
   workflow_run:
     workflows: ["CI"]
+    if: github.ref == 'refs/heads/master'
     types:
       - completed
 env:

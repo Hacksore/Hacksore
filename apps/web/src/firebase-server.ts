@@ -15,8 +15,7 @@ if (!admin.apps.length) {
     console.log("firebase server initializeApp...");
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      // TODO: constant?
-      databaseURL: "https://biofun.firebaseio.com",
+      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     });
 
     console.log("initialized firebase server app!");

@@ -6,7 +6,7 @@ const serviceAccount = JSON.parse(serviceAccountStringData);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://biofun.firebaseio.com",
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 });
 
 export const db: any = admin.database();
