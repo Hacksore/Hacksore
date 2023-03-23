@@ -1,11 +1,11 @@
 import { Social } from "../components/social";
 import { Projects } from "../components/projects";
 import { About } from "../components/about";
+import Link from "next/link";
+import { Button } from "@mui/material";
 
 // setup firebase for client usage
 import "../firebase-client";
-import Link from "next/link";
-import { Button } from "@mui/material";
 
 function App() {
   return (
