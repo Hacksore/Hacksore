@@ -19,7 +19,7 @@ if (!admin.apps.length) {
     });
 
     console.log("initialized firebase server app!");
-  } catch (error: any) { 
+  } catch (error: any) {
     console.log(error);
   }
 }

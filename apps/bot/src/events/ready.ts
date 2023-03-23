@@ -44,7 +44,6 @@ export const onReady = async (client: Client): Promise<void> => {
     const channelId = "1079776041553375313";
     const channel: TextChannel = client.channels.cache.get(channelId) as TextChannel;
     channel.send(`I am online now! ${HOSTNAME}`);
-
   } catch (err) {
     console.log("Error starting Presence bot", err);
   }

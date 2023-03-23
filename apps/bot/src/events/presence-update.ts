@@ -10,7 +10,7 @@ export const onPresenceUpdate = async (_oldPres: Presence | null, newPres: Prese
     return;
   }
 
-  const prevDataSnapshot = await db.ref("userdata").get()
+  const prevDataSnapshot = await db.ref("userdata").get();
   const previousUserdata: Profile = prevDataSnapshot.val();
 
   const data: Profile = {

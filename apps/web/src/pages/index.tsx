@@ -19,7 +19,9 @@ function App() {
 
       <section>
         <Link style={{ textDecoration: "none" }} href="/guestbook">
-          <Button sx={{ mb: 3 }} color="secondary" variant="contained">✍️ Sign my guestbook</Button>
+          <Button sx={{ mb: 3 }} color="secondary" variant="contained">
+            ✍️ Sign my guestbook
+          </Button>
         </Link>
       </section>
 

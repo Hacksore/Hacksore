@@ -4,5 +4,4 @@ export default async function handleRoute(_: NextApiRequest, res: NextApiRespons
   console.log("Registering parking user");
 
   res.status(200).json({ todo: 1 });
-
 }

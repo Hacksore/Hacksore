@@ -7,7 +7,8 @@ const serviceAccount = JSON.parse(serviceAccountStringData);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://biofun.firebaseio.com" 
+  // TODO: can we make this a const somehow?
+  databaseURL: "https://biofun.firebaseio.com",
 });
 
 export const db: Database = admin.database();

@@ -17,5 +17,4 @@ export default async function handleRoute(_: NextApiRequest, res: NextApiRespons
     console.error(error);
     res.status(500).json({ error: error.message });
   }
-
 }
