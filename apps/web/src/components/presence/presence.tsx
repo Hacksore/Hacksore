@@ -1,10 +1,10 @@
 import { Box, lighten, styled, Tooltip, Typography } from "@mui/material";
 import IconGaming from "@mui/icons-material/VideogameAsset";
 import IconMusic from "@mui/icons-material/Headphones";
-import IconTerminal from "@mui/icons-material/Terminal";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
 import { Activity, ActivityType, PresenceStatus } from "@boult/types";
+import { SiNeovim } from "react-icons/si"
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {
@@ -73,7 +73,7 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
     <div>
       <div className="header">
         <div className="icon">
-          {name === "Visual Studio Code" ? <IconTerminal fontSize="large" /> : <IconGaming fontSize="large" />}
+          {name === "Neovim" ? <SiNeovim fontSize="large" /> : <IconGaming fontSize="large" />}
         </div>
         <Typography className="name">{name}</Typography>
       </div>
