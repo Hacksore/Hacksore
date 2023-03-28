@@ -28,7 +28,7 @@
     "firebase-tools": "^11.23.1",
     "prettier": "^2.8.5",
     "rimraf": "^4.3.0",
-    "turbo": "^1.8.3"
+    "turbo": "^1.8.5"
   },
   "engines": {
     "node": ">=16.0.0"
