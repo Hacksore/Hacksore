@@ -17,7 +17,7 @@
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.13",
+    "@mui/material": "^5.11.15",
     "@next/mdx": "^13.1.6",
     "@vercel/analytics": "^0.1.11",
     "clsx": "^1.2.1",
