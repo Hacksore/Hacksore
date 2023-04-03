@@ -1,9 +1,13 @@
 import admin from "firebase-admin";
 
-const { FIREBASE_SA_BASE64 } = process.env;
+const { FIREBASE_SA_BASE64, NEXT_PUBLIC_FIREBASE_DATABASE_URL } = process.env;
 
 if (!FIREBASE_SA_BASE64) {
   throw new Error("You must provide a FIREBASE_SA_BASE64 variable");
+}
+
+if (!NEXT_PUBLIC_FIREBASE_DATABASE_URL) {
+  throw new Error("You must provide a NEXT_PUBLIC_FIREBASE_DATABASE_URL variable");
 }
 
 const serviceAccountBuffer = Buffer.from(FIREBASE_SA_BASE64, "base64");
