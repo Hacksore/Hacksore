@@ -25,124 +25,124 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-web:
-    name: Build Web
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "${{ env.NODE_VERSION }}"
-          cache: yarn
-      - name: Build
-        run: |
-          yarn global add vercel
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      - name: "Tar Directory"
-        run: tar -zcf next.tgz .vercel
-      - uses: actions/upload-artifact@v3
-        with:
-          name: web-build
-          path: next.tgz
-  deploy-web-preview:
-    name: Deploy Web (Preview)
-    runs-on: ubuntu-latest
-    needs: build-web
-    environment: Beta
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: web-build
-          path: .
-      - name: "Untar Directory"
-        run: |
-          tar -zxf next.tgz
-      - name: Deploy
-        run: |
-          yarn global add vercel
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-  build-web-prod:
-    name: Build Web (Production)
-    needs: [build-web]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "${{ env.NODE_VERSION }}"
-          cache: yarn
-      - name: Build
-        run: |
-          yarn global add vercel
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }} --prod
-      - name: "Tar Directory"
-        run: tar -zcf next.tgz .vercel
-      - uses: actions/upload-artifact@v3
-        with:
-          name: web-build-prod
-          path: next.tgz
-  deploy-web-prod:
-    name: Deploy Web (Production)
-    runs-on: ubuntu-latest
-    needs: [build-web, build-web-prod, deploy-web-preview]
-    environment: Production
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: web-build-prod
-          path: .
-      - name: "Untar Directory"
-        run: |
-          tar -zxf next.tgz
-      - name: Deploy
-        run: |
-          yarn global add vercel
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --prod
-  build-bot:
-    name: Build Bot
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "${{ env.NODE_VERSION }}"
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GH_TOKEN }}          
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-      - name: Setup buildx
-        uses: docker/setup-buildx-action@v2
-        id: buildx
-        with:
-          install: true
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Build and push image
-        id: docker_build
-        uses: docker/build-push-action@v3
-        with:
-          platforms: linux/amd64
-          push: true
-          context: .
-          build-args: "--progress=plain"
-          network: host
-          allow: network.host
-          file: apps/bot/Dockerfile
-          tags: |
-            hacksore/presence-bot:latest
-            ghcr.io/hacksore/presence-bot:latest
+  # build-web:
+  #   name: Build Web
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repo
+  #       uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "${{ env.NODE_VERSION }}"
+  #         cache: yarn
+  #     - name: Build
+  #       run: |
+  #         yarn global add vercel
+  #         vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+  #         vercel build --token=${{ secrets.VERCEL_TOKEN }}
+  #     - name: "Tar Directory"
+  #       run: tar -zcf next.tgz .vercel
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: web-build
+  #         path: next.tgz
+  # deploy-web-preview:
+  #   name: Deploy Web (Preview)
+  #   runs-on: ubuntu-latest
+  #   needs: build-web
+  #   environment: Beta
+  #   steps:
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: web-build
+  #         path: .
+  #     - name: "Untar Directory"
+  #       run: |
+  #         tar -zxf next.tgz
+  #     - name: Deploy
+  #       run: |
+  #         yarn global add vercel
+  #         vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+  # build-web-prod:
+  #   name: Build Web (Production)
+  #   needs: [build-web]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repo
+  #       uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "${{ env.NODE_VERSION }}"
+  #         cache: yarn
+  #     - name: Build
+  #       run: |
+  #         yarn global add vercel
+  #         vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+  #         vercel build --token=${{ secrets.VERCEL_TOKEN }} --prod
+  #     - name: "Tar Directory"
+  #       run: tar -zcf next.tgz .vercel
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: web-build-prod
+  #         path: next.tgz
+  # deploy-web-prod:
+  #   name: Deploy Web (Production)
+  #   runs-on: ubuntu-latest
+  #   needs: [build-web, build-web-prod, deploy-web-preview]
+  #   environment: Production
+  #   steps:
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: web-build-prod
+  #         path: .
+  #     - name: "Untar Directory"
+  #       run: |
+  #         tar -zxf next.tgz
+  #     - name: Deploy
+  #       run: |
+  #         yarn global add vercel
+  #         vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --prod
+  # build-bot:
+  #   name: Build Bot
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repo
+  #       uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "${{ env.NODE_VERSION }}"
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.repository_owner }}
+  #         password: ${{ secrets.GH_TOKEN }}          
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_TOKEN }}
+  #     - name: Setup buildx
+  #       uses: docker/setup-buildx-action@v2
+  #       id: buildx
+  #       with:
+  #         install: true
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #     - name: Build and push image
+  #       id: docker_build
+  #       uses: docker/build-push-action@v3
+  #       with:
+  #         platforms: linux/amd64
+  #         push: true
+  #         context: .
+  #         build-args: "--progress=plain"
+  #         network: host
+  #         allow: network.host
+  #         file: apps/bot/Dockerfile
+  #         tags: |
+  #           hacksore/presence-bot:latest
+  #           ghcr.io/hacksore/presence-bot:latest
   deploy-firebase:
     name: Deploy Firebase Rules
     runs-on: ubuntu-latest
