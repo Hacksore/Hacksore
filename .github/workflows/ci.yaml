@@ -38,7 +38,7 @@ jobs:
       - name: Install
         run: yarn install -w apps/web -w libs/api
       - name: Build
-        run: yarn turbo build --scope=web --scope=api --scope=types
+        run: yarn turbo build --filter=web --filter=api --filter=types
   build-bot:
     name: Build Bot
     runs-on: ubuntu-latest

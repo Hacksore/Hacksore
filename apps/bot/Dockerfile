@@ -6,7 +6,7 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
-RUN turbo prune --scope=bot --docker
+RUN turbo prune --filter=bot --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:18-alpine AS installer
