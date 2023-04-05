@@ -35,11 +35,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GH_TOKEN }}          
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Setup buildx
         uses: docker/setup-buildx-action@v2
         id: buildx
@@ -59,7 +54,6 @@ jobs:
           allow: network.host
           file: apps/bot/Dockerfile
           tags: |
-            hacksore/presence-bot:latest
             ghcr.io/hacksore/presence-bot:latest
   deploy-firebase:
     name: Deploy Firebase Rules
@@ -102,8 +96,8 @@ jobs:
           port: 22
           script: |
             # pull the latest image
-            docker pull hacksore/presence-bot:latest
-
+            docker pull ghcr.io/hacksore/presence-bot:latest
+   
             # stop the running instance gracefully
             docker stop presence
 
@@ -116,7 +110,7 @@ jobs:
               --detach \
               --name presence \
               --env-file=.env \
-              hacksore/presence-bot:latest
+              ghcr.io/hacksore/presence-bot:latest
 
             # print for validation
             docker ps
