@@ -67,6 +67,6 @@ jobs:
           network: host
           allow: network.host
           file: apps/bot/Dockerfile
-          tags: hacksore/presence-bot:latest
+          tags: ${{ github.repository_owner }}/presence-bot:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
