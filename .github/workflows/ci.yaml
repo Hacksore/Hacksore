@@ -17,6 +17,7 @@ jobs:
       NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
       TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       TURBO_TEAM: ${{ secrets.VERCEL_TEAM }}
+      TURBO_REMOTE_ONLY: true
     name: Build Web
     runs-on: ubuntu-latest
     steps:
