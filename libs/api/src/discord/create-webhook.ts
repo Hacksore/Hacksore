@@ -42,17 +42,17 @@ export async function createDiscordWebhook({ channelId }: CreateWebHookOption): 
 
   if (response.statusCode === 200) {
     const payload = JSON.parse(response.body);
-    
+
     return {
       success: true,
-      url: `https://discord.com/api/webhooks/${payload.id}/${payload.token}`
+      url: `https://discord.com/api/webhooks/${payload.id}/${payload.token}`,
     };
   }
 
   try {
     return {
       success: false,
-      error: response.body
+      error: response.body,
     };
   } catch (err) {
     return {

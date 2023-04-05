@@ -4,7 +4,7 @@ import IconMusic from "@mui/icons-material/Headphones";
 import IconTwitter from "@mui/icons-material/Twitter";
 import React from "react";
 import { Activity, ActivityType, PresenceStatus } from "@boult/types";
-import { SiNeovim } from "react-icons/si"
+import { SiNeovim } from "react-icons/si";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   "& .activity": {

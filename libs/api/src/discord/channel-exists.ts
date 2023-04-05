@@ -19,7 +19,6 @@ interface CreateChannelOptions {
  * @param {CreateChannelOptions} param - The repo to create {@link CreateChannelOptions}
  */
 export async function discordChannelExists({ guildId, name }: CreateChannelOptions): Promise<boolean> {
-
   const response = await got(`${DISCORD_API_BASE}/api/v10/guilds/${guildId}/channels`, {
     method: "GET",
     throwHttpErrors: false,

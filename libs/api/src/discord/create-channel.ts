@@ -52,7 +52,7 @@ export async function createDiscordChannel({ guildId, name }: CreateChannelOptio
   if (response.statusCode === 201) {
     return {
       success: true,
-      channelId: body.id
+      channelId: body.id,
     };
   }
 

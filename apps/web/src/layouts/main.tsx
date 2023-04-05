@@ -1,14 +1,12 @@
-import { Header } from "../components/header"
+import { Header } from "../components/header";
 
 const MainLayout = ({ children }: { children: JSX.Element }) => {
   return (
     <>
       <Header />
-      <main>        
-        {children}
-      </main>
+      <main>{children}</main>
     </>
-  )
-}
+  );
+};
 
-export default MainLayout
+export default MainLayout;

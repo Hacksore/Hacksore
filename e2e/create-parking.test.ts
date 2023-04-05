@@ -10,7 +10,7 @@ if (!PARKING_WEBSITE || !PARKING_CODE || !APT_NUMBER) {
 const user = {
   fistName: "Sean",
   lastName: "Boult",
-}
+};
 
 test("test", async ({ page }) => {
   await page.goto(PARKING_WEBSITE);
@@ -50,10 +50,10 @@ test("test", async ({ page }) => {
     .click();
 
   // check confirm
-  await page.locator('#cphMainCell_cbRegPermitAgreeToRegs').check();
-  
+  await page.locator("#cphMainCell_cbRegPermitAgreeToRegs").check();
+
   // click verify
-  await page.getByText('Verify Verify').click();
+  await page.getByText("Verify Verify").click();
 
   // debug
   // await page.pause();

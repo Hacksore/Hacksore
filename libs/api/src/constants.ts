@@ -3,7 +3,7 @@ export const GITHUB_API_BASE = "https://api.github.com";
 
 export const rgbToDecimal = (r: number, g: number, b: number): number => {
   return r * 65536 + g * 256 + b;
-}
+};
 
 export enum Colors {
   Red = 13264986,
