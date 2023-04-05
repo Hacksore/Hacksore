@@ -17,20 +17,12 @@ const firebaseConfig: FirebaseOptions = {
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 };
 
-// this is called on the client not the server
-if (typeof window !== "undefined") {
-  console.log("Connecting to firebase on the client...");
-}
-
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// setup emulator only in dev mode
-if (process.env.NODE_ENV !== "production") {
-  if (!global[EMULATORS_STARTED]) {
-    global[EMULATORS_STARTED] = true;
-    connectDatabaseEmulator(db, "127.0.0.1", 9000);
-  }
+if (typeof window !== "undefined" && ["127.0.0.1", "localhost"].includes(location.hostname)) {
+  // Point to the RTDB emulator running on localhost.
+  connectDatabaseEmulator(db, "127.0.0.1", 9000);
 }
 
 export { db, app };
