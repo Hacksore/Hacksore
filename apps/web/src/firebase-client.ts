@@ -2,8 +2,6 @@ import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getDatabase } from "@firebase/database";
 import { connectDatabaseEmulator } from "firebase/database";
 
-const EMULATORS_STARTED = "EMULATORS_STARTED";
-
 // keep ts happy
 declare global {
   // eslint-disable-next-line no-unused-vars
