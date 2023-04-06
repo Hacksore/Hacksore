@@ -2,12 +2,6 @@ import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getDatabase } from "@firebase/database";
 import { connectDatabaseEmulator } from "firebase/database";
 
-// keep ts happy
-declare global {
-  // eslint-disable-next-line no-unused-vars
-  var EMULATORS_STARTED: boolean;
-}
-
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
