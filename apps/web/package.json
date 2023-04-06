@@ -14,11 +14,11 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@giscus/react": "^2.2.8",
-    "@hookform/resolvers": "^3.0.0",
+    "@hookform/resolvers": "^3.0.1",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
-    "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.15",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.11.16",
     "@next/mdx": "^13.1.6",
     "@vercel/analytics": "^0.1.11",
     "clsx": "^1.2.1",
@@ -29,7 +29,7 @@
     "next": "^13.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.43.7",
+    "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "zod": "^3.21.4"
   },
@@ -38,11 +38,9 @@
     "@octokit/webhooks-types": "^6.10.0",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.55.0",
-    "eslint": "^8.35.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
     "eslint-config-custom": "*",
     "eslint-config-next": "^13.2.3",
-    "tsconfig": "*",
-    "typescript": "^5.0.2"
+    "tsconfig": "*"
   }
 }

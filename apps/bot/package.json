@@ -16,16 +16,15 @@
   "devDependencies": {
     "@boult/api": "*",
     "@boult/types": "*",
-    "@types/node": "^18.15.3",
+    "@types/node": "^18.15.11",
     "dotenv": "^16.0.3",
     "eslint-config-custom": "*",
-    "nodemon": "^2.0.21",
+    "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
-    "tsconfig": "*",
-    "typescript": "^5.0.2"
+    "tsconfig": "*"
   },
   "dependencies": {
-    "discord.js": "^14.8.0",
+    "discord.js": "^14.9.0",
     "firebase-admin": "^11.5.0"
   }
 }
