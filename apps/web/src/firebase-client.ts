@@ -29,8 +29,7 @@ const db = getDatabase(app);
 if (process.env.NODE_ENV !== "production") {
   if (!global[EMULATORS_STARTED]) {
     global[EMULATORS_STARTED] = true;
-    console.log("Connecting to firebase emulator");
-    connectDatabaseEmulator(db, "localhost", 9000);
+    connectDatabaseEmulator(db, "127.0.0.1", 9000);
   }
 }
 
