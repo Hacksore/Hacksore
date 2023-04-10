@@ -19,7 +19,7 @@
     "@mdx-js/react": "^2.3.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
-    "@next/mdx": "^13.1.6",
+    "@next/mdx": "^13.3.0",
     "@vercel/analytics": "^0.1.11",
     "clsx": "^1.2.1",
     "firebase": "^9.19.1",
