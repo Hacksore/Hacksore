@@ -18,6 +18,7 @@
     "build:web": "turbo run build --filter=web",
     "tsc": "tsc -b --watch",
     "lint": "turbo run lint",
+    "format": "npx prettier -w '**/*.{ts,tsx}'",
     "deploy": "firebase deploy && vercel deploy",
     "clean": "turbo clean"
   },
