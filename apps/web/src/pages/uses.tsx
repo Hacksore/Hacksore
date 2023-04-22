@@ -46,7 +46,7 @@ function Uses() {
         <ToggleButtonGroup
           value={platform}
           exclusive
-          onChange={(e: React.MouseEvent<HTMLElement>, val: "mac" | "pc" | null) => {
+          onChange={(_, val: "mac" | "pc" | null) => {
             val && setPlatform(val);
           }}
           aria-label="text alignment"
