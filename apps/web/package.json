@@ -26,7 +26,7 @@
     "firebase-admin": "^11.5.0",
     "got": "^12.6.0",
     "nanoid": "^4.0.2",
-    "next": "^13.2.3",
+    "next": "^13.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
