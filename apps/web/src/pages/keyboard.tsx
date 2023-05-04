@@ -1,6 +1,6 @@
 import { styled, Typography } from "@mui/material";
 import Head from "next/head";
-import KeyboardMd from "../mdx/keyboard.md";
+import KeyboardMd from "../mdx/keyboard.mdx";
 
 const StyledMain = styled("main")(() => ({
   "& .content": {
