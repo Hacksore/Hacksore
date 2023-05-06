@@ -2,6 +2,7 @@ import got from "got";
 import { GITHUB_API_BASE } from "../constants.js";
 import { CreateWebhookResult } from "../types.js";
 
+// TODO: what should i do with ENV vars that are attempted to be use in share packages? 
 const { GITHUB_ACCESS_TOKEN } = process.env;
 
 interface CreateWebHookOption {

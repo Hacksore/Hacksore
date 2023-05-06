@@ -5,6 +5,7 @@ export const env = createEnv({
   clientPrefix: "PUBLIC_",
   server: {
     DISCORD_TOKEN: z.string(),
+    FIREBASE_SA_BASE64: z.string(),
   },
   client: {},
   runtimeEnv: process.env,
