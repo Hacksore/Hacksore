@@ -1,12 +1,11 @@
 import "dotenv/config";
-
+import "./env.js"
 import { Client, GatewayIntentBits } from "discord.js";
 import { onReady } from "./events/ready.js";
 import { onInteraction } from "./events/interaction.js";
 import { onPresenceUpdate } from "./events/presence-update.js";
 import { onVoiceStateUpdate } from "./events/voice-state-update.js";
 import { onGuildMemberUpdate } from "./events/guild-member-update.js";
-import { env } from "./env.js";
 
 const client = new Client({
   intents: [
@@ -33,4 +32,4 @@ client.on("voiceStateUpdate", onVoiceStateUpdate);
 client.on("guildMemberUpdate", onGuildMemberUpdate);
 
 // login with the token
-client.login(env.DISCORD_TOKEN);
+client.login(process.env.DISCORD_TOKEN);

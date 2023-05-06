@@ -1,8 +1,8 @@
 import admin from "firebase-admin";
 import { Database } from "firebase-admin/database";
-import { env } from "./env.js";
+import "./env.js";
 
-const serviceAccountStringData = Buffer.from(env.FIREBASE_SA_BASE64, "base64").toString("utf8");
+const serviceAccountStringData = Buffer.from(process.env.FIREBASE_SA_BASE64, "base64").toString("utf8");
 const serviceAccount = JSON.parse(serviceAccountStringData);
 
 admin.initializeApp({

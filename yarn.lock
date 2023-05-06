@@ -1281,7 +1281,7 @@
   dependencies:
     defer-to-connect "^2.0.1"
 
-"@t3-oss/env-core@0.3.1", "@t3-oss/env-core@^0.3.1":
+"@t3-oss/env-core@0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@t3-oss/env-core/-/env-core-0.3.1.tgz#3ec7f315c3f565e8774976ffbd26c4f67a8b972f"
   integrity sha512-iEnBuWeSjzqQLDTUw7H+YhstV4OZrGXTkQGL6ZOMxZQoCmwGX7GVS+1KCd5RvCzOtrIAD9jeOItSWNjC7sG4Sg==

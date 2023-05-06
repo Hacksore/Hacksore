@@ -24,7 +24,6 @@
     "tsconfig": "*"
   },
   "dependencies": {
-    "@t3-oss/env-core": "^0.3.1",
     "discord.js": "^14.11.0",
     "firebase-admin": "^11.8.0",
     "zod": "^3.21.4"
