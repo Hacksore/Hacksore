@@ -6,12 +6,7 @@ import { onInteraction } from "./events/interaction.js";
 import { onPresenceUpdate } from "./events/presence-update.js";
 import { onVoiceStateUpdate } from "./events/voice-state-update.js";
 import { onGuildMemberUpdate } from "./events/guild-member-update.js";
-
-export const { DISCORD_TOKEN } = process.env;
-
-if (!DISCORD_TOKEN) {
-  throw new Error("You must set a DISCORD_TOKEN");
-}
+import { env } from "./env.js";
 
 const client = new Client({
   intents: [
@@ -38,4 +33,4 @@ client.on("voiceStateUpdate", onVoiceStateUpdate);
 client.on("guildMemberUpdate", onGuildMemberUpdate);
 
 // login with the token
-client.login(DISCORD_TOKEN);
+client.login(env.DISCORD_TOKEN);
