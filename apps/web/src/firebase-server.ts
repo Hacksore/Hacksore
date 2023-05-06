@@ -1,16 +1,7 @@
 import admin from "firebase-admin";
+import { env } from "./env";
 
-const { FIREBASE_SA_BASE64, NEXT_PUBLIC_FIREBASE_DATABASE_URL } = process.env;
-
-if (!FIREBASE_SA_BASE64) {
-  throw new Error("You must provide a FIREBASE_SA_BASE64 variable");
-}
-
-if (!NEXT_PUBLIC_FIREBASE_DATABASE_URL) {
-  throw new Error("You must provide a NEXT_PUBLIC_FIREBASE_DATABASE_URL variable");
-}
-
-const serviceAccountBuffer = Buffer.from(FIREBASE_SA_BASE64, "base64");
+const serviceAccountBuffer = Buffer.from(env.FIREBASE_SA_BASE64, "base64");
 const serviceAccountStringData = serviceAccountBuffer.toString("utf8");
 const serviceAccount: admin.ServiceAccount = JSON.parse(serviceAccountStringData);
 
@@ -19,7 +10,7 @@ if (!admin.apps.length) {
     console.log("firebase server initializeApp...");
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+      databaseURL: env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     });
 
     console.log("initialized firebase server app!");
