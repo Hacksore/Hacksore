@@ -1,5 +1,6 @@
 import "dotenv/config";
 import "./env.js"
+
 import { Client, GatewayIntentBits } from "discord.js";
 import { onReady } from "./events/ready.js";
 import { onInteraction } from "./events/interaction.js";

@@ -6,7 +6,13 @@ const envVariables = z.object({
 });
 
 // parse the environment variables
-envVariables.parse(process.env);
+try {
+  envVariables.parse(process.env);
+} catch (error) {
+  // if there is an error, log it and exit
+  console.error(error);
+  process.exit(1);
+}
 
 declare global {
   namespace NodeJS {

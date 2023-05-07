@@ -1,6 +1,7 @@
 {
   "pipeline": {
     "start": {
+      "persistent": true,
       "cache": false
     },
     "lint": {

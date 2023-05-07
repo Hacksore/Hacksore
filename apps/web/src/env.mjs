@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    FIREBASE_SA_BASE64: z.string(),
+    FIREBASE_SA_BASE64: z.string().nonempty(),
   },
   client: {
     NEXT_PUBLIC_FIREBASE_API_KEY: z.string().nonempty(),
