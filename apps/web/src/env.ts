@@ -6,10 +6,10 @@ export const env = createEnv({
     FIREBASE_SA_BASE64: z.string(),
   },
   client: {
-    NEXT_PUBLIC_FIREBASE_API_KEY: z.string(),
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID: z.string(),
-    NEXT_PUBLIC_FIREBASE_APP_ID: z.string(),
-    NEXT_PUBLIC_FIREBASE_DATABASE_URL: z.string().url(),
+    NEXT_PUBLIC_FIREBASE_API_KEY: z.string().nonempty(),
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID: z.string().nonempty(),
+    NEXT_PUBLIC_FIREBASE_APP_ID: z.string().nonempty(),
+    NEXT_PUBLIC_FIREBASE_DATABASE_URL: z.string().url().nonempty(),
   },
   runtimeEnv: {
     FIREBASE_SA_BASE64: process.env.FIREBASE_SA_BASE64,
