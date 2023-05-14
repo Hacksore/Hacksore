@@ -1,6 +1,7 @@
 import got from "got";
 import { DISCORD_API_BASE } from "../constants.js";
 
+// FIXME: this uses a env var and should be using the env typesaftey shiz
 const { DISCORD_TOKEN } = process.env;
 
 interface CreateChannelOptions {
