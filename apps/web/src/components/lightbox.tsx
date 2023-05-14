@@ -7,6 +7,7 @@ import { useState } from "react";
 export const CustomLightbox = ({ images }: { images: any[] }) => {
   const [open, setOpen] = useState(false);
   const firstImage = images[0];
+
   return (
     <>
       <Image
