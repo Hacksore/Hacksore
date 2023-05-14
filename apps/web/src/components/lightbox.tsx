@@ -30,7 +30,7 @@ export const CustomLightbox = ({ images }: { images: any[] }) => {
   const firstImage = slides[0];
   return (
     <>
-      <Image src={firstImage.src} width={firstImage.width} height={firstImage.height} layout="responsive" onClick={() => setOpen(true)} />
+      <Image src={firstImage.src} alt={firstImage.alt} width={firstImage.width} height={firstImage.height} layout="responsive" onClick={() => setOpen(true)} />
       <Lightbox open={open} close={() => setOpen(false)} slides={slides} plugins={[Zoom]} />
     </>
   );
