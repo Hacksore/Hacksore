@@ -1,3 +1,0 @@
-apps/web/public/img/desk/*.png filter=lfs diff=lfs merge=lfs -text
-apps/web/public/img/term/*.png filter=lfs diff=lfs merge=lfs -text
-apps/web/public/img/*.png filter=lfs diff=lfs merge=lfs -text
