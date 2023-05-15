@@ -17,6 +17,12 @@ const StyledBody = styled("body")(({ theme }) => ({
   "&::-webkit-scrollbar-thumb:hover": {
     background: darken(theme.palette.background.default, 0.6),
   },
+  "code": {
+    color: theme.palette.primary.main,
+    background: darken(theme.palette.background.default, 0.9),
+    padding: theme.spacing(0.5, 1),
+    borderRadius: 4,
+  }
 }));
 
 export default function Document() {

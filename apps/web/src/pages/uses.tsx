@@ -63,7 +63,23 @@ function Uses() {
         <PlatformComponent />
 
         <Typography sx={{ mt: 4 }}>
-          If you have questions about something I use or build please drop a comment below or @ me on twitter.
+          Questions about something I use or build please drop a comment below or @ me on twitter.
+        </Typography>
+
+        <Typography sx={{ mt: 2 }}>
+          Also make sure to check out my{" "}
+          <a
+            href="https://github.com/Hacksore/dotfiles/tree/master/.config/astronvim/lua/user"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Neovim config
+          </a>{" "}
+          and{" "}
+          <a href="https://github.com/Hacksore/dotfiles" rel="noreferrer" target="_blank">
+            dotfiles
+          </a>{" "}
+          to see how I configure everything.
         </Typography>
 
         <Box sx={{ mt: 4, mb: 8 }} className="giscus">

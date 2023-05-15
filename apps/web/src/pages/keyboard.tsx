@@ -2,7 +2,9 @@ import { styled, Typography } from "@mui/material";
 import Head from "next/head";
 import KeyboardMd from "../mdx/keyboard.mdx";
 
+// TODO: this should be reused in other views
 const StyledMain = styled("main")(() => ({
+  maxWidth: 760,
   "& .content": {
     textAlign: "left",
   },
