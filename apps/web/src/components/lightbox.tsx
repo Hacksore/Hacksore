@@ -1,7 +1,7 @@
 import Lightbox from "yet-another-react-lightbox";
 import zoomPlugin from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
-// TODO: figure out migation to next/image
+// TODO: figure out migration to next/image
 import Image from "next/legacy/image";
 import { useState } from "react";
 
