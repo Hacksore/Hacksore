@@ -1,5 +1,6 @@
-import { AppBar, Box, styled, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, styled, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
+import HomeIcon from "@mui/icons-material/Home";
 
 const navItems = ["/uses"];
 
@@ -20,7 +21,9 @@ export const Header = () => {
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ fontWeight: "bold", flexGrow: 1 }}>
             <Link href="/">
-              <Typography variant="h5">/home</Typography>
+              <IconButton aria-label="Navigate Home">
+                <HomeIcon fontSize="large" style={{ color: "#fff" }} />
+              </IconButton>
             </Link>
           </Typography>
           <Box>

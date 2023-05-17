@@ -5,7 +5,7 @@ import { styled } from "@mui/system";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   margin: "20px 0 28px 0",
-  "& .link": {
+  ".link": {
     background: theme.palette.secondary.main,
     color: "#fff",
     [theme.breakpoints.down("lg")]: {
