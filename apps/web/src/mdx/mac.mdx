@@ -1,6 +1,9 @@
 import Image from "next/legacy/image";
 import { CustomLightbox } from "../components/lightbox";
 
+import image1 from "../../public/img/term/terminal-irl.png";
+import image2 from "../../public/img/term/editor-irl.png";
+
 Here are some specific things I use when working on my Mac.
 
 ### Mac Software
@@ -18,18 +21,5 @@ Here are some specific things I use when working on my Mac.
 Can't forget to show off the terminal and editor pic as well 😅.
 
 <CustomLightbox
-  images={[
-    {
-      src: "/img/term/terminal-irl.png",
-      alt: "Desk IRL",
-      width: 1920,
-      height: 1080, 
-    },
-    {
-      src: "/img/term/editor-irl.png",
-      alt: "Desk IRL",
-      width: 1920,
-      height: 1080, 
-    }
-  ]}
+  images={[ image1, image2 ]}
 />
