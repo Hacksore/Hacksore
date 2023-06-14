@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 const envVariables = z.object({
+  /**
+   * The Discord bot token
+   */
   DISCORD_TOKEN: z.string().nonempty(),
+  /**
+   * The json service account key for firebase admin as a base64 string
+   */
   FIREBASE_SA_BASE64: z.string().nonempty(),
 });
 
@@ -14,8 +20,11 @@ try {
   process.exit(1);
 }
 
+// keep ts happy
 declare global {
+  // eslint-disable-next-line
   namespace NodeJS {
+    // eslint-disable-next-line
     interface ProcessEnv extends z.infer<typeof envVariables> { }
   }
 }

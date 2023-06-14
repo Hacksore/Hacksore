@@ -1,7 +1,6 @@
 {
-  "root": true,
   "env": {
     "node": true
   },
-  "extends": ["eslint:recommended", "custom"]
+  "extends": ["custom"]
 }
