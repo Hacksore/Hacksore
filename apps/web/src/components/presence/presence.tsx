@@ -101,7 +101,7 @@ const ListeningActivity = ({ name, state, details }: { name: string; state: stri
 const ACTIVITY_ORDER = [ActivityType.Custom, ActivityType.Playing, ActivityType.Listening];
 
 const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = [] }) => {
-  const statusElements: Function[] = [];
+  const statusElements: React.JSX.Element[] = [];
 
   // sort based on order in ACTIVITY_ORDER
   activities.sort((a, b) => ACTIVITY_ORDER.indexOf(a.type) - ACTIVITY_ORDER.indexOf(b.type));
@@ -110,15 +110,15 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
     const { type } = item;
 
     if (type === ActivityType.Custom) {
-      statusElements.push(() => <CurrentStatus activityLength={activities.length} {...item} />);
+      statusElements.push(<CurrentStatus activityLength={activities.length} {...item} />);
     }
 
     if (type === ActivityType.Playing) {
-      statusElements.push(() => <PlayingActivity {...item} />);
+      statusElements.push(<PlayingActivity {...item} />);
     }
 
     if (type === ActivityType.Listening) {
-      statusElements.push(() => <ListeningActivity {...item} />);
+      statusElements.push(<ListeningActivity {...item} />);
     }
   });
 
@@ -129,11 +129,13 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
           Ping me <PingLink /> on <IconTwitter sx={{ ml: 1 }} />
         </Typography>
       ) : (
-        statusElements.map((Component, idx) => (
-          <div className="activity" key={`activity-${idx}`}>
-            <Component />
-          </div>
-        ))
+        statusElements.map((component: React.JSX.Element, idx) => {
+          return (
+            <div className="activity" key={`activity-${idx}`}>
+              {component}
+            </div>
+          );
+        })
       )}
     </div>
   );
