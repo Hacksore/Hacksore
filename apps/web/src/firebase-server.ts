@@ -7,13 +7,10 @@ const serviceAccount: admin.ServiceAccount = JSON.parse(serviceAccountStringData
 
 if (!admin.apps.length) {
   try {
-    console.log("firebase server initializeApp...");
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
       databaseURL: env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     });
-
-    console.log("initialized firebase server app!");
   } catch (error: any) {
     console.log(error);
   }

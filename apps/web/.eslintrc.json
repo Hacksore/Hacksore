@@ -5,7 +5,10 @@
     "plugin:react/jsx-runtime",
     "custom"
   ],
-  "plugins": ["import", "react"],
+  "plugins": [
+    "import",
+    "react"
+  ],
   "settings": {
     "react": {
       "version": "detect"
