@@ -11,12 +11,7 @@ export const CustomLightbox = ({ images }: { images: any[] }) => {
 
   return (
     <>
-      <Image
-        src={firstImage}
-        alt="Testing"
-        layout="responsive"
-        onClick={() => setOpen(true)}
-      />
+      <Image src={firstImage} alt="Testing" layout="responsive" onClick={() => setOpen(true)} />
 
       <Lightbox open={open} close={() => setOpen(false)} slides={images} />
     </>

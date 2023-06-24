@@ -3,6 +3,9 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
+    /**
+     * This is a base64 encoded string of a service account JSON file.
+     */
     FIREBASE_SA_BASE64: z.string().nonempty(),
   },
   client: {
