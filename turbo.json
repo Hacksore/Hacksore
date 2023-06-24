@@ -4,6 +4,10 @@
       "persistent": true,
       "cache": false
     },
+    "serve": {
+      "persistent": true,
+      "cache": false
+    },
     "lint": {
       "outputs": []
     },
