@@ -4,7 +4,7 @@
   "private": true,
   "description": "",
   "scripts": {
-    "start": "yarn clean && nodemon src/index.ts",
+    "start": "tsx src/index.ts",
     "clean": "rimraf tsconfig.tsbuildinfo .turbo dist",
     "build": "yarn clean && tsc",
     "lint": "eslint 'src/**/*'"
@@ -21,7 +21,8 @@
     "eslint-config-custom": "*",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
-    "tsconfig": "*"
+    "tsconfig": "*",
+    "tsx": "^3.12.7"
   },
   "dependencies": {
     "discord.js": "^14.11.0",
