@@ -1261,6 +1261,18 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@octokit/openapi-types@^18.0.0":
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-18.0.0.tgz#f43d765b3c7533fd6fb88f3f25df079c24fccf69"
+  integrity sha512-V8GImKs3TeQRxRtXFpG2wl19V7444NIOTDF24AWuIbmNaNYOQMWRbjcGDXV5B+0n887fgDcuMNOmlul+k+oJtw==
+
+"@octokit/types@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-10.0.0.tgz#7ee19c464ea4ada306c43f1a45d444000f419a4a"
+  integrity sha512-Vm8IddVmhCgU1fxC1eyinpwqzXPEYu0NrYzD3YZjlGjyftdLBTeqNblRC0jmJmgxbJIsQlyogVeGnrNaaMVzIg==
+  dependencies:
+    "@octokit/openapi-types" "^18.0.0"
+
 "@octokit/webhooks-types@^7.0.3":
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-7.0.3.tgz#7b7ee3e6a0814134cfe5ecb4736e8d1c6fdb6031"
@@ -1414,17 +1426,17 @@
   dependencies:
     defer-to-connect "^2.0.1"
 
-"@t3-oss/env-core@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@t3-oss/env-core/-/env-core-0.4.1.tgz#3f863904c5647679c52400df3c79653c994a4cbc"
-  integrity sha512-JZI8vxlHwtiZO7OYS3qSX9Ngt7UcdqsugLwhBwx7UVi5wp1PtRo2tzMyNoBEGbfHdmkd2QU9IbvYjqtaLUA7TQ==
+"@t3-oss/env-core@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@t3-oss/env-core/-/env-core-0.6.0.tgz#a2e6a6a2b166aad2df7ecc5e7a72400946a84fbe"
+  integrity sha512-3FkPAba069WRZVVab/sB1m3eSGn/rZeypx5k+sWEu1d+k0OQdRDnvFS+7MtxYgqVrwaRk3b7yVnX2dgSPVmWPQ==
 
-"@t3-oss/env-nextjs@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@t3-oss/env-nextjs/-/env-nextjs-0.4.1.tgz#06fc6c67c2e38eb8fcf145b3eda468c62ba34373"
-  integrity sha512-lDbewJvZwOW7bFwHzdKtAH4+YcVTvGU7UEJfHwlb1RqVe9ejPrKn6ax2OGv/nFji1JXGKecKYHz3Xkpru6TFbw==
+"@t3-oss/env-nextjs@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@t3-oss/env-nextjs/-/env-nextjs-0.6.0.tgz#47b44d4fc6f872f3782c4e1ebfe94a55f09dd1e1"
+  integrity sha512-SpzcGNIbUYcQw4zPPFeRJqCC1560zL7QmB0puIqOnuCsmykPkqHPX+n9CNZLXVQerboHzfvb7Kd+jAdouk72Vw==
   dependencies:
-    "@t3-oss/env-core" "0.4.1"
+    "@t3-oss/env-core" "0.6.0"
 
 "@tokenizer/token@^0.3.0":
   version "0.3.0"

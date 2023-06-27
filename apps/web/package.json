@@ -20,7 +20,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.6",
     "@next/mdx": "^13.4.7",
-    "@t3-oss/env-nextjs": "^0.4.1",
+    "@t3-oss/env-nextjs": "^0.6.0",
     "@vercel/analytics": "^1.0.1",
     "clsx": "^1.2.1",
     "firebase": "^9.23.0",
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@boult/types": "*",
+    "@octokit/types": "^10.0.0",
     "@octokit/webhooks-types": "^7.0.3",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",

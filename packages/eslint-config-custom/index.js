@@ -9,8 +9,9 @@ module.exports = {
     node: true,
   },
   rules: {
-    // this is handled by typescript
+    // these are both handled by typescript
     "no-undef": "off",
+    "no-unused-vars": "off",
     quotes: ["error", "double"],
   },
 };
