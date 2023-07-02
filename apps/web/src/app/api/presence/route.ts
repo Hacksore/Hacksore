@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { db } from "../../../firebase-server";
 
 // we make this an API that is forever dynamic
@@ -10,12 +9,16 @@ export async function GET() {
 
     if (userdataRefDoc.exists()) {
       const value = userdataRefDoc.val();
-      return NextResponse.json(value);
+      return new Response(JSON.stringify(value));
     } else {
-      return NextResponse.json({ error: "can't find snapshot for userdata" }, { status: 200 });
+      return new Response(JSON.stringify({ error: "can't find snapshot for userdata" }), {
+        status: 200,
+      });
     }
   } catch (error: any) {
     console.error(error);
-    return NextResponse.json({ error: error.message });
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 200,
+    });
   }
 }
