@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@octokit/types": "^10.0.0",
-    "@octokit/webhooks-types": "^7.0.3",
+    "@octokit/webhooks-types": "^7.1.0",
     "eslint-config-custom": "*",
     "tsconfig": "*"
   },

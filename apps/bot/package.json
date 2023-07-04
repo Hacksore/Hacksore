@@ -16,7 +16,7 @@
   "devDependencies": {
     "@boult/api": "*",
     "@boult/types": "*",
-    "@types/node": "^20.1.0",
+    "@types/node": "^20.3.3",
     "dotenv": "^16.3.1",
     "eslint-config-custom": "*",
     "nodemon": "^2.0.22",
