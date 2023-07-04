@@ -47,6 +47,7 @@ export async function createDiscordChannel({ guildId, name }: CreateChannelOptio
     },
   });
 
+  // TODO: are there discord types somewhere?
   const body: any = JSON.parse(response.body);
 
   if (response.statusCode === 201) {
