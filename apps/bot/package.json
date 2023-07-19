@@ -19,8 +19,6 @@
     "@types/node": "^20.4.0",
     "dotenv": "^16.3.1",
     "eslint-config-custom": "*",
-    "nodemon": "^2.0.22",
-    "ts-node": "^10.9.1",
     "tsconfig": "*",
     "tsx": "^3.12.7"
   },
