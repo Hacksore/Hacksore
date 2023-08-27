@@ -1,6 +1,6 @@
+"use client"
 import { Box, styled, Typography } from "@mui/material";
 import GiscusComponent from "@giscus/react";
-import Head from "next/head";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
@@ -11,12 +11,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-function GuestBook() {
+
+export function GuestBook() {
   return (
     <StyledBox>
-      <Head>
-        <title>Sean Boult&apos;s Guestbook</title>
-      </Head>
       <Typography variant="h2" sx={{ mt: 4, mb: 4, fontWeight: "bold" }}>
         Guestbook
       </Typography>
@@ -38,4 +36,3 @@ function GuestBook() {
   );
 }
 
-export default GuestBook;

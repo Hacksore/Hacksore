@@ -1,3 +1,4 @@
+"use client";
 import { Box, lighten, styled, Tooltip, Typography } from "@mui/material";
 import IconGaming from "@mui/icons-material/VideogameAsset";
 import IconMusic from "@mui/icons-material/Headphones";
@@ -125,8 +126,8 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   return (
     <div className="tooltip">
       {statusElements.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold", display: "flex" }}>
-          Ping me <PingLink /> on <IconTwitter sx={{ ml: 1 }} />
+        <Typography sx={{ fontWeight: "bold", pt: 1, pb: 1, justifyContent: "center", display: "flex" }}>
+          Ping me <PingLink />
         </Typography>
       ) : (
         statusElements.map((component: React.JSX.Element, idx) => {

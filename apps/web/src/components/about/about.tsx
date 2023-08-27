@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { Box, lighten, Skeleton, styled, Typography } from "@mui/material";
 import { Presence } from "../../components/presence";

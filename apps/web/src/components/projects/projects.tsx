@@ -1,3 +1,4 @@
+"use client";
 import { Box, Button, Grid, styled, Typography } from "@mui/material";
 import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";

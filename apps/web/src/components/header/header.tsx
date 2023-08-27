@@ -1,44 +1,23 @@
-import { AppBar, Box, IconButton, styled, Toolbar, Typography } from "@mui/material";
+"use client";
+import { Box, styled } from "@mui/material";
 import Link from "next/link";
-import HomeIcon from "@mui/icons-material/Home";
-
-const navItems = ["/uses"];
 
 const StyledBox = styled(Box)(() => ({
+  height: 40,
+  width: "100%",
   display: "flex",
-  height: 20,
-  "& a": {
+  "a": {
     textDecoration: "none",
-    color: "#fff",
-    "& > *": { fontWeight: "bold" },
-  },
+    fontweight: "bold",
+  }
 }));
 
 export const Header = () => {
   return (
     <StyledBox>
-      <AppBar component="nav" elevation={0} position="absolute" sx={{ background: "rgba(0,0,0,0)" }}>
-        <Toolbar>
-          <Typography variant="h5" component="div" sx={{ fontWeight: "bold", flexGrow: 1 }}>
-            <Link href="/">
-              <IconButton aria-label="Navigate Home">
-                <HomeIcon fontSize="large" style={{ color: "#fff" }} />
-              </IconButton>
-            </Link>
-          </Typography>
-          <Box>
-            {navItems.map(item => (
-              <Link key={item} href={item}>
-                <Typography variant="h5">{item}</Typography>
-              </Link>
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
-
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
-      </Box>
+      <div>
+        <Link href="/">Home</Link>
+      </div>
     </StyledBox>
   );
 };

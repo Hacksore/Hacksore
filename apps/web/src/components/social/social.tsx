@@ -1,17 +1,16 @@
+"use client";
 import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/icons-material";
+import { SiX } from "@icons-pack/react-simple-icons"
 import { Grid, Tooltip, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   margin: "20px 0 28px 0",
+    gap: ".75rem",
   ".link": {
     background: theme.palette.secondary.main,
     color: "#fff",
-    [theme.breakpoints.down("lg")]: {
-      marginBottom: 16,
-    },
-    marginLeft: 16,
     padding: "8px 10px 6px 10px",
     height: 40,
     width: 70,
@@ -19,6 +18,10 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     display: "block",
     "&:hover": {
       background: lighten(theme.palette.primary.main, 0.1),
+    },
+    "& .icon": {
+      width: 24,
+      height: 24,
     },
   },
 }));
@@ -35,12 +38,12 @@ const SOCIALS = [
     icon: LinkedIn,
   },
   {
-    title: "Twitter",
-    url: "https://twitter.com/hacksore",
-    icon: Twitter,
+    title: "X / Twitter",
+    url: "https://x.com/hacksore",
+    icon: SiX,
   },
   {
-    title: "Discord - Hacksore#1984",
+    title: "Discord - Hacksore",
     url: "https://discord.gg/rg9sUQ4gvb",
     // eslint-disable-next-line @next/next/no-img-element
     icon: () => <img alt="discord" src="/img/discord.svg" width={24} height={24} />,
@@ -69,7 +72,7 @@ export const Social = () => {
         <Grid key={item.title} item>
           <Tooltip arrow title={<Typography sx={{ fontWeight: "bold" }}>{item.title}</Typography>}>
             <a href={item.url} rel="noreferrer" target="_blank" aria-label={item.title} className="link">
-              <item.icon />
+              <item.icon className="icon" />
             </a>
           </Tooltip>
         </Grid>

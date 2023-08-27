@@ -1,8 +1,9 @@
+"use client";
 import { useState } from "react";
 
-import Mac from "../mdx/mac.mdx";
-import PC from "../mdx/pc.mdx";
-import Shared from "../mdx/shared.mdx";
+import Mac from "../../mdx/mac.mdx";
+import PC from "../../mdx/pc.mdx";
+import Shared from "../../mdx/shared.mdx";
 import { Box, styled, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { SiWindows, SiApple } from "react-icons/si";
 import Head from "next/head";

@@ -1,3 +1,4 @@
+"use client";
 import { VisibilityOff, Visibility, Delete } from "@mui/icons-material";
 import { Box, IconButton, InputAdornment, OutlinedInput, Typography } from "@mui/material";
 import { useState } from "react";

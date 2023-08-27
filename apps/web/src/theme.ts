@@ -18,9 +18,6 @@ declare module "@mui/material/styles" {
 }
 
 export const theme = createTheme({
-  // TODO: wat?
-  // @ts-ignore
-  shadows: ["none"],
   palette: {
     card: {
       bg: "#0D1118",
