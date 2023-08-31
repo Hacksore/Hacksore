@@ -1,4 +1,5 @@
-# Hi there 👋
+> [!WARNING]  
+> THIS USER IS SUSPECTED OF USING REACT JS. PLEASE REPORT ALL SUSPICIOUS ACTIVITY TO GITHUB SUPPORT.
 
 👨🏻‍💻​​ ​​​​​​​​​​​ I like to code random things
 
@@ -9,9 +10,3 @@
 ![stars](https://img.shields.io/github/stars/Hacksore)
 ![stars](https://img.shields.io/badge/Watch-96-lightgrey?logo=github)
 
-Who doesn't like a nice cold beer?
-
-![beer](https://boult.me/img/beer.svg)
-
-
- 
