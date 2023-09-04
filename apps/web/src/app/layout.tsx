@@ -1,3 +1,5 @@
+import "../styles/global.css";
+
 import { Header } from "../components/header/header";
 import Providers from "./providers";
 

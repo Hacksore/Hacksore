@@ -1,8 +1,9 @@
 "use client";
-import { Box, Button, Grid, styled, Typography } from "@mui/material";
+import { Box, Grid, styled, Typography } from "@mui/material";
 import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import { IProjectInfo, ProjectStatus } from "../../types/project";
+import { Button } from "../dumb/button";
 
 // I hate this btw 😅
 const TypescriptIcon = ({ style, className }: { style: any; className: string }) => {
@@ -23,78 +24,6 @@ const languageToIcons: Record<string, { icon: any; color: string }> = {
   rust: { icon: SiRust, color: "#fff" },
   firebase: { icon: SiFirebase, color: "#FFCB2B" },
 };
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  // media widths
-  [theme.breakpoints.up("sm")]: {
-    width: "100%",
-  },
-  [theme.breakpoints.up("md")]: {
-    width: 800,
-  },
-  [theme.breakpoints.up("lg")]: {
-    width: 1000,
-  },
-
-  "& .root": {
-    marginTop: 20,
-  },
-  "& .desc": {
-    marginTop: 4,
-  },
-  "& .header": {
-    fontWeight: "bold",
-    color: "#fff",
-    padding: "8px 10px 6px 12px",
-    display: "flex",
-    alignItems: "center",
-    height: 28,
-    "& .status": {
-      display: "flex",
-      marginLeft: 10,
-    },
-  },
-  "& .link": {
-    textDecoration: "none",
-    fontWeight: "bold",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    height: 28,
-  },
-  "& .card": {
-    margin: "0 12px 0 12px",
-    border: `1px solid ${theme.palette.card.border}`,
-    background: theme.palette.card.bg,
-    borderRadius: ".375rem",
-    padding: 8,
-    position: "relative",
-  },
-  "& .content": {
-    padding: "4px 12px 12px 12px",
-    minHeight: 120,
-    textAlign: "left",
-  },
-  "& .bottom": {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: "100%",
-    display: "flex",
-    // justifyContent: "flex-end",
-    alignItems: "center",
-    padding: "0 10px 10px 0",
-  },
-  "& .icon": {
-    color: theme.palette.primary.contrastText,
-  },
-  "& .tech-icon": {
-    width: 24,
-    height: 24,
-    marginRight: 8,
-  },
-}));
 
 type ProjectInfo = IProjectInfo & { tech?: string[] };
 
@@ -196,49 +125,21 @@ const StatusBadge = ({ status }: { status: ProjectStatus }) => {
 
 const ProjectCard = ({ project }: { project: ProjectInfo }) => {
   return (
-    <div className="card">
-      <div className="header">
-        <Typography sx={{ fontWeight: "bold" }}>{project.name}</Typography>
+    <div className="p-2 w-full rounded-lg h-[200px] bg-card-bg border border-card-border">
+      <div className="text-lg p-2 font-bold">{project.name}</div>
+      <div className="p-2">{project.desc}</div>
 
-        {project.status && (
-          <div className="status">
-            <StatusBadge status={project.status} />
-          </div>
+      <div className="flex gap-2 justify-end">
+        {project.repoUrl && (
+          <a href={project.repoUrl} target="_blank" rel="noreferrer">
+            <Button>Repo</Button>
+          </a>
         )}
-      </div>
-      <div className="content">
-        <div className="desc">{project.desc}</div>
-
-        <div className="bottom">
-          <Box sx={{ diplay: "flex", flex: 3, ml: 2 }}>{project?.tech && renderIconsFromLanguage(project.tech)}</Box>
-          <Box sx={{ display: "flex", flex: 1, justifyContent: "right" }}>
-            {project.repoUrl && (
-              <Button
-                color="secondary"
-                href={project.repoUrl}
-                className="link"
-                variant="contained"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Repo
-              </Button>
-            )}
-            {project.websiteUrl && (
-              <Button
-                sx={{ ml: 1 }}
-                href={project.websiteUrl}
-                className="link"
-                variant="contained"
-                color="secondary"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Website
-              </Button>
-            )}
-          </Box>
-        </div>
+        {project.websiteUrl && (
+          <a href={project.websiteUrl} target="_blank" rel="noreferrer">
+            <Button>Website</Button>
+          </a>
+        )}
       </div>
     </div>
   );
@@ -246,14 +147,12 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
 
 export const Projects = () => {
   return (
-    <StyledBox>
-      <Grid container rowSpacing={4} spacing={1}>
-        {PROJECTS.map((project: ProjectInfo) => (
-          <Grid key={project.name} item xs={12} md={6} lg={6}>
-            <ProjectCard project={project} />
-          </Grid>
-        ))}
-      </Grid>
-    </StyledBox>
+    <div className="grid md:grid-cols-2 gap-4">
+      {PROJECTS.map((project: ProjectInfo) => (
+        <div key={project.name}>
+          <ProjectCard project={project} />
+        </div>
+      ))}
+    </div>
   );
 };
