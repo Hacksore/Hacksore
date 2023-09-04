@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Box, lighten, Skeleton, styled, Typography } from "@mui/material";
 import { Presence } from "../../components/presence";
 import { Avatar } from "../../components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
@@ -17,54 +16,8 @@ export const STATE_COLORS = {
 
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  "& .header": {
-    [theme.breakpoints.up("lg")]: {
-      fontSize: 100,
-    },
-    [theme.breakpoints.down("lg")]: {
-      fontSize: 50,
-      margin: 20,
-    },
-    fontWeight: "bold",
-  },
-  "& .subtitle": {
-    fontSize: 60,
-    fontWeight: "bold",
-  },
-  "& .image-wrap": {
-    width: 100,
-    height: 100,
-    [theme.breakpoints.up("lg")]: {
-      marginRight: 28,
-    },
-    position: "relative",
-  },
-  "& .avatar": {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-  },
-  "& .name": {
-    [theme.breakpoints.down("lg")]: {
-      flexDirection: "column",
-    },
-    display: "flex",
-    alignItems: "center",
-  },
-  "& .indicator": {
-    width: 16,
-    height: 16,
-    borderRadius: 20,
-    position: "absolute",
-    bottom: 5,
-    border: `1px solid ${lighten(theme.palette.background.default, 0.2)}`,
-    right: 6,
-  },
-}));
-
 export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
-  const [profileData, setProfileData] = useState<Profile>({
+  const [profileData, setProfileData] = useState < Profile > ({
     status: "offline",
     avatarHash: "",
     userId: "",
@@ -92,33 +45,29 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
   const avatarUrl = `${DISCORD_AVATAR_CDN}/${userId}/${avatarHash}.${ext}`;
 
   return (
-    <StyledBox>
-      <div className="about-wrap">
-        <div className="name">
-          {avatarHash ? (
-            <div className="image-wrap">
-              <Presence status={status} activities={activities}>
-                <div>
-                  {/* TODO: move the indicator to the avatar? */}
-                  <Avatar url={avatarUrl} />
-                  <div
-                    className="indicator"
-                    style={{
-                      background: STATE_COLORS[status],
-                    }}
-                  />
-                </div>
-              </Presence>
-            </div>
-          ) : (
-            <div className="image-wrap">
-              <Skeleton variant="circular" width={100} height={100} />
-            </div>
-          )}
-          <Typography className="header">Sean Boult</Typography>
-        </div>
-        {!hideTagline && <Typography variant="h5">Full Stack Developer Who Loves React</Typography>}
+    <div className="about-wrap">
+      <div className="name">
+        {avatarHash ? (
+          <div className="image-wrap">
+            <Presence status={status} activities={activities}>
+              <div>
+                {/* TODO: move the indicator to the avatar? */}
+                <Avatar url={avatarUrl} />
+                <div
+                  className="indicator"
+                  style={{
+                    background: STATE_COLORS[status],
+                  }}
+                />
+              </div>
+            </Presence>
+          </div>
+        ) : (
+          <div className="image-wrap">TODO;</div>
+        )}
+        <p>Sean Boult</p>
       </div>
-    </StyledBox>
+      {!hideTagline && <p>Full Stack Developer Who Loves React</p>}
+    </div>
   );
 };
