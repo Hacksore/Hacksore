@@ -1,2 +1,2 @@
-import { About } from "./about";
-export { About };
+import { Badges } from "./badges";
+export { Badges };
