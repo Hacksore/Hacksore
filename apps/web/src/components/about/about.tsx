@@ -117,7 +117,7 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
           )}
           <Typography className="header">Sean Boult</Typography>
         </div>
-        {!hideTagline && <Typography variant="h5">Full Stack Developer Who Likes React</Typography>}
+        {!hideTagline && <Typography variant="h5">Full Stack Developer Who Loves React</Typography>}
       </div>
     </StyledBox>
   );

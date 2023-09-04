@@ -1,13 +1,14 @@
 "use client";
 import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/icons-material";
-import { SiX } from "@icons-pack/react-simple-icons"
-import { Grid, Tooltip, Typography } from "@mui/material";
+import { SiX } from "@icons-pack/react-simple-icons";
+import { Button, Grid, Tooltip, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
+import Link from "next/link";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   margin: "20px 0 28px 0",
-    gap: ".75rem",
+  gap: ".75rem",
   ".link": {
     background: theme.palette.secondary.main,
     color: "#fff",
@@ -40,7 +41,7 @@ const SOCIALS = [
   {
     title: "X / Twitter",
     url: "https://x.com/hacksore",
-    icon: SiX,
+    icon: () => <SiX size={20} />,
   },
   {
     title: "Discord - Hacksore",
@@ -77,6 +78,27 @@ export const Social = () => {
           </Tooltip>
         </Grid>
       ))}
+      <Link style={{ textDecoration: "none" }} href="/guestbook">
+        <Tooltip arrow title={<Typography sx={{ fontWeight: "bold" }}>Sign my Guestbook</Typography>}>
+          <Button sx={{ textTransform: "lowercase" }} className="link" color="secondary" variant="contained">
+            ✍️
+          </Button>
+        </Tooltip>
+      </Link>
+      <Link style={{ textDecoration: "none" }} href="/uses">
+        <Tooltip arrow title={<Typography sx={{ fontWeight: "bold" }}>What I use</Typography>}>
+          <Button sx={{ textTransform: "lowercase" }} className="link" color="secondary" variant="contained">
+            💊
+          </Button>
+        </Tooltip>
+      </Link>
+      <Link style={{ textDecoration: "none" }} href="/keyboard">
+        <Tooltip arrow title={<Typography sx={{ fontWeight: "bold" }}>My Ergo Keyboard Journey</Typography>}>
+          <Button sx={{ textTransform: "lowercase" }} className="link" color="secondary" variant="contained">
+            ⌨️
+          </Button>
+        </Tooltip>
+      </Link>
     </StyledGrid>
   );
 };
