@@ -2,7 +2,7 @@ import { Social } from "../components/social";
 import { Projects } from "../components/projects";
 import { About } from "../components/about";
 import { Metadata } from "next";
-import { Badges } from "../components/badges/badges";
+import { Badges } from "../components/badges";
 
 const META_INFO = {
   title: "Sean Boult - Personal Site",

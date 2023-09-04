@@ -1,7 +1,7 @@
 "use client";
 import { SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
-import { Button } from "../dumb/button";
+import { Button } from "../components//button";
 
 const SOCIALS = [
   {

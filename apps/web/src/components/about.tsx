@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Presence } from "../../components/presence";
-import { Avatar } from "../../components/avatar";
+import { Presence } from "../components/presence";
+import { Avatar } from "../components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
-import { db } from "../../firebase-client";
+import { db } from "../firebase-client";
 import { Profile } from "@boult/types";
 
 export const STATE_COLORS = {

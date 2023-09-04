@@ -2,8 +2,8 @@
 
 import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
-import { IProjectInfo } from "../../types/project";
-import { Button } from "../dumb/button";
+import { IProjectInfo } from "../types/project";
+import { Button } from "../components/button";
 
 // I hate this btw 😅
 const TypescriptIcon = ({ style, className }: { style: any; className: string }) => {
