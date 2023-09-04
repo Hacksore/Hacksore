@@ -10,7 +10,7 @@ const TypescriptIcon = ({ style, className }: { style: any; className: string })
   return (
     <div style={{ display: "inline-block", position: "relative" }}>
       <SiTypescript className={className} style={{ ...style, zIndex: 10, position: "relative" }} />
-      <div style={{ position: "absolute", top: 2, left: 2, width: 20, height: 20, background: "#ffffff", zIndex: 1 }} />
+      <div style={{ position: "absolute", top: 2, left: 2, width: 18, height: 18, background: "#ffffff", zIndex: 1 }} />
     </div>
   );
 };
@@ -43,6 +43,13 @@ const PROJECTS: ProjectInfo[] = [
     websiteUrl: "https://bs-community.github.io/skinview3d/",
     status: "alive",
     tech: ["typescript"],
+  },
+  {
+    name: "vercel.lol",
+    desc: "vercel meme",
+    repoUrl: "https://github.com/Hacksore/vercel.lol",
+    websiteUrl: "https://vercel.lol",
+    tech: ["nextjs", "typescript", "react"],
   },
   {
     name: "react-skinview3d",
@@ -87,13 +94,6 @@ const PROJECTS: ProjectInfo[] = [
     tech: ["rust"],
   },
   {
-    name: "u2f",
-    desc: "A Next app that shows websites that accept hardware tokens",
-    repoUrl: "https://github.com/Hacksore/u2f",
-    websiteUrl: "https://u2f.vercel.app",
-    tech: ["nextjs", "typescript", "react"],
-  },
-  {
     name: "buildtray",
     desc: "Build notifications for Github",
     websiteUrl: "https://buildtray.com",
@@ -104,11 +104,7 @@ const PROJECTS: ProjectInfo[] = [
 const renderIconsFromLanguage = (langs: string[]) =>
   langs.map((lang: string) => {
     const Element = languageToIcons[lang].icon;
-    return (
-      <span key={lang}>
-        <Element className="tech-icon" style={{ color: languageToIcons[lang].color }} />
-      </span>
-    );
+    return <Element key={lang} className="tech-icon" style={{ color: languageToIcons[lang].color }} />;
   });
 
 const STATUS_COLOR = {
@@ -116,30 +112,28 @@ const STATUS_COLOR = {
   shambles: "#aa262f",
 };
 
-const StatusBadge = ({ status }: { status: ProjectStatus }) => {
-  const color = STATUS_COLOR[status];
-  return (
-    <Box sx={{ fontSize: 12, padding: "2px 12px 2px 12px", background: color, borderRadius: ".375rem" }}>{status}</Box>
-  );
-};
-
 const ProjectCard = ({ project }: { project: ProjectInfo }) => {
   return (
-    <div className="p-2 w-full rounded-lg h-[200px] bg-card-bg border border-card-border">
-      <div className="text-lg p-2 font-bold">{project.name}</div>
-      <div className="p-2">{project.desc}</div>
+    <div className="flex flex-col p-2 w-full rounded-lg h-[200px] bg-card-bg border border-card-border">
+      <div className="flex flex-col flex-1">
+        <div className="text-lg p-2 font-bold">{project.name}</div>
+        <div className="p-2">{project.desc}</div>
+      </div>
 
-      <div className="flex gap-2 justify-end">
-        {project.repoUrl && (
-          <a href={project.repoUrl} target="_blank" rel="noreferrer">
-            <Button>Repo</Button>
-          </a>
-        )}
-        {project.websiteUrl && (
-          <a href={project.websiteUrl} target="_blank" rel="noreferrer">
-            <Button>Website</Button>
-          </a>
-        )}
+      <div className="flex pb-1 justify-between">
+        <div className="flex ml-2 gap-2 items-center">{project?.tech && renderIconsFromLanguage(project.tech)}</div>
+        <div className="flex gap-2">
+          {project.repoUrl && (
+            <a href={project.repoUrl} target="_blank" rel="noreferrer">
+              <Button>Repo</Button>
+            </a>
+          )}
+          {project.websiteUrl && (
+            <a href={project.websiteUrl} target="_blank" rel="noreferrer">
+              <Button>Website</Button>
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

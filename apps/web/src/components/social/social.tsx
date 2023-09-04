@@ -1,10 +1,11 @@
 "use client";
-import { GitHub, LinkedIn, Email, CalendarToday, Article, Twitter } from "@mui/icons-material";
+import { GitHub, LinkedIn, Email, CalendarToday, Article } from "@mui/icons-material";
 import { SiX } from "@icons-pack/react-simple-icons";
-import { Button, Grid, Tooltip, Typography } from "@mui/material";
+import { Grid, Tooltip, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { styled } from "@mui/system";
 import Link from "next/link";
+import { Button } from "../dumb/button";
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   margin: "20px 0 28px 0",
