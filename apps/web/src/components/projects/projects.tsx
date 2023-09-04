@@ -1,8 +1,8 @@
 "use client";
-import { Box, Grid, styled, Typography } from "@mui/material";
+
 import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
-import { IProjectInfo, ProjectStatus } from "../../types/project";
+import { IProjectInfo } from "../../types/project";
 import { Button } from "../dumb/button";
 
 // I hate this btw 😅
@@ -10,7 +10,7 @@ const TypescriptIcon = ({ style, className }: { style: any; className: string })
   return (
     <div style={{ display: "inline-block", position: "relative" }}>
       <SiTypescript className={className} style={{ ...style, zIndex: 10, position: "relative" }} />
-      <div style={{ position: "absolute", top: 2, left: 2, width: 18, height: 18, background: "#ffffff", zIndex: 1 }} />
+      <div style={{ position: "absolute", top: 2, left: 2, width: 17, height: 17, background: "#ffffff", zIndex: 1 }} />
     </div>
   );
 };
@@ -116,7 +116,7 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
   return (
     <div className="flex flex-col p-2 w-full rounded-lg h-[200px] bg-card-bg border border-card-border">
       <div className="flex flex-col flex-1">
-        <div className="text-lg p-2 font-bold">{project.name}</div>
+        <div className="text-lg p-2 pt-1 font-bold">{project.name}</div>
         <div className="p-2">{project.desc}</div>
       </div>
 
