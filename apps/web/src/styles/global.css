@@ -69,12 +69,11 @@ html, body {
   transition-property: color,border-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
-  color: #2f77d6;
-  border-color: #2f77d6;
+  color: #4394ff;
+  border-color: rgba(0, 0, 0, 0);
 }
 .prose * a:hover {
-  color: #5e8ac4;
-  border-color:#030705;
+  border-color: #4394ff;
 }
 
 /* code styles */
