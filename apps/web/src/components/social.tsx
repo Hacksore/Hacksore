@@ -1,43 +1,45 @@
 "use client";
 import { SiX, SiLinkedin, SiGithub, SiDiscord } from "@icons-pack/react-simple-icons";
 import { Button } from "../components//button";
-import { Icon } from "@iconify/react";
+import { Email } from "./icons/email";
+import { Calendar } from "./icons/calendar";
+import { Blog } from "./icons/blog";
 
 const SOCIALS = [
   {
     title: "Github",
     url: "https://github.com/hacksore",
-    icon: SiGithub,
+    icon: () => <SiGithub />,
   },
   {
     title: "Linkedin",
     url: "https://www.linkedin.com/in/seanboult",
-    icon: SiLinkedin,
+    icon: () => <SiLinkedin />,
   },
   {
     title: "X / Twitter",
     url: "https://x.com/hacksore",
-    icon: SiX,
+    icon: () => <SiX />,
   },
   {
     title: "Discord - Hacksore",
     url: "https://discord.gg/rg9sUQ4gvb",
-    icon: SiDiscord,
+    icon: () => <SiDiscord />,
   },
   {
     title: "Email",
     url: "mailto:sean@boult.me",
-    icon: () => <Icon icon="carbon:email" width="24" height="24" />,
+    icon: Email
   },
   {
     title: "Meeting",
     url: "https://cal.com/hacksore",
-    icon: () => <Icon icon="carbon:calendar" width="24" height="24" />,
+    icon: Calendar 
   },
   {
     title: "Blog",
     url: "https://dev.to/hacksore",
-    icon: () => <Icon icon="carbon:pen-fountain" width="24" height="24" />,
+    icon: Blog
   },
 ];
 

@@ -37,17 +37,15 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
 
   return (
     <div className="flex flex-col text-center items-center gap-2">
-      <div className="flex sm:flex-row flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-2">
         {avatarHash ? (
           <Presence status={status} activities={activities}>
-            <div>
               <Avatar url={avatarUrl} status={status} />
-            </div>
           </Presence>
         ) : (
           <div className="animate-pulse rounded-full bg-zinc-800 h-[96px] w-[96px]" />
         )}
-        <p className="bg-gradient-to-tl sm:ml-4 via-red-400 from-indigo-400 to-yellow-400 text-transparent bg-clip-text font-bold text-4xl sm:text-7xl">
+        <p className="bg-gradient-to-tl via-red-400 from-indigo-400 to-yellow-400 text-transparent bg-clip-text font-bold text-4xl sm:text-7xl">
           Sean Boult
         </p>
       </div>
