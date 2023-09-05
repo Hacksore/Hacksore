@@ -8,7 +8,7 @@ import { Profile } from "@boult/types";
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
 export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
-  const [profileData, setProfileData] = useState < Profile > ({
+  const [profileData, setProfileData] = useState<Profile>({
     status: "offline",
     avatarHash: "",
     userId: "",
@@ -45,9 +45,9 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
             </div>
           </Presence>
         ) : (
-          <div className="animate-pulse rounded-full bg-zinc-800 h-[128px] w-[128px]" />
+          <div className="animate-pulse rounded-full bg-zinc-800 h-[96px] w-[96px]" />
         )}
-        <p className="bg-gradient-to-tl via-red-400 from-indigo-400 to-yellow-400 text-transparent bg-clip-text font-bold text-4xl sm:text-7xl">
+        <p className="bg-gradient-to-tl sm:ml-4 via-red-400 from-indigo-400 to-yellow-400 text-transparent bg-clip-text font-bold text-4xl sm:text-7xl">
           Sean Boult
         </p>
       </div>
