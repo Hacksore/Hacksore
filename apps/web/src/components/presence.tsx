@@ -25,7 +25,8 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
     <div>
       <div className="header">
         <div className="icon">
-          {name === "Neovim" ? <SiNeovim fontSize="large" /> : <IconGaming fontSize="large" />}
+          {/* TODO: fix the icon */}
+          {name === "Neovim" ? <SiNeovim fontSize="large" /> : <>FIX</>}
         </div>
         <p className="name">{name}</p>
       </div>
@@ -75,9 +76,9 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
   return (
     <div className="tooltip">
       {statusElements.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold", pt: 1, pb: 1, justifyContent: "center", display: "flex" }}>
+        <p>
           Ping me <PingLink />
-        </Typography>
+        </p>
       ) : (
         statusElements.map((component: React.JSX.Element, idx) => {
           return (

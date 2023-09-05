@@ -47,9 +47,9 @@ export const Social = () => {
   return (
     <div className="flex my-4 sm:gap-2 gap-1 items-center justify-center">
       {SOCIALS.map(item => (
-        <a href={item.url} rel="noreferrer" target="_blank" aria-label={item.title} className="link">
+        <a key={item.title} href={item.url} rel="noreferrer" target="_blank" aria-label={item.title} className="link">
           <Button>
-            <item.icon className="icon" />
+            <item.icon />
           </Button>
         </a>
       ))}
