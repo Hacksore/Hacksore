@@ -13,7 +13,7 @@ const platformComponents = {
 };
 
 function Uses() {
-  const [platform, setPlatform] = useState < "mac" | "pc" > ("mac");
+  const [platform, setPlatform] = useState<"mac" | "pc">("mac");
   const PlatformComponent = platformComponents[platform];
 
   return (
