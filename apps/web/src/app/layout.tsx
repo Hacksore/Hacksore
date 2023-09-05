@@ -4,7 +4,7 @@ import { Roboto } from "next/font/google";
 import { Header } from "../components/header";
 import Providers from "./providers";
 
-const roboto = Roboto({ subsets: ["latin"], weight: "700" });
+const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
