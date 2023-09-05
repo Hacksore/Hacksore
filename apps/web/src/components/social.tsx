@@ -29,17 +29,17 @@ const SOCIALS = [
   {
     title: "Email",
     url: "mailto:sean@boult.me",
-    icon: Email
+    icon: Email,
   },
   {
     title: "Meeting",
     url: "https://cal.com/hacksore",
-    icon: Calendar 
+    icon: Calendar,
   },
   {
     title: "Blog",
     url: "https://dev.to/hacksore",
-    icon: Blog
+    icon: Blog,
   },
 ];
 

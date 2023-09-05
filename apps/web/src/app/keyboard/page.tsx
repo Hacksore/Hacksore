@@ -9,8 +9,7 @@ export const metadata: Metadata = {
 export default function Keybaord() {
   return (
     <div>
-      <KeyboardMd/>
+      <KeyboardMd />
     </div>
   );
 }
-

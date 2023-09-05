@@ -40,7 +40,7 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
       <div className="flex flex-col items-center gap-2">
         {avatarHash ? (
           <Presence status={status} activities={activities}>
-              <Avatar url={avatarUrl} status={status} />
+            <Avatar url={avatarUrl} status={status} />
           </Presence>
         ) : (
           <div className="animate-pulse rounded-full bg-zinc-800 h-[96px] w-[96px]" />

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Uses from "./uses-client"
+import Uses from "./uses-client";
 
 export const metadata: Metadata = {
   title: "Uses",
@@ -7,4 +7,3 @@ export const metadata: Metadata = {
 };
 
 export default Uses;
-
