@@ -4,7 +4,6 @@ import GiscusComponent from "@giscus/react";
 export function GuestBook() {
   return (
     <div>
-      <p>Guestbook</p>
       <div>
         <GiscusComponent
           repo="Hacksore/Hacksore"

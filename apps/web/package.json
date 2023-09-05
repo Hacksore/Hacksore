@@ -38,6 +38,7 @@
     "@iconify/react": "^4.1.1",
     "@octokit/types": "^10.0.0",
     "@octokit/webhooks-types": "^7.1.0",
+    "@tailwindcss/typography": "^0.5.9",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",

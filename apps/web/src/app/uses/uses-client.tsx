@@ -21,9 +21,8 @@ function Uses() {
       <Head>
         <title>Sean Boult /uses</title>
       </Head>
-      <p>Uses</p>
 
-      <div className="content">
+      <div className="prose content">
         <Shared />
 
         <PlatformComponent />
