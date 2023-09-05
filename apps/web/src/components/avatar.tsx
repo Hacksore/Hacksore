@@ -1,13 +1,24 @@
 "use client";
+import Image from "next/image";
 
-export const Avatar = ({ url }: { url: string }) => {
+export const STATE_COLORS = {
+  online: "border-discord-online",
+  offline: "border-discord-offline",
+  invisible: "border-discord-offline",
+  idle: "border-discord-idle",
+  dnd: "border-discord-dnd",
+};
+
+export const Avatar = ({ url, status }: { url: string; status: string }) => {
   return (
     <div>
-      <svg>
-        <clipPath id="circle" clipPathUnits="objectBoundingBox">
-          <path d="M0.5,0 C0.776,0,1,0.224,1,0.5 C1,0.603,0.969,0.7,0.915,0.779 C0.897,0.767,0.876,0.76,0.853,0.76 C0.794,0.76,0.747,0.808,0.747,0.867 C0.747,0.888,0.753,0.908,0.764,0.925 C0.687,0.972,0.597,1,0.5,1 C0.224,1,0,0.776,0,0.5 C0,0.224,0.224,0,0.5,0"></path>
-        </clipPath>
-      </svg>
+      <Image
+        className={`border-4 ${STATE_COLORS[status]} rounded-full`}
+        alt="avatar"
+        src={url}
+        width={96}
+        height={96}
+      />
     </div>
   );
 };

@@ -12,7 +12,8 @@ import {
 
 export const Badges = () => {
   return (
-    <div>
+    <div className="flex py-6 gap-4">
+      <p>published packages on</p>
       <SiGithub size={32} />
       <SiNpm size={32} />
       <SiDocker size={32} />

@@ -5,15 +5,6 @@ import { Avatar } from "../components/avatar";
 import { DataSnapshot, onValue, ref } from "firebase/database";
 import { db } from "../firebase-client";
 import { Profile } from "@boult/types";
-
-export const STATE_COLORS = {
-  online: "#90ce5c",
-  offline: "#747f8d",
-  invisible: "#747f8d",
-  idle: "#f2b34d",
-  dnd: "#d33f3f",
-};
-
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
 export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
@@ -45,29 +36,23 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
   const avatarUrl = `${DISCORD_AVATAR_CDN}/${userId}/${avatarHash}.${ext}`;
 
   return (
-    <div className="about-wrap">
-      <div className="name">
+    <div className="flex flex-col text-center items-center gap-2">
+      <div className="flex sm:flex-row flex-col items-center gap-2">
         {avatarHash ? (
-          <div className="image-wrap">
-            <Presence status={status} activities={activities}>
-              <div>
-                {/* TODO: move the indicator to the avatar? */}
-                <Avatar url={avatarUrl} />
-                <div
-                  className="indicator"
-                  style={{
-                    background: STATE_COLORS[status],
-                  }}
-                />
-              </div>
-            </Presence>
-          </div>
+          <Presence status={status} activities={activities}>
+            <div>
+              <Avatar url={avatarUrl} status={status} />
+            </div>
+          </Presence>
         ) : (
-          <div className="image-wrap">TODO;</div>
+          <div className="animate-pulse rounded-full bg-zinc-800 h-[128px] w-[128px]" />
         )}
-        <p>Sean Boult</p>
+        <p className="bg-gradient-to-tl via-red-400 from-indigo-400 to-yellow-400 text-transparent bg-clip-text font-bold text-4xl sm:text-7xl">
+          Sean Boult
+        </p>
       </div>
-      {!hideTagline && <p>Full Stack Developer Who Loves React</p>}
+
+      {!hideTagline && <p>Full Stack Developer Who Uses React</p>}
     </div>
   );
 };

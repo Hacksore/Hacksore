@@ -15,6 +15,18 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@boult/types"],
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.discordapp.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.discord.com",
+      },
+    ],
+  },
 };
 
 export default withMDX(nextConfig);

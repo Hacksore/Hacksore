@@ -15,6 +15,12 @@ module.exports = {
       colors: {
         "card-bg": "#0D1118",
         "card-border": "#31363E",
+        "discord-online": "#43B581",
+        "discord-offline": "#747F8D",
+        "discord-dnd": "#F04747",
+        "discord-idle": "#FAA61A",
+        "discord-streaming": "#593695",
+        "discord-invisible": "#747F8D",
       },
     },
     plugins: [],
