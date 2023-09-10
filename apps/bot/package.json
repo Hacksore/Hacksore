@@ -5,7 +5,7 @@
   "description": "",
   "scripts": {
     "start": "tsx src/index.ts",
-    "clean": "rimraf tsconfig.tsbuildinfo .turbo dist",
+    "clean": "rimraf tsconfig.tsbuildinfo node_modules .turbo dist",
     "build": "yarn clean && tsc",
     "lint": "eslint 'src/**/*'"
   },

@@ -50,7 +50,7 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
         </p>
       </div>
 
-      {!hideTagline && <p>Full Stack Developer Who Uses React</p>}
+      {!hideTagline && <p>Full Stack Developer Who Likes React</p>}
     </div>
   );
 };

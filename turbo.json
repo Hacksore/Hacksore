@@ -18,6 +18,8 @@
     "deploy": {
       "outputs": []
     },
-    "clean": {}
+    "clean": {
+      "cache": false
+    }
   }
 }

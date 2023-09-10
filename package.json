@@ -21,7 +21,7 @@
     "serve": "turbo serve",
     "format": "npx prettier -w '**/*.{ts,tsx}'",
     "deploy": "firebase deploy && vercel deploy",
-    "clean": "turbo clean"
+    "clean": "turbo clean && rm -rf node_modules"
   },
   "devDependencies": {
     "concurrently": "^8.0.1",
