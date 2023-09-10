@@ -1,4 +1,3 @@
-import got from "got";
 import { NextResponse } from "next/server";
 
 import { db } from "../../../firebase-server";
@@ -12,13 +11,13 @@ const ALLOWED_EVENTS = ["ping", "workflow_run", "workflow_job", "issues", "issue
 
 async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
   // send the message to discord
-  await got(url, {
+  await fetch(url, {
     method: "POST",
     body: JSON.stringify(payload),
     headers: {
       "Content-Type": "application/json",
     },
-  }).json();
+  }).then(res => res.json());
 }
 
 export async function POST(req: Request) {

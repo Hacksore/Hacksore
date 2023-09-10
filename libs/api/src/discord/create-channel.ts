@@ -1,4 +1,3 @@
-import got from "got";
 import { DISCORD_API_BASE } from "../constants.js";
 
 const { DISCORD_TOKEN } = process.env;
@@ -32,36 +31,26 @@ export type CreateChannelResult = CreateChannelFailed | CreateChannelSucceeded;
  * @docs https://docs.github.com/en/rest/webhooks/repos#create-a-repository-webhook
  */
 export async function createDiscordChannel({ guildId, name }: CreateChannelOptions): Promise<CreateChannelResult> {
-  const response = await got(`${DISCORD_API_BASE}/api/v10/guilds/${guildId}/channels`, {
-    method: "POST",
-    throwHttpErrors: false,
-    body: JSON.stringify({
-      name,
-      permission_overwrites: [],
-      parent_id: "1033776850964578324",
-      type: 0,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bot ${DISCORD_TOKEN}`,
-    },
-  });
+  try {
+    const response = await fetch(`${DISCORD_API_BASE}/api/v10/guilds/${guildId}/channels`, {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        permission_overwrites: [],
+        parent_id: "1033776850964578324",
+        type: 0,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${DISCORD_TOKEN}`,
+      },
+    }).then(res => res.json());
 
-  // TODO: are there discord types somewhere?
-  const body: any = JSON.parse(response.body);
+    // TODO: are there discord types somewhere?
 
-  if (response.statusCode === 201) {
     return {
       success: true,
-      channelId: body.id,
-    };
-  }
-
-  try {
-    const json = JSON.parse(response.body);
-    return {
-      success: false,
-      error: json.message,
+      channelId: response.id,
     };
   } catch (err) {
     return {

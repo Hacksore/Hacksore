@@ -1,4 +1,3 @@
-import got from "got";
 import { GITHUB_API_BASE } from "../constants.js";
 
 import type { Endpoints } from "@octokit/types";
@@ -40,7 +39,7 @@ interface CreateWebhookOption {
 export async function createGithubWebhook({ owner, repo, url }: CreateWebhookOption): Promise<CreateWebhookResult> {
   try {
     // pass in generic WebhookEvent type to get the correct response type on body
-    const result = await got<CreateWebhookResponseData>(`${GITHUB_API_BASE}/repos/${owner}/${repo}/hooks`, {
+    const result: CreateWebhookResponseData = await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}/hooks`, {
       method: "POST",
       body: JSON.stringify({
         name: "web",
@@ -55,9 +54,9 @@ export async function createGithubWebhook({ owner, repo, url }: CreateWebhookOpt
       headers: {
         Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
       },
-    });
+    }).then(res => res.json());
 
-    console.log(result.body);
+    console.log(result);
 
     return {
       success: true,

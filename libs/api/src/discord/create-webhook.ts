@@ -1,4 +1,3 @@
-import got from "got";
 import { DISCORD_API_BASE } from "../constants.js";
 
 const { DISCORD_TOKEN } = process.env;
@@ -28,31 +27,21 @@ export type CreateWebhookResult = CreateWebhookFailed | CreateWebhookSucceeded;
  * @docs https://discord.com/developers/docs/resources/webhook
  */
 export async function createDiscordWebhook({ channelId }: CreateWebHookOption): Promise<CreateWebhookResult> {
-  const response = await got(`${DISCORD_API_BASE}/api/v10/channels/${channelId}/webhooks`, {
-    method: "POST",
-    throwHttpErrors: false,
-    body: JSON.stringify({
-      name: "github",
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bot ${DISCORD_TOKEN}`,
-    },
-  });
-
-  if (response.statusCode === 200) {
-    const payload = JSON.parse(response.body);
+  try {
+    const response = await fetch(`${DISCORD_API_BASE}/api/v10/channels/${channelId}/webhooks`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: "github",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${DISCORD_TOKEN}`,
+      },
+    }).then((res) => res.json());
 
     return {
       success: true,
-      url: `https://discord.com/api/webhooks/${payload.id}/${payload.token}`,
-    };
-  }
-
-  try {
-    return {
-      success: false,
-      error: response.body,
+      url: `https://discord.com/api/webhooks/${response.id}/${response.token}`,
     };
   } catch (err) {
     return {

@@ -4,7 +4,7 @@
   "private": true,
   "description": "",
   "scripts": {
-    "start": "tsx src/index.ts",
+    "start": "tsx watch src/index.ts",
     "clean": "rimraf tsconfig.tsbuildinfo node_modules .turbo dist",
     "build": "yarn clean && tsc",
     "lint": "eslint 'src/**/*'"

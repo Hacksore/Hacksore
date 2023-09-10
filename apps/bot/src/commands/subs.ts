@@ -2,7 +2,6 @@ import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.j
 import { db } from "../firebase.js";
 import { CommandInt } from "../types.js";
 
-import got from "got";
 import { githubRepoExists, createGithubWebhook } from "@boult/api/github";
 import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "@boult/api/discord";
 import { getAllRepos } from "@boult/api/core";
@@ -103,7 +102,7 @@ const createWebhook = async (name: string) => {
   });
 
   console.log("sending message that it was registered");
-  await got(createDiscordWebhookResult.url, {
+  await fetch(createDiscordWebhookResult.url, {
     method: "POST",
     body: JSON.stringify({
       content: "<@378293909610037252> repo registered for notifications",
@@ -121,9 +120,13 @@ const command: CommandInt = {
     const { name: method = "list" } = interaction.options.data[0];
 
     if (method === "add") {
-      interaction.reply("You want to add a repo, cool");
-
-      console.log(createWebhook);
+      const repo = interaction.options.get("repo");
+      if (!repo?.value) {
+        interaction.reply("You must provide a repo name");
+      } else {
+        createWebhook(repo?.value as string);
+        interaction.reply(`Added repo ${repo.value}`);
+      }
     }
 
     if (method === "list") {

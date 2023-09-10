@@ -1,4 +1,3 @@
-import got from "got";
 import { DISCORD_API_BASE } from "../constants.js";
 
 // FIXME: this uses a env var and should be using the env typesafety
@@ -20,19 +19,17 @@ interface CreateChannelOptions {
  * @param {CreateChannelOptions} param - The repo to create {@link CreateChannelOptions}
  */
 export async function discordChannelExists({ guildId, name }: CreateChannelOptions): Promise<boolean> {
-  const response = await got(`${DISCORD_API_BASE}/api/v10/guilds/${guildId}/channels`, {
-    method: "GET",
-    throwHttpErrors: false,
-    headers: {
-      Authorization: `Bot ${DISCORD_TOKEN}`,
-    },
-  });
+  try {
+    const response = await fetch(`${DISCORD_API_BASE}/api/v10/guilds/${guildId}/channels`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bot ${DISCORD_TOKEN}`,
+      },
+    }).then((res) => res.json());
 
-  if (response.statusCode === 200) {
-    const channels = JSON.parse(response.body);
-    const foundChannelWithName = channels.find((item: any) => item.name === name);
+    const foundChannelWithName = response.find((item: any) => item.name === name);
     return foundChannelWithName ?? false;
+  } catch (err) {
+    return false;
   }
-
-  return false;
 }

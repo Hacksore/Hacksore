@@ -1,4 +1,3 @@
-import got from "got";
 import { GITHUB_API_BASE } from "../constants.js";
 
 import type { Endpoints } from "@octokit/types";
@@ -24,13 +23,13 @@ interface RepoExistsOptions {
  */
 export async function githubRepoExists({ repo, owner }: RepoExistsOptions): Promise<boolean> {
   try {
-    const response = await got<RepoInformation>(`${GITHUB_API_BASE}/repos/${owner}/${repo}`, {
+    const response = (await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
       },
-    });
-    console.log(response.body);
+    }).then(res => res.json())) as RepoInformation;
+    console.log(response);
     return true;
   } catch (err: any) {
     console.log(err);
