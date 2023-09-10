@@ -22,6 +22,7 @@ interface RepoExistsOptions {
  * @param {RepoExistsOptions} param - The repo to create {@link RepoExistsOptions}
  */
 export async function githubRepoExists({ repo, owner }: RepoExistsOptions): Promise<boolean> {
+  console.log("Checking if github repo exists");
   try {
     const response = (await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`, {
       method: "GET",
@@ -29,7 +30,7 @@ export async function githubRepoExists({ repo, owner }: RepoExistsOptions): Prom
         Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
       },
     }).then(res => res.json())) as RepoInformation;
-    console.log(response);
+    console.log("Found repo:", response.url);
     return true;
   } catch (err: any) {
     console.log(err);

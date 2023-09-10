@@ -26,9 +26,8 @@ export interface CreateChannelSucceeded {
 export type CreateChannelResult = CreateChannelFailed | CreateChannelSucceeded;
 
 /**
- * Will create a webhook on the provided repo with the given url
+ * Will create a discord channel
  * @param {CreateChannelResult} param - The repo to create {@link CreateChannelResult}
- * @docs https://docs.github.com/en/rest/webhooks/repos#create-a-repository-webhook
  */
 export async function createDiscordChannel({ guildId, name }: CreateChannelOptions): Promise<CreateChannelResult> {
   try {
@@ -59,3 +58,4 @@ export async function createDiscordChannel({ guildId, name }: CreateChannelOptio
     };
   }
 }
+

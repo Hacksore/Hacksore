@@ -56,7 +56,7 @@ export async function createGithubWebhook({ owner, repo, url }: CreateWebhookOpt
       },
     }).then(res => res.json());
 
-    console.log(result);
+    console.log("Created webhook for:", result.url);
 
     return {
       success: true,

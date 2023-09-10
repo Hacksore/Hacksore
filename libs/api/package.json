@@ -6,22 +6,10 @@
   "type": "module",
   "license": "MIT",
   "exports": {
-    ".": {
-      "types": "./src/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./core": {
-      "types": "./src/core/index.d.ts",
-      "import": "./dist/core/index.js"
-    },
-    "./github": {
-      "types": "./src/github/index.d.ts",
-      "import": "./dist/github/index.js"
-    },
-    "./discord": {
-      "types": "./src/discord/index.d.ts",
-      "import": "./dist/discord/index.js"
-    }
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./github": "./src/github/index.ts",
+    "./discord": "./src/discord/index.ts"
   },
   "scripts": {
     "build": "tsc",
@@ -33,6 +21,5 @@
     "eslint-config-custom": "*",
     "tsconfig": "*"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

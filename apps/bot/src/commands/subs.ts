@@ -25,6 +25,8 @@ const commandData = new SlashCommandBuilder()
       .addStringOption(option => option.setName("repo").setDescription("The repo name to add"))
   );
 
+// TODO: how can we use this?
+
 const createWebhook = async (name: string) => {
   // hard code for now
   const guildId = "975086424049213560";
@@ -42,7 +44,6 @@ const createWebhook = async (name: string) => {
     */
 
   // create channel
-  console.log("Checking if repo exists");
   const repoExists = await githubRepoExists({
     owner: "hacksore",
     repo: name,

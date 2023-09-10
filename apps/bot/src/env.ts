@@ -2,6 +2,10 @@ import { z } from "zod";
 
 const envVariables = z.object({
   /**
+   * The github access token
+   */
+  GITHUB_ACCESS_TOKEN: z.string().nonempty(),
+  /**
    * The Discord bot token
    */
   DISCORD_TOKEN: z.string().nonempty(),
