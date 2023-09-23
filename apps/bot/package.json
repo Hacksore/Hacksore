@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@discordjs/rest": "^2.0.1",
-    "discord-api-types": "^0.37.56",
+    "discord-api-types": "^0.37.57",
     "discord.js": "^14.11.0",
     "firebase-admin": "^11.8.0",
     "zod": "^3.21.4"
