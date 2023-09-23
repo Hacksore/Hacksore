@@ -35,7 +35,7 @@ html, body {
 
 .prose h4 {
   font-weight: 700;
-  margin: 2rem 0rem 2rem 0rem;
+  margin-bottom: 0;
   color: #fff;
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -47,12 +47,16 @@ html, body {
   margin-bottom: 3em;
 }
 
+.prose strong {
+  font-weight: 900;
+}
+
 .prose p {
   margin-top: 1.25em;
   margin-bottom: 1.25em;
 }
 .prose blockquote {
-  font-weight: 500;
+  font-weight: 400;
   font-style: italic;
   color: inherit;
   border-left-width: 0.25rem;
