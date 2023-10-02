@@ -107,11 +107,6 @@ const renderIconsFromLanguage = (langs: string[]) =>
     return <Element key={lang} className="tech-icon" style={{ color: languageToIcons[lang].color }} />;
   });
 
-const STATUS_COLOR = {
-  alive: "#3a8230",
-  shambles: "#aa262f",
-};
-
 const ProjectCard = ({ project }: { project: ProjectInfo }) => {
   return (
     <div className="flex flex-col p-2 w-full rounded-lg h-[200px] bg-card-bg border border-card-border">
@@ -130,7 +125,7 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
           )}
           {project.websiteUrl && (
             <a href={project.websiteUrl} target="_blank" rel="noreferrer">
-              <Button ariaLabel="Repo">Website</Button>
+              <Button ariaLabel="Website">Website</Button>
             </a>
           )}
         </div>
