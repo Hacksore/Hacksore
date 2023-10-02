@@ -125,12 +125,12 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
         <div className="flex gap-2">
           {project.repoUrl && (
             <a href={project.repoUrl} target="_blank" rel="noreferrer">
-              <Button>Repo</Button>
+              <Button ariaLabel="Repo">Repo</Button>
             </a>
           )}
           {project.websiteUrl && (
             <a href={project.websiteUrl} target="_blank" rel="noreferrer">
-              <Button>Website</Button>
+              <Button ariaLabel="Repo">Website</Button>
             </a>
           )}
         </div>
