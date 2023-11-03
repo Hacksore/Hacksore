@@ -5,14 +5,8 @@ import { TbBrandNextjs } from "react-icons/tb";
 import { IProjectInfo } from "../types/project";
 import { Button } from "../components/button";
 
-// I hate this btw 😅
-const TypescriptIcon = ({ style, className }: { style: any; className: string }) => {
-  return (
-    <div style={{ display: "inline-block", position: "relative" }}>
-      <SiTypescript className={className} style={{ ...style, zIndex: 10, position: "relative" }} />
-      <div style={{ position: "absolute", top: 2, left: 2, width: 17, height: 17, background: "#ffffff", zIndex: 1 }} />
-    </div>
-  );
+const TypescriptIcon = () => {
+  return <img src="/img/typescript.svg" className="w-4 h-4"/>;
 };
 
 const languageToIcons: Record<string, { icon: any; color: string }> = {
