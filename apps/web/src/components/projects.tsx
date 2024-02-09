@@ -1,6 +1,6 @@
 "use client";
 
-import { SiTypescript, SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
+import { SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import { IProjectInfo } from "../types/project";
 import { Button } from "../components/button";
@@ -22,6 +22,13 @@ const languageToIcons: Record<string, { icon: any; color: string }> = {
 type ProjectInfo = IProjectInfo & { tech?: string[] };
 
 const PROJECTS: ProjectInfo[] = [
+  {
+    name: "overlayed",
+    desc: "Voice chat overlay for Discord",
+    repoUrl: "https://github.com/hacksore/overlayed",
+    websiteUrl: "https://overlayed.dev",
+    tech: ["typescript", "rust", "react"],
+  },
   {
     name: "bluelinky",
     desc: "An unofficial nodejs API wrapper for Hyundai bluelink",
@@ -69,28 +76,10 @@ const PROJECTS: ProjectInfo[] = [
     tech: ["rust"],
   },
   {
-    name: "overlayed",
-    desc: "A discord overlay built with electron and react",
-    repoUrl: "https://github.com/hacksore/overlayed",
-    websiteUrl: "https://overlayed.dev",
-    tech: ["typescript", "electron", "react"],
-  },
-  {
-    name: "overlayed-rust",
-    desc: "A discord overlay built with tauri and react",
-    repoUrl: "https://github.com/hacksore/overlayed-rust",
-    tech: ["rust", "typescript", "react"],
-  },
-  {
-    name: "rpc-discord",
-    desc: "A discord RPC library for rust",
-    repoUrl: "https://github.com/hacksore/rpc-discord",
-    tech: ["rust"],
-  },
-  {
     name: "buildtray",
     desc: "Build notifications for Github",
     websiteUrl: "https://buildtray.com",
+    repoUrl: "https://github.com/Hacksore/buildtray",
     tech: ["nodejs", "firebase", "react", "typescript"],
   },
 ];
