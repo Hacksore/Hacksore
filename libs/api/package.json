@@ -34,7 +34,7 @@
     "@octokit/types": "^10.0.0",
     "@octokit/webhooks-types": "^7.1.0",
     "@types/node": "^20.4.0",
-    "eslint-config-custom": "workspace:*",
+    "lint": "workspace:*",
     "tsconfig": "workspace:*"
   }
 }

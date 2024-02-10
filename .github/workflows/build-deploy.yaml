@@ -65,6 +65,20 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "${{ env.NODE_VERSION }}"
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - name: Create google service account file and env var
         run: |
           # decode the token into json and write to file, using base64 to not have to mess with the json format
@@ -75,7 +89,7 @@ jobs:
           echo "Sourcing env GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.json" >> $GITHUB_ENV
       - name: Install firebase-tools
-        run: yarn global add firebase-tools
+        run: pnpm add -g firebase-tools
       - name: Deploy rules
         run: firebase deploy --non-interactive
   deploy-bot:
