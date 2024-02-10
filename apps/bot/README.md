@@ -10,3 +10,6 @@ docker run -d \
   --restart=always \
   hacksore/presence-bot:latest
 ```
+
+### testing the docker build locally
+docker build --progress=plain -t hacksore/bot -f apps/bot/Dockerfile .  

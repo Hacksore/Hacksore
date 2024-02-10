@@ -1,38 +1,57 @@
-FROM node:18-alpine AS builder
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+ARG NODE_VERSION=20
+ARG PROJECT=bot
+
+# Alpine image
+FROM node:${NODE_VERSION}-alpine AS alpine
 RUN apk update
-# Set working directory
+RUN apk add --no-cache libc6-compat
+
+# Setup pnpm and turbo on the alpine base
+FROM alpine as base
+RUN npm install pnpm turbo --global
+RUN pnpm config set store-dir ~/.pnpm-store
+
+# Prune projects
+FROM base AS pruner
+ARG PROJECT
+
 WORKDIR /app
-RUN pnpm add -g turbo
 COPY . .
-RUN turbo prune --scope=bot --docker
+RUN turbo prune --scope=${PROJECT} --docker
 
-# Add lockfile and package.json's of isolated subworkspace
-FROM node:18-alpine AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
+# Build the project
+FROM base AS builder
+ARG PROJECT
+
 WORKDIR /app
 
-# First install dependencies (as they change less often)
-COPY .gitignore .gitignore
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/pnpm-lock.lock ./pnpm-lock.lock
-RUN pnpm install
+# Copy lockfile and package.json's of isolated subworkspace
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=pruner /app/out/json/ .
 
-# Build the project and its dependencies
-COPY --from=builder /app/out/full/ .
-COPY turbo.json turbo.json
-RUN pnpm turbo run build --filter=bot...
+# First install the dependencies (as they change less often)
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --frozen-lockfile
 
-FROM node:18-alpine AS runner
+# Copy source code of isolated subworkspace
+COPY --from=pruner /app/out/full/ .
+
+RUN turbo build --filter=${PROJECT}
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm prune --prod --no-optional
+RUN rm -rf ./**/*/src
+
+# Final image
+FROM alpine AS runner
+ARG PROJECT
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
+
 WORKDIR /app
 
-# Don't run production as root
-RUN addgroup --system --gid 1001 discord
-RUN adduser --system --uid 1001 discord
-USER discord
-COPY --from=installer /app .
+COPY --from=builder --chown=nodejs:nodejs /app .
 
-# run node
+ENV NODE_ENV=production
+
 CMD node apps/bot/dist/index.js
