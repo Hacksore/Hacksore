@@ -27,22 +27,26 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "${{ env.NODE_VERSION }}"
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      - uses: pnpm/action-setup@v2
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          version: 8
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-pnpm-store-
       - name: Install
-        run: yarn install -w apps/web -w libs/api
+        run: pnpm install
       - name: Lint 
-        run: yarn 
+        run: pnpm lint
       - name: Build
-        run: yarn turbo build --filter=web --filter=api --filter=types
+        run: pnpm build --filter=web --filter=api --filter=types
   build-bot:
     name: Build Bot
     runs-on: ubuntu-latest

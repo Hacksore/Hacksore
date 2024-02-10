@@ -1,5 +1,6 @@
 "use client";
 import GiscusComponent from "@giscus/react";
+// @ts-ignore
 import PhoneMd from "../../mdx/phone.mdx";
 
 export const Phone = () => {

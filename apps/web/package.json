@@ -11,8 +11,10 @@
   },
   "type": "module",
   "dependencies": {
+    "@boult/api": "workspace:*",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@firebase/database": "^1.0.3",
     "@giscus/react": "^2.3.0",
     "@icons-pack/react-simple-icons": "^9.0.0",
     "@mdx-js/loader": "^2.3.0",
@@ -33,7 +35,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@boult/types": "*",
+    "@boult/types": "workspace:*",
     "@iconify/react": "^4.1.1",
     "@octokit/types": "^10.0.0",
     "@octokit/webhooks-types": "^7.1.0",
@@ -42,10 +44,10 @@
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "autoprefixer": "^10.4.15",
-    "eslint-config-custom": "*",
+    "eslint-config-custom": "workspace:*",
     "eslint-config-next": "^13.4.9",
     "postcss": "^8.4.29",
     "tailwindcss": "^3.3.3",
-    "tsconfig": "*"
+    "tsconfig": "workspace:*"
   }
 }

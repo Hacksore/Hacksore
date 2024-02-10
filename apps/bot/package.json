@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsx watch --clear-screen=false src/index.ts",
     "clean": "rimraf tsconfig.tsbuildinfo node_modules .turbo dist",
-    "build": "yarn clean && tsc",
+    "build": "tsc",
     "lint": "eslint 'src/**/*'"
   },
   "type": "module",
@@ -14,12 +14,12 @@
   "author": "Hacksore",
   "license": "MIT",
   "devDependencies": {
-    "@boult/api": "*",
-    "@boult/types": "*",
+    "@boult/api": "workspace:*",
+    "@boult/types": "workspace:*",
     "@types/node": "^20.4.0",
     "dotenv": "^16.3.1",
-    "eslint-config-custom": "*",
-    "tsconfig": "*",
+    "eslint-config-custom": "workspace:**",
+    "tsconfig": "workspace:*",
     "tsx": "^3.12.8"
   },
   "dependencies": {

@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 # Set working directory
 WORKDIR /app
-RUN yarn global add turbo
+RUN pnpm add -g turbo
 COPY . .
 RUN turbo prune --scope=bot --docker
 
@@ -17,13 +17,13 @@ WORKDIR /app
 # First install dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/yarn.lock ./yarn.lock
-RUN yarn install
+COPY --from=builder /app/out/pnpm-lock.lock ./pnpm-lock.lock
+RUN pnpm install
 
 # Build the project and its dependencies
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
-RUN yarn turbo run build --filter=bot...
+RUN pnpm turbo run build --filter=bot...
 
 FROM node:18-alpine AS runner
 WORKDIR /app

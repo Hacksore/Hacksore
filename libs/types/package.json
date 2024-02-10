@@ -1,15 +1,24 @@
 {
   "name": "@boult/types",
   "version": "0.0.0",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf node_modules tsconfig.tsbuildinfo .turbo dist"
   },
   "devDependencies": {
-    "tsconfig": "*"
+    "tsconfig": "workspace:*"
   }
 }

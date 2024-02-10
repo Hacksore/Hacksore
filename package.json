@@ -2,14 +2,9 @@
   "name": "hacksore",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "libs/*",
-    "packages/*"
-  ],
   "scripts": {
-    "start:web": "concurrently yarn:dev yarn:emulator",
-    "start": "concurrently yarn:dev:all yarn:emulator",
+    "start:web": "concurrently pnpm:dev pnpm:emulator",
+    "start": "concurrently pnpm:dev:all pnpm:emulator",
     "emulator": "firebase emulators:start --import private-seed",
     "db:export": "firebase emulators:export private-seed",
     "dev": "turbo start --filter=web",
@@ -31,10 +26,11 @@
     "prettier": "^3.0.0",
     "rimraf": "^5.0.0",
     "turbo": "^1.10.7",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "tsconfig": "workspace:*"
   },
   "engines": {
     "node": ">=16.0.0"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "pnpm@8.15.1"
 }

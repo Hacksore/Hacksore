@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
 
+// @ts-ignore
 import Mac from "../../mdx/mac.mdx";
+// @ts-ignore
 import PC from "../../mdx/pc.mdx";
+// @ts-ignore
 import Shared from "../../mdx/shared.mdx";
 import Head from "next/head";
 import GiscusComponent from "@giscus/react";
