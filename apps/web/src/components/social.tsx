@@ -23,7 +23,7 @@ const SOCIALS = [
   },
   {
     title: "Discord - Hacksore",
-    url: "https://discord.gg/rg9sUQ4gvb",
+    url: "https://discord.gg/47DTJUTK6m",
     icon: () => <SiDiscord />,
   },
   {
