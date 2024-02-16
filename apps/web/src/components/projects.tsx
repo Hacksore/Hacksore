@@ -69,10 +69,10 @@ const PROJECTS: ProjectInfo[] = [
     tech: ["typescript", "react", "firebase", "nextjs"],
   },
   {
-    name: "onepassword-secret-util",
-    desc: "Enhance 1password secret expansion with the opx CLI",
+    name: "opx",
+    desc: "Enhance 1Password secret expansion with the opx CLI",
     repoUrl: "https://github.com/Hacksore/onepassword-secret-util",
-    websiteUrl: "https://crates.io/crates/onepassword-secret-util",
+    websiteUrl: "https://tryopx.com",
     tech: ["rust"],
   },
   {
