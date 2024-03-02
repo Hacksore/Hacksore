@@ -6,7 +6,7 @@ import { IProjectInfo } from "../types/project";
 import { Button } from "../components/button";
 
 const TypescriptIcon = () => {
-  return <img src="/img/typescript.svg" className="w-4 h-4"/>;
+  return <img src="/img/typescript.svg" className="w-4 h-4" />;
 };
 
 const languageToIcons: Record<string, { icon: any; color: string }> = {

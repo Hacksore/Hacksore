@@ -3,7 +3,7 @@ import { Phone } from "./phone-client";
 
 const META_INFO = {
   title: "iPhone GOATED loadout",
-  description: "The absolutely most goated phone loadout in the world"
+  description: "The absolutely most goated phone loadout in the world",
 };
 
 export const metadata: Metadata = {
