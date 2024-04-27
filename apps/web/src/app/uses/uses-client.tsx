@@ -30,7 +30,13 @@ function Uses() {
 
         <PlatformComponent />
 
-        <p>Questions about something I use or build please drop a comment below or @ me on twitter.</p>
+        <p>
+          If you have questions about something I use or build please drop a comment below or @ me on {" "}
+
+          <a href="https://twitter.com/Hacksore" target="_blank" rel="noreferrer">
+            twitter
+          </a>
+        </p>
 
         <p>
           Also make sure to check out my{" "}
