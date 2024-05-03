@@ -109,6 +109,7 @@ jobs:
           host: ${{ secrets.BOT_HOST_IP }}
           username: ${{ secrets.BOT_HOST_USERNAME }}
           key: ${{ secrets.BOT_HOST_PRIVATE_KEY}}
+          protocol: tcp6
           port: 22
           script: |
             # pull the latest image
