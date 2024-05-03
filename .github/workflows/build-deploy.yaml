@@ -102,6 +102,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
+      - name: Ipv6 pls
+        run: curl https://ipv6.icanhazip.com 
       - name: SSH and Deploy Container
         uses: appleboy/ssh-action@master
         with:
@@ -113,7 +115,7 @@ jobs:
           script: |
             # pull the latest image
             docker pull hacksore/presence-bot:latest
-   
+
             # stop the running instance gracefully
             docker stop presence
 
