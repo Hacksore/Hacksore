@@ -1,5 +1,6 @@
 name: Build/Deploy
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["CI"]
     if: github.ref == 'refs/heads/master'
