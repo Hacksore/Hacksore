@@ -103,7 +103,7 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
       - name: Setup WARP
-        uses: fscarmen/warp-on-actions@v2
+        uses: fscarmen/warp-on-actions@v1.1
       - name: Ipv6 pls
         run: |
           curl -m 9 --ipv6 --verbose https://google.com
