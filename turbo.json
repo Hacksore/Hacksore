@@ -1,5 +1,5 @@
 {
-  "pipeline": {
+  "tasks": {
     "start": {
       "persistent": true,
       "cache": false
