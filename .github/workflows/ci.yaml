@@ -46,7 +46,7 @@ jobs:
       - name: Lint 
         run: pnpm lint
       - name: Build
-        run: pnpm build --filter=web --filter=api --filter=types
+        run: pnpm build --filter=web --filter=@boult/api --filter=@boult/types
   build-bot:
     name: Build Bot
     runs-on: ubuntu-latest
