@@ -102,12 +102,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
-      - name: Setup WARP
-        uses: fscarmen/warp-on-actions@v1.1
-      - name: Ipv6 pls
-        run: |
-          curl -m 9 --ipv6 --verbose https://google.com
-          curl -m 9 -6 https://ifconfig.co
       - name: SSH and Deploy Container
         uses: appleboy/ssh-action@master
         with:
