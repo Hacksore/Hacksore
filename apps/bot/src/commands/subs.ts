@@ -27,7 +27,7 @@ const commandData = new SlashCommandBuilder()
 
 // TODO: how can we use this?
 
-const createWebhook = async (name: string) => {
+const createWebhook = async (orgRepo: string) => {
   // hard code for now
   const guildId = "975086424049213560";
 
@@ -43,10 +43,12 @@ const createWebhook = async (name: string) => {
     5. profit????
     */
 
+  const [owner, repo] = orgRepo.split("/");
+
   // create channel
   const repoExists = await githubRepoExists({
-    owner: "hacksore",
-    repo: name,
+    owner,
+    repo
   });
 
   if (!repoExists) {
@@ -57,7 +59,7 @@ const createWebhook = async (name: string) => {
   console.log("Checking if discord channel exists");
   const channelExists = await discordChannelExists({
     guildId,
-    name,
+    name: repo,
   });
 
   if (channelExists) {
@@ -68,7 +70,7 @@ const createWebhook = async (name: string) => {
   console.log("Creating discord channel");
   const discordCreateChannelResult = await createDiscordChannel({
     guildId,
-    name,
+    name: repo,
   });
 
   if (!discordCreateChannelResult.success) {
@@ -81,7 +83,7 @@ const createWebhook = async (name: string) => {
   console.log("Creating github webhook");
   const createGithubWebhookResult = await createGithubWebhook({
     owner: "Hacksore",
-    repo: name,
+    repo,
     url: `https://${WEBHOOK_DOMAIN}/api/webhook`,
   });
 
@@ -98,7 +100,7 @@ const createWebhook = async (name: string) => {
     return { error: "Could not create discord webhook" };
   }
 
-  db.ref("webhooks").child(name.toLowerCase()).set({
+  db.ref("webhooks").child(repo.toLowerCase()).set({
     url: createDiscordWebhookResult.url,
   });
 
