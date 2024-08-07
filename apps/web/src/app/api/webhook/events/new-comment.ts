@@ -13,7 +13,7 @@ export function createMessageForIssueComment(event: IssueCommentCreatedEvent): a
 
   if (event.action === "created") {
     return {
-      content: `<@${DISCORD_ID}>`,
+      content: "",
       embeds: [
         {
           description: description.substring(0, 100),
