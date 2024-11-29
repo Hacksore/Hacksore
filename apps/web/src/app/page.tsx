@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { Badges } from "../components/badges";
 
 const META_INFO = {
-  title: "Sean Boult - Portfilio Site",
+  title: "Sean Boult - Portfolio Site",
   description: "Full Stack Developer Who Likes React",
 };
 
