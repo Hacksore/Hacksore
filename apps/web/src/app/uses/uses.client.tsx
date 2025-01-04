@@ -1,12 +1,9 @@
 "use client";
 import { useState } from "react";
 
-// @ts-ignore
-import Mac from "../../mdx/mac.mdx";
-// @ts-ignore
-import PC from "../../mdx/pc.mdx";
-// @ts-ignore
-import Shared from "../../mdx/shared.mdx";
+import Mac from "./mac.mdx";
+import PC from "./pc.mdx";
+import Shared from "./shared.mdx";
 import Head from "next/head";
 import GiscusComponent from "@giscus/react";
 
@@ -31,8 +28,7 @@ function Uses() {
         <PlatformComponent />
 
         <p>
-          If you have questions about something I use or build please drop a comment below or @ me on {" "}
-
+          If you have questions about something I use or build please drop a comment below or @ me on{" "}
           <a href="https://twitter.com/Hacksore" target="_blank" rel="noreferrer">
             twitter
           </a>

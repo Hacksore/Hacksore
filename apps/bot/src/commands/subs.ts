@@ -48,7 +48,7 @@ const createWebhook = async (orgRepo: string) => {
   // create channel
   const repoExists = await githubRepoExists({
     owner,
-    repo
+    repo,
   });
 
   if (!repoExists) {

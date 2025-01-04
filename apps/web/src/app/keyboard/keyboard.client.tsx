@@ -1,6 +1,6 @@
 "use client";
 // @ts-ignore
-import RealOgKeyboard from "../../mdx/keyboard.mdx";
+import RealOgKeyboard from "./content.mdx";
 
 export const KeyboardMd = () => {
   return (

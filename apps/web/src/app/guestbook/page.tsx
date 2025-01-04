@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { GuestBook as ClientGuestBook } from "./guestbook-client";
+import { GuestBook as ClientGuestBook } from "./guestbook.client";
 
 export const metadata: Metadata = {
   title: "Guestbook",

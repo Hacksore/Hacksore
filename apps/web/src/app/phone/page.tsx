@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Phone } from "./phone-client";
+import { Phone } from "./phone.client";
 
 const META_INFO = {
   title: "iPhone GOATED loadout",

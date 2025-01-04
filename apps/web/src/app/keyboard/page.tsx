@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { KeyboardMd } from "./keyboard-client";
+import { KeyboardMd } from "./keyboard.client";
 
 export const metadata: Metadata = {
   title: "Keyboard",
