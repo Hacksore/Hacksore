@@ -25,9 +25,9 @@
     "firebase-tools": "^12.4.3",
     "lint": "workspace:*",
     "prettier": "^3.0.0",
-    "rimraf": "^5.0.0",
+    "rimraf": "^5.0.10",
     "tsconfig": "workspace:*",
-    "turbo": "^2.0.6",
+    "turbo": "^2.3.3",
     "typescript": "^5.1.6"
   },
   "engines": {
