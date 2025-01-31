@@ -35,7 +35,7 @@ export function createMessageForIssue(event: IssuesEvent): any {
   };
 
   if (event.action === "opened") {
-    payload.content = `<@${DISCORD_ID}>`;
+    payload.content = author !== "Hacksore" ? `<@${DISCORD_ID}>` : "";
     payload.embeds[0].fields[0].value = `Issue created by ${author}`;
     payload.embeds[0].color = Colors.Green;
 

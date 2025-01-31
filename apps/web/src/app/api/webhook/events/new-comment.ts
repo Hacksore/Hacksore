@@ -1,5 +1,4 @@
 import { IssueCommentCreatedEvent } from "@octokit/webhooks-types";
-import { DISCORD_ID } from "../constants";
 
 export function createMessageForIssueComment(event: IssueCommentCreatedEvent): any {
   const description = event.comment.body;
