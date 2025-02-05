@@ -13,7 +13,7 @@ module.exports = {
         lg: "1025px",
       },
       colors: {
-        primary: "#5865F2",
+        primary: "#2563EB",
         "card-bg": "#0D1118",
         "card-border": "#31363E",
         "discord-online": "#43B581",

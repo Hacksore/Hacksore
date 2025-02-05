@@ -60,7 +60,7 @@ export const Social = () => {
 
       <div className="w-[220px] mb-4">
         <Link href="/guestbook">
-          <div className="justify-center text-sm m-2 backdrop-blur-[8px] md:text-base group border hover:no-underline border-zinc-400/50 bg-gradient-to-r from-indigo-300/30 to-white/5 rounded-full p-2 px-3 sm:p-1 sm:px-2 mx-auto flex gap-2 items-center text-zinc-50 font-thin duration-300 hover:border-primary">
+          <div className="justify-center text-sm m-2 backdrop-blur-[8px] md:text-base group border hover:no-underline border-zinc-400/50 rounded-full p-2 px-3 sm:p-1 sm:px-2 mx-auto flex gap-2 items-center text-zinc-50 font-thin duration-300 hover:border-primary">
             <FaBook />
             <span className="semi-bold">Sign My Guestbook</span>
             <svg
