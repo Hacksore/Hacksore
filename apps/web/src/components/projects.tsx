@@ -103,12 +103,16 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
         <div className="flex gap-2">
           {project.repoUrl && (
             <a href={project.repoUrl} target="_blank" rel="noreferrer">
-              <Button ariaLabel="Repo">Repo</Button>
+              <Button className="text-sm h-8" ariaLabel="Repo">
+                Repo
+              </Button>
             </a>
           )}
           {project.websiteUrl && (
             <a href={project.websiteUrl} target="_blank" rel="noreferrer">
-              <Button ariaLabel="Website">Website</Button>
+              <Button className="text-sm h-8" ariaLabel="Website">
+                Website
+              </Button>
             </a>
           )}
         </div>
