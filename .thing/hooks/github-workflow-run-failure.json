@@ -3,12 +3,12 @@
   "action": "completed",
   "workflow_run": {
     "id": 4211981566,
-    "name": "Build and Deploy (fails)",
+    "name": "Build and Deploy (failure)",
     "node_id": "WFR_kwLOHDgTzs77Dbz-",
     "head_branch": "main",
     "head_sha": "258e1650b4f7ce64d617419e3e0f14c9624ee6d8",
     "path": ".github/workflows/failed.yaml",
-    "display_title": "Build and Deploy (fails)",
+    "display_title": "Build and Deploy (failure)",
     "run_number": 50,
     "event": "workflow_dispatch",
     "status": "completed",
@@ -228,14 +228,14 @@
   "workflow": {
     "id": 38275286,
     "node_id": "W_kwDOHDgTzs4CSAjW",
-    "name": "Build and Deploy (fails)",
+    "name": "Build and Deploy (failure)",
     "path": ".github/workflows/failed.yaml",
     "state": "active",
     "created_at": "2022-10-23T23:49:36.000Z",
     "updated_at": "2022-10-24T13:49:18.000Z",
     "url": "https://api.github.com/repos/Hacksore/test/actions/workflows/38275286",
     "html_url": "https://github.com/Hacksore/test/blob/main/.github/workflows/failed.yaml",
-    "badge_url": "https://github.com/Hacksore/test/workflows/Build%20and%20Deploy%20(fails)/badge.svg"
+    "badge_url": "https://github.com/Hacksore/test/workflows/Build%20and%20Deploy%20(failure)/badge.svg"
   },
   "repository": {
     "id": 473437134,
