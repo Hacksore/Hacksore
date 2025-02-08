@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@octokit/webhooks-schemas@6.10.0/schema.json",
   "action": "completed",
   "workflow_run": {
-    "id": 4211981566,
+    "id": 1,
     "name": "Build and Deploy (failure)",
     "node_id": "WFR_kwLOHDgTzs77Dbz-",
     "head_branch": "main",
