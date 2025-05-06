@@ -7,7 +7,7 @@ on:
     types:
       - completed
 env:
-  NODE_VERSION: "18"
+  NODE_VERSION: "20"
   TURBO_REMOTE_ONLY: true
   FIREBASE_SA_BASE64: ${{ secrets.FIREBASE_SA_BASE64 }}
   NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
