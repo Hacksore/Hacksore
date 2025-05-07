@@ -1,5 +1,5 @@
 import { Colors } from "@boult/api";
-import { WorkflowJobEvent } from "@octokit/webhooks-types";
+import type { WorkflowJobEvent } from "@octokit/webhooks-types";
 
 export function createMessageForWorkflowJob(event: WorkflowJobEvent): any {
   // the status if was good or bad

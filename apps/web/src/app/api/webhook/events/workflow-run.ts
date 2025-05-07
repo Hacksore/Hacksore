@@ -13,7 +13,7 @@ export function createMessageForWorkflowRun(event: WorkflowRunEvent): any {
   const repoName = event.repository.name;
   const branchName = event.workflow_run.head_branch;
   const jobUrl = event.workflow_run.html_url;
-  const timestamp = `<t:${new Date(event.workflow_run.created_at).getTime()}:R>`;
+  const timestamp = `<t:${Math.floor(new Date(event.workflow_run.created_at).getTime() / 1000)}:R>`;
   const avatarUrl = event.workflow_run.actor.avatar_url;
 
   const payload = {
@@ -25,15 +25,26 @@ export function createMessageForWorkflowRun(event: WorkflowRunEvent): any {
         color: 0,
         fields: [
           {
-            name: `${repoName}/${branchName}`,
-            value: `${commitMessage} - ${commitAuthor}`,
+            name: "📦 Repository",
+            value: `${repoName}/${branchName}`,
+            inline: true
           },
+          {
+            name: "👤 Author",
+            value: commitAuthor,
+            inline: true
+          },
+          {
+            name: "💬 Commit Message",
+            value: commitMessage,
+            inline: false
+          }
         ],
         author: {
           icon_url: avatarUrl,
           name: "",
           url: jobUrl,
-        },
+        }
       },
     ],
     username: "Github",
@@ -41,32 +52,31 @@ export function createMessageForWorkflowRun(event: WorkflowRunEvent): any {
 
   if (event.action === "requested" && conclusion === null) {
     payload.embeds[0].author.name = `🟠 ${jobName}`;
-    payload.embeds[0].description = "Run was started";
+    payload.embeds[0].description = "**Run was started**\n\n";
     payload.embeds[0].color = Colors.Orange;
   }
 
   if (event.action === "completed" && conclusion === "failure") {
     payload.content = `<@${DISCORD_ID}>`;
     payload.embeds[0].author.name = `🔴 ${jobName}`;
-    payload.embeds[0].description = "Run has failed";
+    payload.embeds[0].description = "**Run has failed**\n\n";
     payload.embeds[0].color = Colors.Red;
   }
 
   if (event.action === "completed" && conclusion === "success") {
     payload.embeds[0].author.name = `🟢 ${jobName}`;
-    payload.embeds[0].description = "Run completed successfully";
+    payload.embeds[0].description = "**Run completed successfully**\n\n";
     payload.embeds[0].color = Colors.Green;
   }
 
   if (event.action === "completed" && conclusion === "cancelled") {
     payload.embeds[0].author.name = `⚪ ${jobName}`;
-    payload.embeds[0].description = "Run was cancelled";
+    payload.embeds[0].description = "**Run was cancelled**\n\n";
     payload.embeds[0].color = Colors.Gray;
   }
 
-  // add the job url
-  payload.embeds[0].description += `\n\n** [🔗 click here for the job details](${jobUrl})**\n\n`;
-  payload.embeds[0].description += `⏱️ ${timestamp}`;
+  // add the job url and timestamp
+  payload.embeds[0].description += `[🔗 View Job Details](${jobUrl})\n\n⏱️ ${timestamp}`;
 
   return payload;
 }

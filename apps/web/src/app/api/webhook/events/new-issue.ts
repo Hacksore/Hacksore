@@ -1,4 +1,4 @@
-import { IssuesEvent } from "@octokit/webhooks-types";
+import type { IssuesEvent } from "@octokit/webhooks-types";
 import { Colors } from "@boult/api";
 import { DISCORD_ID } from "../constants";
 
