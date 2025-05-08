@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import mdx from "@next/mdx";
-import "./src/env";
 
 const withMDX = mdx({
   extension: /\.mdx?$/,
