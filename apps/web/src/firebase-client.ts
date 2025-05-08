@@ -2,7 +2,7 @@ import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getDatabase } from "@firebase/database";
 import { connectDatabaseEmulator } from "firebase/database";
 
-import { env } from "./env.js";
+import { env } from "./env";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY,

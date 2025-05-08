@@ -27,24 +27,24 @@ export function createMessageForWorkflowRun(event: WorkflowRunEvent): any {
           {
             name: "📦 Repository",
             value: `${repoName}/${branchName}`,
-            inline: true
+            inline: true,
           },
           {
             name: "👤 Author",
             value: commitAuthor,
-            inline: true
+            inline: true,
           },
           {
             name: "💬 Commit Message",
             value: commitMessage,
-            inline: false
-          }
+            inline: false,
+          },
         ],
         author: {
           icon_url: avatarUrl,
           name: "",
           url: jobUrl,
-        }
+        },
       },
     ],
     username: "Github",

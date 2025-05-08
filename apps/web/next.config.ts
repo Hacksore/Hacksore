@@ -1,7 +1,7 @@
+import type { NextConfig } from "next";
 import mdx from "@next/mdx";
-import "./src/env.js";
+import "./src/env";
 
-/** @type {import('@next/mdx')} */
 const withMDX = mdx({
   extension: /\.mdx?$/,
   options: {
@@ -10,8 +10,7 @@ const withMDX = mdx({
   },
 });
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@boult/types", "@boult/api"],
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],

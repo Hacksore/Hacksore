@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { env } from "./env.js";
+import { env } from "./env";
 
 const serviceAccountBuffer = Buffer.from(env.FIREBASE_SA_BASE64, "base64");
 const serviceAccountStringData = serviceAccountBuffer.toString("utf8");
