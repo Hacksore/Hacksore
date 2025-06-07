@@ -1,4 +1,1 @@
-# ❎ i just work here bro
-
-![stars](https://img.shields.io/github/stars/Hacksore?style=flat)
-![stars](https://img.shields.io/badge/Watch-96-lightgrey?logo=github)
+![ezgif-6832b454a50595](https://github.com/user-attachments/assets/2dab29c7-8b87-490d-807c-f921db047032)
