@@ -1,36 +1,36 @@
 {
-  "name": "hacksore",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start:web": "concurrently pnpm:dev pnpm:emulator",
-    "start": "concurrently pnpm:dev:all pnpm:emulator",
-    "emulator": "firebase emulators:start --import private-seed",
-    "db:export": "firebase emulators:export private-seed",
-    "dev": "turbo start --filter=web",
-    "dev:all": "turbo start",
-    "build": "turbo build",
-    "build:web": "turbo build --filter=web",
-    "tsc": "tsc -b --watch",
-    "lint": "turbo lint",
-    "serve": "turbo serve",
-    "format": "npx prettier -w '**/*.{ts,tsx}'",
-    "deploy": "firebase deploy && vercel deploy",
-    "clean": "turbo clean && rm -rf node_modules"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.2.4",
-    "concurrently": "^9.2.1",
-    "dotenv": "^17.2.2",
-    "firebase-tools": "^14.17.0",
-    "prettier": "^3.6.2",
-    "rimraf": "^6.0.1",
-    "tsconfig": "workspace:*",
-    "turbo": "^2.5.6",
-    "typescript": "^5.9.2"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "packageManager": "pnpm@9.1.0"
+	"name": "hacksore",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"start:web": "concurrently pnpm:dev pnpm:emulator",
+		"start": "concurrently pnpm:dev:all pnpm:emulator",
+		"emulator": "firebase emulators:start --import private-seed",
+		"db:export": "firebase emulators:export private-seed",
+		"dev": "turbo start --filter=web",
+		"dev:all": "turbo start",
+		"build": "turbo build",
+		"build:web": "turbo build --filter=web",
+		"tsc": "tsc -b --watch",
+		"lint": "turbo lint",
+		"lint:fix": "turbo lint:fix",
+		"serve": "turbo serve",
+		"format": "biome format --write .",
+		"deploy": "firebase deploy && vercel deploy",
+		"clean": "turbo clean && rm -rf node_modules"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.4",
+		"concurrently": "^9.2.1",
+		"dotenv": "^17.2.2",
+		"firebase-tools": "^14.17.0",
+		"rimraf": "^6.0.1",
+		"tsconfig": "workspace:*",
+		"turbo": "^2.5.6",
+		"typescript": "^5.9.2"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"packageManager": "pnpm@9.1.0"
 }

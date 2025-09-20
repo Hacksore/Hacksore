@@ -17,7 +17,7 @@ async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(res => res.json());
+  }).then((res) => res.json());
 }
 
 export async function POST(req: Request) {
@@ -26,10 +26,16 @@ export async function POST(req: Request) {
   const eventType = (req.headers.get("x-github-event") as string) || "unknown";
 
   // a stub of shared things
-  const genericEvent = body as unknown as { action: string; repository: { name: string }; sender: { login: string } };
+  const genericEvent = body as unknown as {
+    action: string;
+    repository: { name: string };
+    sender: { login: string };
+  };
 
   if (!ALLOWED_EVENTS.includes(eventType)) {
-    return NextResponse.json({ status: `event not registered - ${eventType}:${genericEvent.action}` });
+    return NextResponse.json({
+      status: `event not registered - ${eventType}:${genericEvent.action}`,
+    });
   }
 
   // don't allow bots they are spammy
@@ -48,7 +54,9 @@ export async function POST(req: Request) {
   const repo = genericEvent.repository.name.toLowerCase();
 
   if (configuredWebhooks[repo] === undefined) {
-    return NextResponse.json({ status: "this repo is not registered for webhooks" });
+    return NextResponse.json({
+      status: "this repo is not registered for webhooks",
+    });
   }
 
   // pull out the webhook url from the db
@@ -69,6 +77,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ status: "ok" });
   } catch (err: any) {
     console.log(err.message);
-    return NextResponse.json({ status: `error handling webhook for ${eventType}:${genericEvent.action}` });
+    return NextResponse.json({
+      status: `error handling webhook for ${eventType}:${genericEvent.action}`,
+    });
   }
 }

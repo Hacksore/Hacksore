@@ -1,12 +1,12 @@
 {
-  "rules": {
-    "userdata": {
-      ".read": true,
-      ".write": false
-    },
-    "webhooks": {
-      ".read": false,
-      ".write": false
-    }
-  }
+	"rules": {
+		"userdata": {
+			".read": true,
+			".write": false
+		},
+		"webhooks": {
+			".read": false,
+			".write": false
+		}
+	}
 }

@@ -1,15 +1,16 @@
 "use client";
 
-import { SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
+import { SiElectron, SiFirebase, SiNodedotjs, SiReact, SiRust } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
-import { IProjectInfo } from "../types/project";
+import type { IProjectInfo } from "../types/project";
 import { Button } from "../components/button";
 
 const TypescriptIcon = () => {
-  return <img src="/img/typescript.svg" className="w-4 h-4" />;
+  // biome-ignore lint/performance/noImgElement: need SVG
+  return <img src="/img/typescript.svg" className="w-4 h-4" alt="TypeScript" />;
 };
 
-const languageToIcons: Record<string, { icon: any; color: string }> = {
+const languageToIcons: Record<string, { icon: React.ComponentType; color: string }> = {
   typescript: { icon: TypescriptIcon, color: "#3178C6" },
   nodejs: { icon: SiNodedotjs, color: "#5FA04E" },
   nextjs: { icon: TbBrandNextjs, color: "#fff" },
@@ -87,7 +88,11 @@ const PROJECTS: ProjectInfo[] = [
 const renderIconsFromLanguage = (langs: string[]) =>
   langs.map((lang: string) => {
     const Element = languageToIcons[lang].icon;
-    return <Element key={lang} className="tech-icon" style={{ color: languageToIcons[lang].color }} />;
+    return (
+      <span key={lang} className="tech-icon" style={{ color: languageToIcons[lang].color }}>
+        <Element />
+      </span>
+    );
   });
 
 const ProjectCard = ({ project }: { project: ProjectInfo }) => {

@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { Activity, ActivityType, PresenceStatus } from "@boult/types";
+import { type Activity, ActivityType, type PresenceStatus } from "@boult/types";
 import { SiNeovim } from "react-icons/si";
 
 const PingLink = () => {
@@ -26,7 +25,7 @@ const PlayingActivity = ({ name, state, details }: { name: string; state: string
       <div className="header">
         <div className="icon">
           {/* TODO: fix the icon */}
-          {name === "Neovim" ? <SiNeovim fontSize="large" /> : <>FIX</>}
+          {name === "Neovim" ? <SiNeovim fontSize="large" /> : "FIX"}
         </div>
         <p className="name">{name}</p>
       </div>
@@ -80,9 +79,11 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
           Ping me <PingLink />
         </p>
       ) : (
-        statusElements.map((component: React.JSX.Element, idx) => {
+        statusElements.map((component: React.JSX.Element) => {
+          // Use the component's key if it exists, otherwise fallback to a unique string
+          const key = component.key ?? Math.random().toString(36).substr(2, 9);
           return (
-            <div className="activity" key={`activity-${idx}`}>
+            <div className="activity" key={key}>
               {component}
             </div>
           );
@@ -94,13 +95,17 @@ const PresenceTooltip: React.FC<{ activities: Activity[] }> = ({ activities = []
 
 interface PresenceProps {
   activities: Activity[];
-  children: any;
+  children: React.ReactNode;
   status: PresenceStatus;
 }
 
 export const Presence: React.FC<PresenceProps> = ({ activities, children, status }) => {
   // don't show on DND
   const disable = status === "dnd";
+
+  if (disable) {
+    return null;
+  }
 
   return <div>{children}</div>;
 };

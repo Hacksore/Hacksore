@@ -1,7 +1,4 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./libs/api" },
-    { "path": "./libs/types" }
-  ]
+	"files": [],
+	"references": [{ "path": "./libs/api" }, { "path": "./libs/types" }]
 }

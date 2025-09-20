@@ -4,7 +4,7 @@ import { Button } from "../components//button";
 import { Email } from "./icons/email";
 import { Calendar } from "./icons/calendar";
 import { Blog } from "./icons/blog";
-import { FaBook, FaPencilAlt } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
 import Link from "next/link";
 
 const SOCIALS = [
@@ -49,7 +49,7 @@ export const Social = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex my-4 mb-6 sm:gap-2 gap-1 items-center justify-center">
-        {SOCIALS.map(item => (
+        {SOCIALS.map((item) => (
           <a key={item.title} href={item.url} rel="noreferrer" target="_blank" aria-label={item.title} className="link">
             <Button ariaLabel={item.title}>
               <item.icon />
@@ -75,6 +75,7 @@ export const Social = () => {
               strokeLinejoin="round"
               className="duration-300 group-hover:translate-x-0.5 lucide lucide-chevron-right"
             >
+              <title>Chevron Right</title>
               <path d="m9 18 6-6-6-6"></path>
             </svg>
           </div>

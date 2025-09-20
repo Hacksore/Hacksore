@@ -29,7 +29,7 @@ export async function githubRepoExists({ repo, owner }: RepoExistsOptions): Prom
       headers: {
         Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
       },
-    }).then(res => res.json())) as RepoInformation;
+    }).then((res) => res.json())) as RepoInformation;
     console.log("Found repo:", response.url);
     return true;
   } catch (err: any) {

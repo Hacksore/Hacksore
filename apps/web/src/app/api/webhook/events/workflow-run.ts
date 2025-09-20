@@ -1,5 +1,5 @@
 import { Colors } from "@boult/api";
-import { WorkflowRunEvent } from "@octokit/webhooks-types";
+import type { WorkflowRunEvent } from "@octokit/webhooks-types";
 import { DISCORD_ID } from "../constants";
 
 export function createMessageForWorkflowRun(event: WorkflowRunEvent): any {

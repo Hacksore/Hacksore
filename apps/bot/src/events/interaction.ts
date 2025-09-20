@@ -1,4 +1,4 @@
-import { Interaction } from "discord.js";
+import type { Interaction } from "discord.js";
 import { CommandList } from "../commands/_command-list.js";
 
 export const onInteraction = async (interaction: Interaction): Promise<void> => {

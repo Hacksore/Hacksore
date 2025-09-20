@@ -54,7 +54,7 @@ export async function createGithubWebhook({ owner, repo, url }: CreateWebhookOpt
       headers: {
         Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
       },
-    }).then(res => res.json());
+    }).then((res) => res.json());
 
     console.log("Created webhook for:", result.url);
 

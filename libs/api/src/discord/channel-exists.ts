@@ -25,7 +25,7 @@ export async function discordChannelExists({ guildId, name }: CreateChannelOptio
       headers: {
         Authorization: `Bot ${DISCORD_TOKEN}`,
       },
-    }).then(res => res.json());
+    }).then((res) => res.json());
 
     const foundChannelWithName = response.find((item: any) => item.name === name);
     return foundChannelWithName ?? false;

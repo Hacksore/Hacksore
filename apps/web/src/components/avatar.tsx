@@ -1,5 +1,5 @@
 "use client";
-import { PresenceStatus } from "@boult/types";
+import type { PresenceStatus } from "@boult/types";
 import Image from "next/image";
 
 export const STATE_COLORS = {

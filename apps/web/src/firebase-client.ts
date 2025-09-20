@@ -1,4 +1,4 @@
-import { FirebaseOptions, initializeApp } from "firebase/app";
+import { type FirebaseOptions, initializeApp } from "firebase/app";
 import { getDatabase } from "@firebase/database";
 import { connectDatabaseEmulator } from "firebase/database";
 

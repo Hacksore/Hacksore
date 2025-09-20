@@ -1,4 +1,4 @@
-import { IssueCommentCreatedEvent } from "@octokit/webhooks-types";
+import type { IssueCommentCreatedEvent } from "@octokit/webhooks-types";
 
 export function createMessageForIssueComment(event: IssueCommentCreatedEvent): any {
   const description = event.comment.body;

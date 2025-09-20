@@ -1,7 +1,7 @@
 "use client";
 import GiscusComponent from "@giscus/react";
 
-// @ts-ignore
+// @ts-expect-error
 import CapeMd from "./content.mdx";
 
 export const Cape = () => {

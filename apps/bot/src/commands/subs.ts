@@ -1,6 +1,6 @@
-import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, type CommandInteraction, EmbedBuilder } from "discord.js";
 import { db } from "../firebase.js";
-import { CommandInt } from "../types.js";
+import type { CommandInt } from "../types.js";
 
 import { githubRepoExists, createGithubWebhook } from "@boult/api/github";
 import { createDiscordChannel, discordChannelExists, createDiscordWebhook } from "@boult/api/discord";
@@ -11,18 +11,18 @@ const WEBHOOK_DOMAIN = "boult.me";
 const commandData = new SlashCommandBuilder()
   .setName("repo")
   .setDescription("Manage repo webhooks")
-  .addSubcommand(subcommand => subcommand.setName("list").setDescription("List all the subs"))
-  .addSubcommand(subcommand =>
+  .addSubcommand((subcommand) => subcommand.setName("list").setDescription("List all the subs"))
+  .addSubcommand((subcommand) =>
     subcommand
       .setName("remove")
       .setDescription("Remove a subscription for a repo")
-      .addStringOption(option => option.setName("repo").setDescription("The repo name to remove"))
+      .addStringOption((option) => option.setName("repo").setDescription("The repo name to remove"))
   )
-  .addSubcommand(subcommand =>
+  .addSubcommand((subcommand) =>
     subcommand
       .setName("add")
       .setDescription("Add a subscription for a repo")
-      .addStringOption(option => option.setName("repo").setDescription("The repo name to add"))
+      .addStringOption((option) => option.setName("repo").setDescription("The repo name to add"))
   );
 
 // TODO: how can we use this?
@@ -139,7 +139,7 @@ const command: CommandInt = {
         .setColor(0x0099ff)
         .setTitle("Repos")
         .setURL("https://discord.js.org/")
-        .addFields(repos.map(item => ({ name: item, value: item })));
+        .addFields(repos.map((item) => ({ name: item, value: item })));
       interaction.reply({ embeds: [exampleEmbed] });
     }
   },

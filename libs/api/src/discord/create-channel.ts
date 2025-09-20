@@ -43,7 +43,7 @@ export async function createDiscordChannel({ guildId, name }: CreateChannelOptio
         "Content-Type": "application/json",
         Authorization: `Bot ${DISCORD_TOKEN}`,
       },
-    }).then(res => res.json());
+    }).then((res) => res.json());
 
     // TODO: are there discord types somewhere?
 

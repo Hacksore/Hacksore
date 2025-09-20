@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { KeyboardMd } from "./keyboard.client";
 
 export const metadata: Metadata = {

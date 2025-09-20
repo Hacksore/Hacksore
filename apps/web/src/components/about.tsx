@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { Presence } from "../components/presence";
 import { Avatar } from "../components/avatar";
-import { DataSnapshot, onValue, ref } from "firebase/database";
+import { type DataSnapshot, onValue, ref } from "firebase/database";
 import { db } from "../firebase-client";
-import { Profile } from "@boult/types";
+import type { Profile } from "@boult/types";
 const DISCORD_AVATAR_CDN = "https://cdn.discordapp.com/avatars";
 
 export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {

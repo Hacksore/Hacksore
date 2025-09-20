@@ -1,4 +1,4 @@
-import { GuildMember, PartialGuildMember } from "discord.js";
+import type { GuildMember, PartialGuildMember } from "discord.js";
 import { db } from "../firebase.js";
 import { isUpdateAllowed } from "../util.js";
 

@@ -37,7 +37,7 @@ export async function createDiscordWebhook({ channelId }: CreateWebHookOption): 
         "Content-Type": "application/json",
         Authorization: `Bot ${DISCORD_TOKEN}`,
       },
-    }).then(res => res.json());
+    }).then((res) => res.json());
 
     return {
       success: true,

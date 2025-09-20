@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { GuestBook as ClientGuestBook } from "./guestbook.client";
 
 const META_INFO = {

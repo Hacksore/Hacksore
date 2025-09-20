@@ -1,10 +1,11 @@
+// biome-ignore assist/source/organizeImports: should be first
 import "../env.js";
 import { REST } from "@discordjs/rest";
-import { APIApplicationCommandOption, Routes } from "discord-api-types/v9";
+import { type APIApplicationCommandOption, Routes } from "discord-api-types/v9";
 import { CommandList } from "../commands/_command-list.js";
-import { Client, TextChannel } from "discord.js";
+import type { Client, TextChannel } from "discord.js";
 import { DISCORD_SERVER_ID } from "../constants.js";
-import os from "os";
+import os from "node:os";
 
 const HOSTNAME = os.hostname();
 
@@ -19,7 +20,7 @@ export const onReady = async (client: Client): Promise<void> => {
       options?: APIApplicationCommandOption[];
     }[] = [];
 
-    CommandList.forEach(command =>
+    for (const command of CommandList) {
       commandData.push(
         command.data.toJSON() as {
           name: string;
@@ -27,8 +28,8 @@ export const onReady = async (client: Client): Promise<void> => {
           type?: number;
           options?: APIApplicationCommandOption[];
         }
-      )
-    );
+      );
+    }
 
     // update commands
     await rest.put(Routes.applicationGuildCommands(client.user?.id || "missing token", DISCORD_SERVER_ID), {

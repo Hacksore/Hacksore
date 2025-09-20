@@ -1,4 +1,4 @@
-import { VoiceState } from "discord.js";
+import type { VoiceState } from "discord.js";
 import { db } from "../firebase.js";
 import { isUpdateAllowed } from "../util.js";
 

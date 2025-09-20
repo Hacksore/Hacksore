@@ -1,5 +1,5 @@
 "use client";
-// @ts-ignore
+// @ts-expect-error
 import RealOgKeyboard from "./content.mdx";
 
 export const KeyboardMd = () => {

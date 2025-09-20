@@ -26,9 +26,7 @@ try {
 
 // keep ts happy
 declare global {
-  // eslint-disable-next-line
   namespace NodeJS {
-    // eslint-disable-next-line
     interface ProcessEnv extends z.infer<typeof envVariables> {}
   }
 }

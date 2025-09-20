@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { Phone } from "./phone.client";
 
 const META_INFO = {

@@ -1,4 +1,4 @@
-import { Presence } from "discord.js";
+import type { Presence } from "discord.js";
 import { db } from "../firebase.js";
 import { isUpdateAllowed } from "../util.js";
 
@@ -20,7 +20,7 @@ export const onPresenceUpdate = async (_oldPres: Presence | null, newPres: Prese
     // some events can delete this for some reason?
     avatarHash: newPres?.user?.avatar || previousUserdata.avatarHash,
     userId: newPres?.user?.id || previousUserdata.userId,
-    activities: newPres.activities.map<Activity>(item => ({
+    activities: newPres.activities.map<Activity>((item) => ({
       name: item?.name || "",
       details: item?.details || "",
       type: item?.type || ActivityType.Playing,
