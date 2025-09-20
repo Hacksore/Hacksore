@@ -1,4 +1,3 @@
-// biome-ignore assist/source/organizeImports: should be first
 import "../env.js";
 import { REST } from "@discordjs/rest";
 import { type APIApplicationCommandOption, Routes } from "discord-api-types/v9";

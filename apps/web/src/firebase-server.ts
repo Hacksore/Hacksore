@@ -11,7 +11,7 @@ if (!admin.apps.length) {
       credential: admin.credential.cert(serviceAccount),
       databaseURL: env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error);
   }
 }

@@ -5,7 +5,7 @@ import { isUpdateAllowed } from "../util.js";
 // types are messed up for this
 // TODO: fix later
 export const onGuildMemberUpdate = async (
-  oldMember: GuildMember | PartialGuildMember,
+  _oldMember: GuildMember | PartialGuildMember,
   newMember: GuildMember
 ): Promise<void> => {
   if (!isUpdateAllowed(newMember?.id, newMember.guild?.id)) {

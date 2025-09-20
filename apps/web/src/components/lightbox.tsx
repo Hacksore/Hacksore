@@ -6,7 +6,7 @@ import "yet-another-react-lightbox/styles.css";
 import Image from "next/legacy/image";
 import { useState } from "react";
 
-export const CustomLightbox = ({ images }: { images: any[] }) => {
+export const CustomLightbox = ({ images }: { images: string[] }) => {
   const [open, setOpen] = useState(false);
   const firstImage = images[0];
 
@@ -14,7 +14,7 @@ export const CustomLightbox = ({ images }: { images: any[] }) => {
     <>
       <Image src={firstImage} alt="Testing" layout="responsive" onClick={() => setOpen(true)} />
 
-      <Lightbox open={open} close={() => setOpen(false)} slides={images} />
+      <Lightbox open={open} close={() => setOpen(false)} slides={images.map((img) => ({ src: img }))} />
     </>
   );
 };

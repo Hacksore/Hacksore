@@ -2,7 +2,7 @@ import { Colors } from "@boult/api";
 import type { WorkflowRunEvent } from "@octokit/webhooks-types";
 import { DISCORD_ID } from "../constants";
 
-export function createMessageForWorkflowRun(event: WorkflowRunEvent): any {
+export function createMessageForWorkflowRun(event: WorkflowRunEvent): unknown {
   // the status if was good or bad
   const conclusion = event.workflow_run.conclusion;
   const jobName = event.workflow_run.name;

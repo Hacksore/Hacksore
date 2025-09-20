@@ -1,21 +1,11 @@
 "use client";
-import { useState } from "react";
 
 import Mac from "./mac.mdx";
-import PC from "./pc.mdx";
 import Shared from "./shared.mdx";
 import Head from "next/head";
 import GiscusComponent from "@giscus/react";
 
-const platformComponents = {
-  pc: PC,
-  mac: Mac,
-};
-
 function Uses() {
-  const [platform, setPlatform] = useState<"mac" | "pc">("mac");
-  const PlatformComponent = platformComponents[platform];
-
   return (
     <div>
       <Head>
@@ -25,7 +15,7 @@ function Uses() {
       <div className="prose content">
         <Shared />
 
-        <PlatformComponent />
+        <Mac />
 
         <p>
           If you have questions about something I use or build please drop a comment below or @ me on{" "}

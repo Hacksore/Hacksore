@@ -9,7 +9,7 @@ import { createMessageForWorkflowJob } from "./events/workflow-job";
 // events to allow from github
 const ALLOWED_EVENTS = ["ping", "workflow_run", "workflow_job", "issues", "issue_comment"];
 
-async function sendMessageToDiscord(url: string, payload: any): Promise<any> {
+async function sendMessageToDiscord(url: string, payload: unknown): Promise<void> {
   // send the message to discord
   await fetch(url, {
     method: "POST",
@@ -75,8 +75,11 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ status: "ok" });
-  } catch (err: any) {
-    console.log(err.message);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error(err.message);
+    }
+
     return NextResponse.json({
       status: `error handling webhook for ${eventType}:${genericEvent.action}`,
     });
