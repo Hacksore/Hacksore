@@ -2,6 +2,6 @@
   "files": [],
   "references": [
     { "path": "./libs/api" },
-    { "path": "./libs/types" },
+    { "path": "./libs/types" }
   ]
 }
