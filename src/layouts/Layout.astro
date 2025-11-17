@@ -1,5 +1,10 @@
 ---
 import '../styles/global.css'
+
+const META_INFO = {
+  title: "Sean Boult - Portfolio Site",
+  description: "Full Stack Developer Who Likes React",
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -8,10 +13,21 @@ import '../styles/global.css'
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{META_INFO.title}</title>
+		<meta name="description" content={META_INFO.description} />
+		<meta property="og:title" content={META_INFO.title} />
+		<meta property="og:description" content={META_INFO.description} />
+		<meta property="og:image" content="https://hacksore.com/img/banner.png" />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={META_INFO.title} />
+		<meta name="twitter:description" content={META_INFO.description} />
+		<meta name="twitter:image" content="https://hacksore.com/img/banner.png" />
 	</head>
 	<body>
-		<slot />
+		<main class="max-w-3xl my-10 mx-auto">
+			<slot />
+		</main>
 	</body>
 </html>
 
