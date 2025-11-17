@@ -1,3 +1,0 @@
-# web
-
-a nextjs app

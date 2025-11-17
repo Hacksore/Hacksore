@@ -1,7 +1,5 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./libs/api" },
-    { "path": "./libs/types" },
-  ]
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
 }
