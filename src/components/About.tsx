@@ -16,8 +16,10 @@ export const About = ({ hideTagline = false }: { hideTagline?: boolean }) => {
           width={200}
           height={200}
           skinUrl="https://minotar.net/skin/Hacksore"
+          capeUrl="/img/cape-2011.png"
           onReady={({ viewer }) => {
             viewer.controls.enableZoom = false;
+            viewer.autoRotate = true;
           }}
         />
       </div>
