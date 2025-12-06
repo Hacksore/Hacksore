@@ -7,14 +7,14 @@ import Layout from "../layouts/layout.astro";
 
 <Layout>
 	<section class="flex justify-center">
-		<About client:visible />
+		<About client:load />
 	</section>
 
 	<section>
-		<Social client:idle />
+		<Social client:load />
 	</section>
 
 	<section class="pb-16 md:pb-14">
-		<Projects client:idle />
+		<Projects client:load />
 	</section>
 </Layout>

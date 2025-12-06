@@ -1,7 +1,17 @@
 import { SiAstro, SiElectron, SiFirebase, SiNodedotjs, SiReact, SiRust } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
-import type { IProjectInfo } from "../types/project";
 import { Button } from "./button";
+
+export type ProjectStatus = "alive" | "shambles";
+
+export interface ProjectInfo {
+  name: string;
+  desc: string;
+  repoUrl?: string;
+  websiteUrl?: string;
+  tech?: string[];
+  status?: ProjectStatus;
+}
 
 const TypescriptIcon = () => {
   return <img src="/img/typescript.svg" className="w-4 h-4" alt="TypeScript" />;
@@ -19,8 +29,6 @@ const languageToIcons: Record<string, { icon: IconComponent; color: string }> = 
   rust: { icon: SiRust, color: "#fff" },
   firebase: { icon: SiFirebase, color: "#FFCB2B" },
 };
-
-type ProjectInfo = IProjectInfo & { tech?: string[] };
 
 const PROJECTS: ProjectInfo[] = [
   {
