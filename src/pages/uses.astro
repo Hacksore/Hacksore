@@ -2,9 +2,17 @@
 import Layout from "../layouts/Layout.astro";
 
 import { Content as UsesContent } from "../content/uses.mdx";
+
+const META_INFO = {
+  title: "Uses - Sean Boult",
+  description: "Some of the things i use",
+};
 ---
 
-<Layout>
+<Layout
+  title={META_INFO.title}
+  description={META_INFO.description}
+>
 	<div class="prose prose-invert content">
 		<h1>Uses</h1>
     <UsesContent />
