@@ -110,13 +110,3 @@ body {
 .prose code {
   font-size: 0.875em;
 }
-
-/* Prevent white flash on skinview3d canvas */
-canvas {
-  background-color: #03060a;
-}
-
-/* Target skinview3d canvas specifically */
-div canvas {
-  background-color: #03060a;
-}
