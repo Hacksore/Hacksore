@@ -1,7 +1,7 @@
 import { FaBook, FaCalendar } from "react-icons/fa";
 import { SiDiscord, SiGithub, SiLinkedin, SiX } from "react-icons/si";
-import { Button } from "./_Button";
-import { Email } from "./icons/_Email";
+import { Button } from "./button";
+import { Email } from "./icons/email";
 
 const SOCIALS = [
   {

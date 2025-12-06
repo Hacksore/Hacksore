@@ -1,7 +1,7 @@
 import { SiAstro, SiElectron, SiFirebase, SiNodedotjs, SiReact, SiRust } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import type { IProjectInfo } from "../types/project";
-import { Button } from "./_Button";
+import { Button } from "./button";
 
 const TypescriptIcon = () => {
   return <img src="/img/typescript.svg" className="w-4 h-4" alt="TypeScript" />;
