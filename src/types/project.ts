@@ -7,5 +7,3 @@ export interface IProjectInfo {
   websiteUrl?: string;
   status?: ProjectStatus;
 }
-
-

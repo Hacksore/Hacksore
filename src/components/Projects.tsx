@@ -1,13 +1,15 @@
-import { SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron, SiAstro } from "react-icons/si";
+import { SiAstro, SiElectron, SiFirebase, SiNodedotjs, SiReact, SiRust } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
-import { IProjectInfo } from "../types/project";
+import type { IProjectInfo } from "../types/project";
 import { Button } from "./Button";
 
 const TypescriptIcon = () => {
   return <img src="/img/typescript.svg" className="w-4 h-4" alt="TypeScript" />;
 };
 
-const languageToIcons: Record<string, { icon: any; color: string }> = {
+type IconComponent = React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+
+const languageToIcons: Record<string, { icon: IconComponent; color: string }> = {
   typescript: { icon: TypescriptIcon, color: "#3178C6" },
   nodejs: { icon: SiNodedotjs, color: "#5FA04E" },
   nextjs: { icon: TbBrandNextjs, color: "#fff" },
@@ -86,7 +88,9 @@ const PROJECTS: ProjectInfo[] = [
 const renderIconsFromLanguage = (langs: string[]) =>
   langs.map((lang: string) => {
     const Element = languageToIcons[lang].icon;
-    return <Element key={lang} className="tech-icon" style={{ color: languageToIcons[lang].color }} />;
+    return (
+      <Element key={lang} className="tech-icon" style={{ color: languageToIcons[lang].color }} />
+    );
   });
 
 const ProjectCard = ({ project }: { project: ProjectInfo }) => {
@@ -98,7 +102,9 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
       </div>
 
       <div className="flex pb-1 justify-between">
-        <div className="flex ml-2 gap-2 items-center">{project?.tech && renderIconsFromLanguage(project.tech)}</div>
+        <div className="flex ml-2 gap-2 items-center">
+          {project?.tech && renderIconsFromLanguage(project.tech)}
+        </div>
         <div className="flex gap-2">
           {project.repoUrl && (
             <a href={project.repoUrl} target="_blank" rel="noreferrer">
@@ -131,4 +137,3 @@ export const Projects = () => {
     </div>
   );
 };
-

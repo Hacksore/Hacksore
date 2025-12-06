@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #2563EB;
-  --color-card-bg: #0D1118;
-  --color-card-border: #31363E;
+  --color-primary: #2563eb;
+  --color-card-bg: #0d1118;
+  --color-card-border: #31363e;
 }
 
-html, body {
+html,
+body {
   background-color: #03060a;
   color: #fff;
 }
@@ -65,8 +66,8 @@ html, body {
   font-style: italic;
   color: inherit;
   border-left-width: 0.25rem;
-  border-color: rgba(125,125,125,0.3);
-  quotes: "\201C""\201D""\2018""\2019";
+  border-color: rgba(125, 125, 125, 0.3);
+  quotes: "\201C" "\201D" "\2018" "\2019";
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   padding-left: 1em;
@@ -75,7 +76,7 @@ html, body {
 /* link styles */
 .prose * a {
   border-bottom-width: 1px;
-  transition-property: color,border-color;
+  transition-property: color, border-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
   color: #4394ff;
@@ -111,10 +112,10 @@ html, body {
 
 /* Prevent white flash on skinview3d canvas */
 canvas {
-  background-color: #03060a !important;
+  background-color: #03060a;
 }
 
 /* Target skinview3d canvas specifically */
 div canvas {
-  background-color: #03060a !important;
+  background-color: #03060a;
 }

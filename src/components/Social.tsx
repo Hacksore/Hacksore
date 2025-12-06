@@ -1,7 +1,7 @@
-import { SiX, SiLinkedin, SiGithub, SiDiscord } from "react-icons/si";
+import { FaBook, FaCalendar } from "react-icons/fa";
+import { SiDiscord, SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import { Button } from "./Button";
 import { Email } from "./icons/Email";
-import { FaBook, FaCalendar } from "react-icons/fa";
 
 const SOCIALS = [
   {
@@ -45,8 +45,15 @@ export const Social = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex my-4 mb-6 sm:gap-2 gap-1 items-center justify-center">
-        {SOCIALS.map(item => (
-          <a key={item.title} href={item.url} rel="noreferrer" target="_blank" aria-label={item.title} className="link">
+        {SOCIALS.map((item) => (
+          <a
+            key={item.title}
+            href={item.url}
+            rel="noreferrer"
+            target="_blank"
+            aria-label={item.title}
+            className="link"
+          >
             <Button ariaLabel={item.title}>
               <item.icon />
             </Button>
@@ -56,4 +63,3 @@ export const Social = () => {
     </div>
   );
 };
-

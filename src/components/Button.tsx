@@ -14,12 +14,10 @@ export const Button = ({
     aria-label={ariaLabel}
     className={twMerge(
       "uppercase min-w-[44px] h-[44px] text-center flex items-center justify-center bg-[#20262D] hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg",
-      className
+      className,
     )}
     {...props}
   >
     {children}
   </button>
 );
-
-

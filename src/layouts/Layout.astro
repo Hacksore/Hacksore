@@ -1,11 +1,5 @@
 ---
-import '../styles/global.css'
-
-interface Props {
-  title?: string;
-  description?: string;
-  ogImage?: string;
-}
+import "../styles/global.css";
 
 // Determine base URL with priority:
 // 1. PUBLIC_SITE_URL (manual override)
@@ -16,33 +10,33 @@ function getBaseUrl(): string {
   if (import.meta.env.PUBLIC_SITE_URL) {
     return import.meta.env.PUBLIC_SITE_URL;
   }
-  
+
   if (import.meta.env.VERCEL_URL) {
     return `https://${import.meta.env.VERCEL_URL}`;
   }
-  
+
   if (import.meta.env.DEV) {
-    return 'http://localhost:4321';
+    return "http://localhost:4321";
   }
-  
-  return 'https://hacksore.com';
+
+  return "https://hacksore.com";
 }
 
 const BASE_URL = getBaseUrl();
 
 function getOgImageUrl(url: string): string {
-  if (url.startsWith('http://') || url.startsWith('https://')) {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
     return url;
   }
-  
-  const cleanPath = url.startsWith('/') ? url : `/${url}`;
+
+  const cleanPath = url.startsWith("/") ? url : `/${url}`;
   return `${BASE_URL}${cleanPath}`;
 }
 
-const { 
+const {
   title = "Sean Boult - Portfolio Site",
   description = "Full Stack Developer Who Likes React",
-  ogImage = "/img/og.png"
+  ogImage = "/img/og.png",
 } = Astro.props;
 
 const ogImageUrl = getOgImageUrl(ogImage);
@@ -72,8 +66,25 @@ const META_INFO = {
 		<meta name="twitter:image" content={ogImageUrl} />
 	</head>
 	<body>
-		<main class="max-w-3xl my-10 mx-auto">
-			<slot />
+		<main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
+		  <slot />
+      <div class="giscus-container px-4 md:px-0">
+        <script
+          src="https://giscus.app/client.js"
+          data-repo="Hacksore/Hacksore"
+          data-repo-id="MDEwOlJlcG9zaXRvcnkyNzg0MzA5NzM="
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="en"
+          crossorigin="anonymous"
+          async
+        >
+        </script>
+      </div>
 		</main>
 	</body>
 </html>
@@ -84,5 +95,16 @@ const META_INFO = {
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	/* Add padding to giscus container on mobile */
+	.giscus-container {
+		margin-top: 2rem;
+	}
+
+	/* Target the dynamically generated giscus element */
+	.giscus,
+	.giscus-container > iframe {
+		max-width: 100%;
 	}
 </style>
