@@ -1,9 +1,22 @@
 ---
 import '../styles/global.css'
 
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { 
+  title = "Sean Boult - Portfolio Site",
+  description = "Full Stack Developer Who Likes React",
+  ogImage = "https://hacksore.com/img/banner.png"
+} = Astro.props;
+
 const META_INFO = {
-  title: "Sean Boult - Portfolio Site",
-  description: "Full Stack Developer Who Likes React",
+  title,
+  description,
+  ogImage,
 };
 ---
 <!doctype html>
@@ -11,18 +24,18 @@ const META_INFO = {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
 		<meta name="generator" content={Astro.generator} />
 		<title>{META_INFO.title}</title>
 		<meta name="description" content={META_INFO.description} />
 		<meta property="og:title" content={META_INFO.title} />
 		<meta property="og:description" content={META_INFO.description} />
-		<meta property="og:image" content="https://hacksore.com/img/banner.png" />
+		<meta property="og:image" content={META_INFO.ogImage} />
 		<meta property="og:type" content="website" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={META_INFO.title} />
 		<meta name="twitter:description" content={META_INFO.description} />
-		<meta name="twitter:image" content="https://hacksore.com/img/banner.png" />
+		<meta name="twitter:image" content={META_INFO.ogImage} />
 	</head>
 	<body>
 		<main class="max-w-3xl my-10 mx-auto">

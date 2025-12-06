@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const META_INFO = {
+  title: "Minecon 2011 Cape - Sean Boult",
+  description: "Yes I have a minecon2011 cape and no you cant have it. Please stop DMing me on discord.",
+  ogImage: "/img/cape-og.png",
+};
+---
+
+<Layout 
+  title={META_INFO.title}
+  description={META_INFO.description}
+  ogImage={META_INFO.ogImage}
+>
+	<div class="prose content">
+		<h1>Minecon 2011 Cape</h1>
+		<p>Yes I have a minecon2011 cape and no you cant have it. Please stop DMing me on discord.</p>
+		<img src="/img/cape.png" alt="minecon 2011 cape" />
+	</div>
+</Layout>
+
