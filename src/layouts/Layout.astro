@@ -7,16 +7,32 @@ interface Props {
   ogImage?: string;
 }
 
+// Get base URL from environment variable, fallback to production URL
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://hacksore.com';
+
+// Helper function to chose the right url for based on prod or dev
+function getOgImageUrl(url: string): string {
+  if (import.meta.env.DEV) {
+    return SITE_URL + url;
+  }
+  return url;
+}
+
 const { 
   title = "Sean Boult - Portfolio Site",
   description = "Full Stack Developer Who Likes React",
-  ogImage = "https://hacksore.com/img/banner.png"
+  ogImage = "https://hacksore.com/img/og.png"
 } = Astro.props;
+
+
+// Convert ogImage to absolute URL if it's relative
+const ogImageUrl = getOgImageUrl(ogImage);
+console.log(ogImageUrl);
 
 const META_INFO = {
   title,
   description,
-  ogImage,
+  ogImage: ogImageUrl,
 };
 ---
 <!doctype html>
@@ -30,12 +46,12 @@ const META_INFO = {
 		<meta name="description" content={META_INFO.description} />
 		<meta property="og:title" content={META_INFO.title} />
 		<meta property="og:description" content={META_INFO.description} />
-		<meta property="og:image" content={META_INFO.ogImage} />
+		<meta property="og:image" content={ogImageUrl} />
 		<meta property="og:type" content="website" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={META_INFO.title} />
 		<meta name="twitter:description" content={META_INFO.description} />
-		<meta name="twitter:image" content={META_INFO.ogImage} />
+		<meta name="twitter:image" content={ogImageUrl} />
 	</head>
 	<body>
 		<main class="max-w-3xl my-10 mx-auto">
