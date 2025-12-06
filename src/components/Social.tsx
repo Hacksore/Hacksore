@@ -1,9 +1,7 @@
 import { SiX, SiLinkedin, SiGithub, SiDiscord } from "react-icons/si";
 import { Button } from "./Button";
 import { Email } from "./icons/Email";
-import { Calendar } from "./icons/Calendar";
-import { Blog } from "./icons/Blog";
-import { FaBook } from "react-icons/fa";
+import { FaBook, FaCalendar } from "react-icons/fa";
 
 const SOCIALS = [
   {
@@ -34,12 +32,12 @@ const SOCIALS = [
   {
     title: "Meeting",
     url: "https://cal.com/hacksore",
-    icon: Calendar,
+    icon: FaCalendar,
   },
   {
     title: "Blog",
     url: "https://dev.to/hacksore",
-    icon: Blog,
+    icon: FaBook,
   },
 ];
 
@@ -54,29 +52,6 @@ export const Social = () => {
             </Button>
           </a>
         ))}
-      </div>
-
-      <div className="w-[220px] mb-4">
-        <a href="/guestbook">
-          <div className="justify-center text-sm m-2 md:text-base group border hover:no-underline border-zinc-400/50 rounded-full p-2 px-3 sm:p-1 sm:px-2 mx-auto flex gap-2 items-center text-zinc-50 font-thin duration-300 hover:border-[#2563EB]">
-            <FaBook />
-            <span className="semi-bold">Sign My Guestbook</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="duration-300 group-hover:translate-x-0.5 lucide lucide-chevron-right"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </div>
-        </a>
       </div>
     </div>
   );

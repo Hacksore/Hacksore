@@ -1,4 +1,4 @@
-import { SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron } from "react-icons/si";
+import { SiRust, SiReact, SiNodedotjs, SiFirebase, SiElectron, SiAstro } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import { IProjectInfo } from "../types/project";
 import { Button } from "./Button";
@@ -11,6 +11,7 @@ const languageToIcons: Record<string, { icon: any; color: string }> = {
   typescript: { icon: TypescriptIcon, color: "#3178C6" },
   nodejs: { icon: SiNodedotjs, color: "#5FA04E" },
   nextjs: { icon: TbBrandNextjs, color: "#fff" },
+  astro: { icon: SiAstro, color: "#fff" },
   electron: { icon: SiElectron, color: "#8CEAF9" },
   react: { icon: SiReact, color: "#8CEAF9" },
   rust: { icon: SiRust, color: "#fff" },
@@ -26,6 +27,13 @@ const PROJECTS: ProjectInfo[] = [
     repoUrl: "https://github.com/hacksore/overlayed",
     websiteUrl: "https://overlayed.dev",
     tech: ["typescript", "rust", "react"],
+  },
+  {
+    name: "oghunt",
+    desc: "Product Hunt with ZERO AI Slop Powered By AI",
+    repoUrl: "https://github.com/hacksore/oghunt",
+    websiteUrl: "https://oghunt.com",
+    tech: ["typescript", "nextjs", "react"],
   },
   {
     name: "bluelinky",
@@ -44,13 +52,6 @@ const PROJECTS: ProjectInfo[] = [
     tech: ["typescript"],
   },
   {
-    name: "vercel.lol",
-    desc: "vercel meme",
-    repoUrl: "https://github.com/Hacksore/vercel.lol",
-    websiteUrl: "https://vercel.lol",
-    tech: ["nextjs", "typescript", "react"],
-  },
-  {
     name: "react-skinview3d",
     desc: "React component for rendering Minecraft skins",
     repoUrl: "https://github.com/hacksore/react-skinview3d",
@@ -64,7 +65,7 @@ const PROJECTS: ProjectInfo[] = [
     repoUrl: "https://github.com/hacksore/hacksore",
     websiteUrl: "https://boult.me",
     status: "alive",
-    tech: ["typescript", "react", "firebase", "nextjs"],
+    tech: ["typescript", "react", "astro"],
   },
   {
     name: "opx",
