@@ -51,7 +51,7 @@ const META_INFO = {
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{META_INFO.title}</title>
@@ -64,6 +64,7 @@ const META_INFO = {
 		<meta name="twitter:title" content={META_INFO.title} />
 		<meta name="twitter:description" content={META_INFO.description} />
 		<meta name="twitter:image" content={ogImageUrl} />
+		<link rel="preconnect" href="https://giscus.app" />
 	</head>
 	<body>
 		<main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
