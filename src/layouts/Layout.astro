@@ -7,8 +7,28 @@ interface Props {
   ogImage?: string;
 }
 
-const BASE_URL = import.meta.env.PUBLIC_SITE_URL || 
-  (import.meta.env.DEV ? 'http://localhost:4321' : 'https://hacksore.com');
+// Determine base URL with priority:
+// 1. PUBLIC_SITE_URL (manual override)
+// 2. VERCEL_URL (preview deployments) - add https:// prefix
+// 3. DEV mode - localhost
+// 4. Production - hacksore.com
+function getBaseUrl(): string {
+  if (import.meta.env.PUBLIC_SITE_URL) {
+    return import.meta.env.PUBLIC_SITE_URL;
+  }
+  
+  if (import.meta.env.VERCEL_URL) {
+    return `https://${import.meta.env.VERCEL_URL}`;
+  }
+  
+  if (import.meta.env.DEV) {
+    return 'http://localhost:4321';
+  }
+  
+  return 'https://hacksore.com';
+}
+
+const BASE_URL = getBaseUrl();
 
 function getOgImageUrl(url: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) {
