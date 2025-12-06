@@ -1,0 +1,88 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+// Determine base URL with priority:
+// 1. PUBLIC_SITE_URL (manual override)
+// 2. VERCEL_URL (preview deployments) - add https:// prefix
+// 3. DEV mode - localhost
+// 4. Production - hacksore.com
+function getBaseUrl(): string {
+  if (import.meta.env.PUBLIC_SITE_URL) {
+    return import.meta.env.PUBLIC_SITE_URL;
+  }
+  
+  if (import.meta.env.VERCEL_URL) {
+    return `https://${import.meta.env.VERCEL_URL}`;
+  }
+  
+  if (import.meta.env.DEV) {
+    return 'http://localhost:4321';
+  }
+  
+  return 'https://hacksore.com';
+}
+
+const BASE_URL = getBaseUrl();
+
+function getOgImageUrl(url: string): string {
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  
+  const cleanPath = url.startsWith('/') ? url : `/${url}`;
+  return `${BASE_URL}${cleanPath}`;
+}
+
+const { 
+  title = "Sean Boult - Portfolio Site",
+  description = "Full Stack Developer Who Likes React",
+  ogImage = "/img/og.png"
+} = Astro.props;
+
+const ogImageUrl = getOgImageUrl(ogImage);
+
+const META_INFO = {
+  title,
+  description,
+  ogImage: ogImageUrl,
+};
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{META_INFO.title}</title>
+		<meta name="description" content={META_INFO.description} />
+		<meta property="og:title" content={META_INFO.title} />
+		<meta property="og:description" content={META_INFO.description} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={META_INFO.title} />
+		<meta name="twitter:description" content={META_INFO.description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+	</head>
+	<body>
+		<main class="max-w-3xl my-10 mx-auto">
+			<slot />
+		</main>
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

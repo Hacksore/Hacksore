@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #2563EB;
+  --color-card-bg: #0D1118;
+  --color-card-border: #31363E;
+}
+
+html, body {
+  background-color: #03060a;
+  color: #fff;
+}
+
+/* heading and body styles */
+.prose h1 {
+  font-weight: 700;
+  margin: 2rem 0rem 2rem 0rem;
+  color: #fff;
+  font-size: 2.25rem;
+  margin-top: 0rem;
+  line-height: 2.5rem;
+}
+
+.prose h2 {
+  font-weight: 700;
+  margin: 2rem 0rem 2rem 0rem;
+  color: #fff;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.prose h3 {
+  font-weight: 700;
+  margin: 2rem 0rem 2rem 0rem;
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.prose h4 {
+  font-weight: 700;
+  margin-bottom: 0;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.prose hr {
+  border-color: rgba(125, 125, 125, 0.3);
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+.prose strong {
+  font-weight: 900;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose blockquote {
+  font-weight: 400;
+  font-style: italic;
+  color: inherit;
+  border-left-width: 0.25rem;
+  border-color: rgba(125,125,125,0.3);
+  quotes: "\201C""\201D""\2018""\2019";
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+}
+
+/* link styles */
+.prose * a {
+  border-bottom-width: 1px;
+  transition-property: color,border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  color: #4394ff;
+  border-color: rgba(0, 0, 0, 0);
+}
+
+.prose * a:hover {
+  border-color: #4394ff;
+}
+
+/* code styles */
+.prose pre {
+  margin: 0.5em 0em 0.5em 0em;
+  color: #e5e7eb;
+  overflow-x: auto;
+  line-height: 1.4;
+  font-size: 1.05em;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem 0.75rem 1rem;
+}
+
+.prose pre code::before {
+  content: none;
+}
+
+.prose pre code::after {
+  content: none;
+}
+
+.prose code {
+  font-size: 0.875em;
+}
+
+/* Prevent white flash on skinview3d canvas */
+canvas {
+  background-color: #03060a !important;
+}
+
+/* Target skinview3d canvas specifically */
+div canvas {
+  background-color: #03060a !important;
+}

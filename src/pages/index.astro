@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { About } from '../components/About';
+import { Social } from '../components/Social';
+import { Projects } from '../components/Projects';
+---
+
+<Layout>
+	<section class="flex justify-center">
+		<About client:load />
+	</section>
+
+	<section>
+		<Social client:load />
+	</section>
+
+	<section class="pb-16 md:pb-24">
+		<Projects client:load />
+	</section>
+</Layout>
