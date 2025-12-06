@@ -1,46 +1,11 @@
 import { ReactSkinview3d } from "react-skinview3d";
-import { useEffect, useState } from "react";
+import { useTexturesLoaded } from "../hooks/use-textures-loaded";
 
 export const About = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const skinUrl = "/img/Hacksore.png";
-    const capeUrl = "/img/cape-2011.png";
-    let loadedCount = 0;
-    const totalImages = 2;
-
-    const handleImageLoad = () => {
-      loadedCount++;
-      if (loadedCount === totalImages) {
-        setIsLoading(false);
-      }
-    };
-
-    const handleImageError = () => {
-      loadedCount++;
-      if (loadedCount === totalImages) {
-        setIsLoading(false);
-      }
-    };
-
-    const skinImage = new Image();
-    skinImage.onload = handleImageLoad;
-    skinImage.onerror = handleImageError;
-    skinImage.src = skinUrl;
-
-    const capeImage = new Image();
-    capeImage.onload = handleImageLoad;
-    capeImage.onerror = handleImageError;
-    capeImage.src = capeUrl;
-
-    return () => {
-      skinImage.onload = null;
-      skinImage.onerror = null;
-      capeImage.onload = null;
-      capeImage.onerror = null;
-    };
-  }, []);
+  const areTexturesLoaded = useTexturesLoaded([
+    "/img/Hacksore.png",
+    "/img/cape-2011.png",
+  ]);
 
   return (
     <div className="flex flex-col text-center items-center gap-2">
@@ -53,7 +18,7 @@ export const About = () => {
       <p>Full Stack Developer Who Likes React</p>
 
       <div className="w-[200px] h-[200px] relative">
-        {isLoading && (
+        {!areTexturesLoaded && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-8 h-8 border-4 border-gray-600 border-t-white rounded-full animate-spin" />
           </div>
