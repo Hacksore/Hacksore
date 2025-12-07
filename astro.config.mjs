@@ -4,6 +4,7 @@ import react from "@astrojs/react";
 
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import vercel from "@astrojs/vercel";
 
 import mdx from "@astrojs/mdx";
 
@@ -12,7 +13,14 @@ export default defineConfig({
   output: "static",
   compressHTML: true,
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      vercel({
+        webAnalytics: {
+          enabled: true,
+        },
+      }),
+    ],
     build: {
       cssCodeSplit: true,
       rollupOptions: {
