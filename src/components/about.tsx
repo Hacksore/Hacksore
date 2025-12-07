@@ -2,10 +2,7 @@ import { ReactSkinview3d } from "react-skinview3d";
 import { useTexturesLoaded } from "../hooks/use-textures-loaded";
 
 export const About = () => {
-  const areTexturesLoaded = useTexturesLoaded([
-    "/img/Hacksore.png",
-    "/img/cape-2011.png",
-  ]);
+  const areTexturesLoaded = useTexturesLoaded(["/img/Hacksore.png", "/img/cape-2011.png"]);
 
   return (
     <div className="flex flex-col text-center items-center gap-2">

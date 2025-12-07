@@ -3,7 +3,7 @@ import "../styles/global.css";
 
 // Determine base URL with priority:
 // 1. PUBLIC_SITE_URL (manual override)
-// 2. VERCEL_URL (preview deployments) - add https:// prefix
+// 2. VERCEL_ENV === "preview" (Vercel preview deployments) - add https:// prefix
 // 3. DEV mode - localhost
 // 4. Production - hacksore.com
 function getBaseUrl(): string {
@@ -11,7 +11,7 @@ function getBaseUrl(): string {
     return import.meta.env.PUBLIC_SITE_URL;
   }
 
-  if (import.meta.env.VERCEL_URL) {
+  if (import.meta.env.VERCEL_ENV === "preview" && import.meta.env.VERCEL_URL) {
     return `https://${import.meta.env.VERCEL_URL}`;
   }
 
@@ -19,6 +19,7 @@ function getBaseUrl(): string {
     return "http://localhost:4321";
   }
 
+  // Default to production URL
   return "https://hacksore.com";
 }
 

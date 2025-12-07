@@ -44,4 +44,3 @@ export function useTexturesLoaded(imageUrls: string[]): boolean {
 
   return areTexturesLoaded;
 }
-
