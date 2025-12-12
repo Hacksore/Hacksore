@@ -1,4 +1,5 @@
 ---
+import Analytics from '@vercel/analytics/astro';
 import "../styles/global.css";
 
 // Determine base URL with priority:
@@ -66,6 +67,7 @@ const META_INFO = {
 		<meta name="twitter:description" content={META_INFO.description} />
 		<meta name="twitter:image" content={ogImageUrl} />
 		<link rel="preconnect" href="https://giscus.app" />
+    <Analytics />
 	</head>
 	<body>
 		<main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
