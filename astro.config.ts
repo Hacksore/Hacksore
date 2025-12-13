@@ -7,9 +7,7 @@ export default defineConfig({
   output: "static",
   compressHTML: true,
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
     build: {
       cssCodeSplit: true,
       rollupOptions: {

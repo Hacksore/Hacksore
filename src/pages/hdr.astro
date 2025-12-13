@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/layout.astro";
+
+const META_INFO = {
+  title: "HDR Image",
+  description: "Enjoy a retina searing image for the lulz",
+  ogImage: "/img/hdr-og.png",
+};
+---
+
+<Layout
+  title={META_INFO.title}
+  description={META_INFO.description}
+  ogImage={META_INFO.ogImage}
+>
+  <div class="prose prose-invert">
+    <h1>HDR Images</h1>
+    <img src="/img/hdr-og.png" alt="HDR Image Example" />
+  </div>
+</Layout>
