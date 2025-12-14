@@ -1,21 +1,4 @@
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
-<img width="128" height="128" alt="bufo-superbright" src="https://github.com/user-attachments/assets/ad85eabd-deb3-4475-a2d6-abb619b4e22d" />
+> [!WARNING]
+> im the hdr guy
+
+<img width="800" height="450" alt="flashbang-meme" src="https://github.com/user-attachments/assets/36086687-bed3-459a-a22c-186ddedf231a" />
