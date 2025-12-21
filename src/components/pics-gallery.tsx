@@ -125,7 +125,9 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
       } catch (err) {
         console.error("Failed to copy image:", err);
         removeToast(loadingId);
-        addToast("Failed to copy image", "error");
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to copy image";
+        addToast(`Error: ${errorMessage}`, "error");
       }
     },
     [addToast, removeToast],
