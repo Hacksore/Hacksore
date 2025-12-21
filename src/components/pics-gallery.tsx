@@ -50,14 +50,20 @@ const ImageCard = ({ image, imageName, onCopy }: ImageCardProps) => {
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       // Only allow copy if image loaded successfully and not already handled
       if (!imageError && !touchHandledRef.current) {
         touchHandledRef.current = true;
+        // Ensure page has focus for clipboard access
+        if (document.hasFocus && !document.hasFocus()) {
+          window.focus();
+        }
+        // Call onCopy immediately to maintain user gesture chain for Safari
         onCopy(imgRef.current);
-        // Reset after a short delay to allow click event to be ignored
+        // Reset after a delay to allow click event to be ignored
         setTimeout(() => {
           touchHandledRef.current = false;
-        }, 300);
+        }, 500);
       }
     },
     [onCopy, imageError],
@@ -68,10 +74,15 @@ const ImageCard = ({ image, imageName, onCopy }: ImageCardProps) => {
       // Prevent click if we just handled a touch event (mobile)
       if (touchHandledRef.current) {
         e.preventDefault();
+        e.stopPropagation();
         return;
       }
       // Only allow copy if image loaded successfully
       if (!imageError) {
+        // Ensure page has focus for clipboard access
+        if (document.hasFocus && !document.hasFocus()) {
+          window.focus();
+        }
         onCopy(imgRef.current);
       }
     },

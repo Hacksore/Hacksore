@@ -84,23 +84,56 @@ export async function getImageBlob(
  *
  * Safari (WebKit) treats user activation differently than Chromium (Blink).
  * For Safari, we need to run all async operations in a Promise within ClipboardItem.
+ *
+ * IMPORTANT: This function must be called synchronously within a user gesture
+ * (click/touch event handler) to work on Safari/iOS.
  */
 export async function copyImageToClipboard(
   image: R2Image,
   imgElement?: HTMLImageElement | null,
 ): Promise<void> {
+  // Check if clipboard API is available
+  if (!navigator.clipboard || !navigator.clipboard.write) {
+    throw new Error("Clipboard API is not available in this browser");
+  }
+
   // For Safari compatibility, pass a Promise to ClipboardItem
   // Safari treats user activation differently and requires async operations
   // to be wrapped in a Promise within ClipboardItem
-  const clipboardItem = new ClipboardItem({
-    "image/png": new Promise<Blob>((resolve, reject) => {
-      getImageBlob(image, imgElement)
-        .then((blob) => resolve(blob))
-        .catch((error) => reject(error));
-    }),
-  });
+  // The key is that navigator.clipboard.write() must be called synchronously
+  // within the user gesture, even though the blob loading happens async
+  try {
+    const clipboardItem = new ClipboardItem({
+      "image/png": new Promise<Blob>((resolve, reject) => {
+        getImageBlob(image, imgElement)
+          .then((blob) => resolve(blob))
+          .catch((error) => reject(error));
+      }),
+    });
 
-  await navigator.clipboard.write([clipboardItem]);
+    // This call must happen synchronously within the user gesture
+    await navigator.clipboard.write([clipboardItem]);
+  } catch (error) {
+    // Provide user-friendly error messages for common clipboard errors
+    if (error instanceof DOMException) {
+      if (error.name === "NotAllowedError" || error.message.includes("not allowed")) {
+        throw new Error("Clipboard access denied. Please tap the image again to grant permission.");
+      }
+      if (error.name === "SecurityError") {
+        throw new Error(
+          "Clipboard access blocked. Please ensure the page is focused and try again.",
+        );
+      }
+      // Re-throw DOMException with a user-friendly message
+      throw new Error(`Clipboard error: ${error.message || "Unable to copy to clipboard"}`);
+    }
+    // Re-throw with original message if it's already an Error
+    if (error instanceof Error) {
+      throw error;
+    }
+    // Otherwise wrap in a generic error
+    throw new Error("Failed to copy image to clipboard");
+  }
 }
 
 /**
