@@ -79,16 +79,25 @@ export async function getImageBlob(
 
 /**
  * Copies an image to the clipboard
+ * Uses Safari-friendly pattern: pass a Promise to ClipboardItem
+ * See: https://web.dev/articles/async-clipboard
+ *
+ * Safari (WebKit) treats user activation differently than Chromium (Blink).
+ * For Safari, we need to run all async operations in a Promise within ClipboardItem.
  */
 export async function copyImageToClipboard(
   image: R2Image,
   imgElement?: HTMLImageElement | null,
 ): Promise<void> {
-  const blob = await getImageBlob(image, imgElement);
-
-  // Copy image to clipboard using ClipboardItem API
+  // For Safari compatibility, pass a Promise to ClipboardItem
+  // Safari treats user activation differently and requires async operations
+  // to be wrapped in a Promise within ClipboardItem
   const clipboardItem = new ClipboardItem({
-    [blob.type]: blob,
+    "image/png": new Promise<Blob>((resolve, reject) => {
+      getImageBlob(image, imgElement)
+        .then((blob) => resolve(blob))
+        .catch((error) => reject(error));
+    }),
   });
 
   await navigator.clipboard.write([clipboardItem]);
