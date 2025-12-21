@@ -33,6 +33,7 @@ const ImageCard = ({ image, imageName, onCopy }: ImageCardProps) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [imageError, setImageError] = useState(false);
   const [imageSrc, setImageSrc] = useState(image.url);
+  const touchHandledRef = useRef(false);
 
   const handleImageError = useCallback(() => {
     if (!imageError) {
@@ -41,9 +42,34 @@ const ImageCard = ({ image, imageName, onCopy }: ImageCardProps) => {
     }
   }, [imageError]);
 
+  const handleTouchStart = useCallback(() => {
+    // Mark that we're handling a touch event
+    touchHandledRef.current = false;
+  }, []);
+
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
       e.preventDefault();
+      // Only allow copy if image loaded successfully and not already handled
+      if (!imageError && !touchHandledRef.current) {
+        touchHandledRef.current = true;
+        onCopy(imgRef.current);
+        // Reset after a short delay to allow click event to be ignored
+        setTimeout(() => {
+          touchHandledRef.current = false;
+        }, 300);
+      }
+    },
+    [onCopy, imageError],
+  );
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      // Prevent click if we just handled a touch event (mobile)
+      if (touchHandledRef.current) {
+        e.preventDefault();
+        return;
+      }
       // Only allow copy if image loaded successfully
       if (!imageError) {
         onCopy(imgRef.current);
@@ -52,18 +78,12 @@ const ImageCard = ({ image, imageName, onCopy }: ImageCardProps) => {
     [onCopy, imageError],
   );
 
-  const handleClick = useCallback(() => {
-    // Only allow copy if image loaded successfully
-    if (!imageError) {
-      onCopy(imgRef.current);
-    }
-  }, [onCopy, imageError]);
-
   return (
     <div className="relative group image-container">
       <button
         type="button"
         onClick={handleClick}
+        onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         disabled={imageError}
         className="w-full block aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer border-0 p-0 touch-manipulation disabled:cursor-not-allowed disabled:opacity-75"
@@ -102,6 +122,7 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
     useState<ClipboardPermissionState>("unknown");
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const toastIdRef = useRef(0);
+  const copyingRef = useRef<Set<string>>(new Set());
 
   // Check clipboard permissions on mount
   useEffect(() => {
@@ -155,7 +176,13 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
 
   const handleCopy = useCallback(
     async (image: R2Image, imgElement?: HTMLImageElement | null) => {
+      // Prevent multiple simultaneous copy operations for the same image
+      if (copyingRef.current.has(image.url)) {
+        return;
+      }
+
       const imageName = image.key.split("/").pop() || image.key;
+      copyingRef.current.add(image.url);
 
       try {
         await copyImageToClipboard(image, imgElement);
@@ -170,6 +197,11 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
         // Recheck permissions after error (might have been denied)
         const updatedPermission = await checkClipboardPermission();
         setClipboardPermission(updatedPermission);
+      } finally {
+        // Remove from copying set after a short delay to allow retry
+        setTimeout(() => {
+          copyingRef.current.delete(image.url);
+        }, 1000);
       }
     },
     [addToast],
