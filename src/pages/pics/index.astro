@@ -1,0 +1,207 @@
+---
+import Layout from "../../layouts/layout.astro";
+import { listR2Images } from "../../utils/s3";
+
+// Get configuration from environment variables
+const bucketName = import.meta.env.R2_BUCKET_NAME;
+const prefix = import.meta.env.R2_PREFIX || "";
+
+const r2Config = {
+  endpoint: import.meta.env.R2_ENDPOINT,
+  accountId: import.meta.env.R2_ACCOUNT_ID,
+  accessKeyId: import.meta.env.R2_ACCESS_KEY_ID,
+  secretAccessKey: import.meta.env.R2_SECRET_ACCESS_KEY,
+  publicUrl: import.meta.env.R2_PUBLIC_URL,
+  usePresignedUrls: import.meta.env.R2_USE_PRESIGNED_URLS === "true",
+};
+
+let images: Array<{
+  key: string;
+  url: string;
+  lastModified?: Date;
+  size?: number;
+}> = [];
+
+let error: string | null = null;
+
+if (!bucketName) {
+  error = "R2_BUCKET_NAME environment variable is not set";
+} else {
+  try {
+    images = await listR2Images(bucketName, prefix, r2Config);
+  } catch (err) {
+    error = err instanceof Error ? err.message : "Failed to fetch images from R2";
+    console.error("Error fetching images:", err);
+  }
+}
+
+// Set cache headers for Vercel edge caching
+// Cache for 10 minutes (600 seconds) - adjust as needed
+// This prevents making R2 API calls on every request
+Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-revalidate=86400");
+---
+
+<Layout title="Pics - Sean Boult" description="Some of the best tiktok reactions pics">
+	<section class="prose prose-invert px-4 md:px-0">
+		<h1 class="text-4xl font-bold mb-8">Pics</h1>
+		<p class="mb-6">Some of the best tiktok reactions pics</p>
+		
+		<div class="mb-6">
+			<input
+				type="text"
+				id="search-input"
+				placeholder="Search images by name..."
+				class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+			/>
+		</div>
+		
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-x-4 gap-y-4" id="images-grid">
+			{images.map((image) => {
+				const imageName = image.key.split("/").pop() || image.key;
+				return (
+				<div class="relative group image-container" data-url={image.url} data-name={imageName.toLowerCase()}>
+					<button
+						type="button"
+						class="w-full block aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer border-0 p-0"
+						aria-label={`Copy image URL: ${image.key}`}
+					>
+						<img
+							src={image.url}
+							alt={image.key}
+							class="w-full h-full object-cover pointer-events-none transition-opacity duration-200 group-hover:opacity-30"
+							loading="lazy"
+						/>
+					</button>
+					<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+						<span class="copy-indicator text-white text-sm font-medium px-4 py-2 bg-black rounded">
+							{image.key.split("/").pop()}
+						</span>
+					</div>
+				</div>
+			);
+			})}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.image-container button {
+		background: transparent;
+	}
+	
+	.copy-indicator.copied {
+		background-color: rgba(34, 197, 94, 0.8) !important;
+	}
+</style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const searchInput = document.getElementById("search-input");
+		const containers = document.querySelectorAll(".image-container");
+		
+		// Search functionality with URL query parameter support
+		if (searchInput) {
+			// Function to filter images based on search term
+			const filterImages = (searchTerm: string) => {
+				containers.forEach((container) => {
+					const imageName = container.getAttribute("data-name") || "";
+					const htmlElement = container as HTMLElement;
+					
+					if (searchTerm === "" || imageName.includes(searchTerm)) {
+						htmlElement.style.display = "";
+					} else {
+						htmlElement.style.display = "none";
+					}
+				});
+			};
+			
+			// Read initial query parameter from URL
+			const urlParams = new URLSearchParams(window.location.search);
+			const initialQuery = urlParams.get("q") || "";
+			if (initialQuery) {
+				(searchInput as HTMLInputElement).value = initialQuery;
+				filterImages(initialQuery.toLowerCase().trim());
+			}
+			
+			// Update URL and filter on input
+			let debounceTimer: ReturnType<typeof setTimeout>;
+			searchInput.addEventListener("input", (e) => {
+				const target = e.target as HTMLInputElement;
+				const searchTerm = target.value.trim();
+				const searchTermLower = searchTerm.toLowerCase();
+				
+				// Filter immediately
+				filterImages(searchTermLower);
+				
+				// Update URL with debounce to avoid too many history entries
+				clearTimeout(debounceTimer);
+				debounceTimer = setTimeout(() => {
+					const url = new URL(window.location.href);
+					if (searchTerm) {
+						url.searchParams.set("q", searchTerm);
+					} else {
+						url.searchParams.delete("q");
+					}
+					// Use replaceState to update URL without adding to history
+					window.history.replaceState({}, "", url.toString());
+				}, 300);
+			});
+		}
+		
+		// Copy to clipboard functionality
+		containers.forEach((container) => {
+			const button = container.querySelector("button");
+			const indicator = container.querySelector(".copy-indicator");
+			const url = container.getAttribute("data-url");
+			const img = container.querySelector("img");
+			
+			if (!button || !indicator || !url || !img) return;
+			
+			button.addEventListener("click", async (e) => {
+				e.preventDefault();
+				
+				// Store original text for reset
+				const originalText = indicator.textContent;
+				
+				// Show loading state
+				indicator.textContent = "Loading...";
+				
+				try {
+					// Download the image
+					const response = await fetch(url);
+					if (!response.ok) {
+						throw new Error(`Failed to fetch image: ${response.statusText}`);
+					}
+					
+					const blob = await response.blob();
+					
+					// Copy image to clipboard using ClipboardItem API
+					const clipboardItem = new ClipboardItem({
+						[blob.type]: blob,
+					});
+					
+					await navigator.clipboard.write([clipboardItem]);
+					
+					// Visual feedback
+					indicator.textContent = "Copied!";
+					indicator.classList.add("copied");
+					
+					// Reset after 2 seconds
+					setTimeout(() => {
+						indicator.textContent = originalText;
+						indicator.classList.remove("copied");
+					}, 2000);
+				} catch (err) {
+					console.error("Failed to copy image:", err);
+					indicator.textContent = "Copy failed";
+					
+					// Reset after 2 seconds even on error
+					setTimeout(() => {
+						indicator.textContent = originalText;
+					}, 2000);
+				}
+			});
+		});
+	});
+</script>
+
