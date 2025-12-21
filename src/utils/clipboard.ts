@@ -8,30 +8,43 @@ interface R2Image {
 }
 
 /**
- * Converts an image element to a blob using canvas
+ * Converts an image URL to a blob using canvas
  * This approach works better for Safari/iOS clipboard operations
+ * Creates a new Image object and waits for it to load
  */
-async function imageElementToBlob(imgElement: HTMLImageElement): Promise<Blob> {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  if (!ctx) {
-    throw new Error("Could not get canvas context");
-  }
-
-  canvas.width = imgElement.naturalWidth;
-  canvas.height = imgElement.naturalHeight;
-  ctx.drawImage(imgElement, 0, 0);
-
-  // Convert canvas to blob
+async function imageUrlToBlob(imageUrl: string): Promise<Blob> {
   return new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob((blob) => {
-      if (blob) {
-        resolve(blob);
-      } else {
-        reject(new Error("Failed to convert canvas to blob"));
-      }
-    }, "image/png");
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) {
+      reject(new Error("Could not get canvas context"));
+      return;
+    }
+
+    const image = new Image();
+    image.crossOrigin = "anonymous";
+
+    image.onload = () => {
+      canvas.width = image.width;
+      canvas.height = image.height;
+      ctx.drawImage(image, 0, 0);
+
+      // Convert canvas to blob
+      canvas.toBlob((blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error("Failed to convert canvas to blob"));
+        }
+      }, "image/png");
+    };
+
+    image.onerror = () => {
+      reject(new Error("Failed to load image"));
+    };
+
+    image.src = imageUrl;
   });
 }
 
@@ -47,25 +60,21 @@ async function fetchImageAsBlob(url: string): Promise<Blob> {
 }
 
 /**
- * Gets a blob representation of an image, preferring canvas conversion for Safari compatibility
+ * Gets a blob representation of an image, using canvas conversion for Safari compatibility
+ * Creates a new Image object and waits for it to load (similar to working implementation)
  */
 export async function getImageBlob(
   image: R2Image,
-  imgElement?: HTMLImageElement | null,
+  _imgElement?: HTMLImageElement | null,
 ): Promise<Blob> {
-  // Try to use the image element if available and loaded (better for Safari)
-  if (imgElement?.complete && imgElement.naturalWidth > 0) {
-    try {
-      return await imageElementToBlob(imgElement);
-    } catch (canvasError) {
-      // Fallback to fetch if canvas fails
-      console.warn("Canvas approach failed, falling back to fetch:", canvasError);
-      return fetchImageAsBlob(image.url);
-    }
+  // Always use the canvas approach with a new Image object (works better for Safari)
+  try {
+    return await imageUrlToBlob(image.url);
+  } catch (canvasError) {
+    // Fallback to fetch if canvas fails
+    console.warn("Canvas approach failed, falling back to fetch:", canvasError);
+    return fetchImageAsBlob(image.url);
   }
-
-  // Fallback to fetch if image not loaded yet
-  return fetchImageAsBlob(image.url);
 }
 
 /**
