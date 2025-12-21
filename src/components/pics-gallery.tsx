@@ -20,37 +20,61 @@ interface ImageCardProps {
   onCopy: (imgElement?: HTMLImageElement | null) => void;
 }
 
+// Placeholder image as data URI (SVG)
+const PLACEHOLDER_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui, sans-serif' font-size='18' fill='%239ca3af'%3EImage not available%3C/text%3E%3C/svg%3E";
+
 const ImageCard = ({ image, imageName, onCopy }: ImageCardProps) => {
   const imgRef = useRef<HTMLImageElement>(null);
+  const [imageError, setImageError] = useState(false);
+  const [imageSrc, setImageSrc] = useState(image.url);
+
+  const handleImageError = useCallback(() => {
+    if (!imageError) {
+      setImageError(true);
+      setImageSrc(PLACEHOLDER_IMAGE);
+    }
+  }, [imageError]);
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
       e.preventDefault();
-      // Call onCopy immediately to maintain user gesture chain for Safari
-      onCopy(imgRef.current);
+      // Only allow copy if image loaded successfully
+      if (!imageError) {
+        onCopy(imgRef.current);
+      }
     },
-    [onCopy],
+    [onCopy, imageError],
   );
+
+  const handleClick = useCallback(() => {
+    // Only allow copy if image loaded successfully
+    if (!imageError) {
+      onCopy(imgRef.current);
+    }
+  }, [onCopy, imageError]);
 
   return (
     <div className="relative group image-container">
       <button
         type="button"
-        onClick={() => onCopy(imgRef.current)}
+        onClick={handleClick}
         onTouchEnd={handleTouchEnd}
-        className="w-full block aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer border-0 p-0 touch-manipulation"
+        disabled={imageError}
+        className="w-full block aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer border-0 p-0 touch-manipulation disabled:cursor-not-allowed disabled:opacity-75"
         style={{
           touchAction: "manipulation",
           WebkitTapHighlightColor: "transparent",
           background: "transparent",
         }}
-        aria-label={`Copy image: ${imageName}`}
+        aria-label={imageError ? `Image unavailable: ${imageName}` : `Copy image: ${imageName}`}
       >
         <img
           ref={imgRef}
-          src={image.url}
+          src={imageSrc}
           alt={imageName}
           crossOrigin="anonymous"
+          onError={handleImageError}
           className="w-full h-full object-cover pointer-events-none transition-opacity duration-200 group-hover:opacity-30"
           loading="lazy"
         />
@@ -116,20 +140,17 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
   const handleCopy = useCallback(
     async (image: R2Image, imgElement?: HTMLImageElement | null) => {
       const imageName = image.key.split("/").pop() || image.key;
-      const loadingId = addToast("Copying image...", "loading");
 
       try {
         await copyImageToClipboard(image, imgElement);
-        removeToast(loadingId);
         addToast(`Copied ${imageName}!`, "success");
       } catch (err) {
         console.error("Failed to copy image:", err);
-        removeToast(loadingId);
         const errorMessage = err instanceof Error ? err.message : "Failed to copy image";
         addToast(`Error: ${errorMessage}`, "error");
       }
     },
-    [addToast, removeToast],
+    [addToast],
   );
 
   return (
