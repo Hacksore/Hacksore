@@ -23,7 +23,6 @@
     "@types/react-dom": "^19.2.3",
     "@vercel/analytics": "^1.6.1",
     "astro": "^5.16.4",
-    "clipboardy": "^5.0.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
