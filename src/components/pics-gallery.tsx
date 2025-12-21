@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { copyImageToClipboard } from "../utils/clipboard";
 import { filterImagesByName, getSearchTermFromUrl, updateSearchUrl } from "../utils/image-filter";
+import {
+  checkClipboardPermission,
+  getPermissionMessage,
+  type ClipboardPermissionState,
+} from "../utils/clipboard-permissions";
 import { ToastContainer } from "./toast";
 
 interface R2Image {
@@ -93,8 +98,19 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredImages, setFilteredImages] = useState(images);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [clipboardPermission, setClipboardPermission] =
+    useState<ClipboardPermissionState>("unknown");
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const toastIdRef = useRef(0);
+
+  // Check clipboard permissions on mount
+  useEffect(() => {
+    const checkPermissions = async () => {
+      const permission = await checkClipboardPermission();
+      setClipboardPermission(permission);
+    };
+    checkPermissions();
+  }, []);
 
   // Initialize search from URL query parameter
   useEffect(() => {
@@ -144,20 +160,39 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
       try {
         await copyImageToClipboard(image, imgElement);
         addToast(`Copied ${imageName}!`, "success");
+        // Recheck permissions after successful copy (might have changed from prompt to granted)
+        const updatedPermission = await checkClipboardPermission();
+        setClipboardPermission(updatedPermission);
       } catch (err) {
         console.error("Failed to copy image:", err);
         const errorMessage = err instanceof Error ? err.message : "Failed to copy image";
         addToast(`Error: ${errorMessage}`, "error");
+        // Recheck permissions after error (might have been denied)
+        const updatedPermission = await checkClipboardPermission();
+        setClipboardPermission(updatedPermission);
       }
     },
     [addToast],
   );
 
+  const getPermissionBadgeColor = () => {
+    switch (clipboardPermission) {
+      case "granted":
+        return "bg-green-600";
+      case "denied":
+        return "bg-red-600";
+      case "prompt":
+        return "bg-yellow-600";
+      default:
+        return "bg-gray-600";
+    }
+  };
+
   return (
     <>
       <ToastContainer toasts={toasts} onRemove={removeToast} />
       <div>
-        <div className="mb-6">
+        <div className="mb-6 flex flex-col gap-3">
           <input
             type="text"
             value={searchTerm}
@@ -165,6 +200,15 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
             placeholder="Search images by name..."
             className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+
+          <div className="flex items-center gap-2">
+            <div
+              className={`${getPermissionBadgeColor()} text-white text-xs font-medium px-3 py-1 rounded-full flex items-center gap-2`}
+            >
+              <div className="w-2 h-2 rounded-full bg-white" />
+              {getPermissionMessage(clipboardPermission)}
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-x-4 gap-y-4">
