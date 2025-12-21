@@ -1,4 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import {
+  copyImageToClipboard,
+  getIndicatorText,
+  getIndicatorClassName,
+  type CopyState,
+} from "../utils/clipboard";
+import { filterImagesByName, getSearchTermFromUrl, updateSearchUrl } from "../utils/image-filter";
 
 interface R2Image {
   key: string;
@@ -15,9 +22,9 @@ interface ImageCardProps {
   image: R2Image;
   imageName: string;
   isActive: boolean;
-  onCopy: () => void;
-  getIndicatorText: (image: R2Image) => string;
-  getIndicatorClassName: (image: R2Image) => string;
+  onCopy: (imgElement?: HTMLImageElement | null) => void;
+  indicatorText: string;
+  indicatorClassName: string;
 }
 
 const ImageCard = ({
@@ -25,10 +32,11 @@ const ImageCard = ({
   imageName,
   isActive,
   onCopy,
-  getIndicatorText,
-  getIndicatorClassName,
+  indicatorText,
+  indicatorClassName,
 }: ImageCardProps) => {
   const [isTouching, setIsTouching] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   const handleTouchStart = useCallback(() => {
     setIsTouching(true);
@@ -38,7 +46,8 @@ const ImageCard = ({
     (e: React.TouchEvent) => {
       e.preventDefault();
       setIsTouching(false);
-      onCopy();
+      // Call onCopy immediately to maintain user gesture chain for Safari
+      onCopy(imgRef.current);
     },
     [onCopy],
   );
@@ -49,7 +58,7 @@ const ImageCard = ({
     <div className="relative group image-container">
       <button
         type="button"
-        onClick={onCopy}
+        onClick={() => onCopy(imgRef.current)}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className="w-full block aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer border-0 p-0 touch-manipulation"
@@ -61,8 +70,10 @@ const ImageCard = ({
         aria-label={`Copy image: ${imageName}`}
       >
         <img
+          ref={imgRef}
           src={image.url}
           alt={imageName}
+          crossOrigin="anonymous"
           className={`w-full h-full object-cover pointer-events-none transition-opacity duration-200 ${
             showOverlay ? "opacity-30" : "group-hover:opacity-30"
           }`}
@@ -74,7 +85,7 @@ const ImageCard = ({
           showOverlay ? "opacity-100" : "opacity-0 group-hover:opacity-100"
         }`}
       >
-        <span className={getIndicatorClassName(image)}>{getIndicatorText(image)}</span>
+        <span className={indicatorClassName}>{indicatorText}</span>
       </div>
     </div>
   );
@@ -83,15 +94,12 @@ const ImageCard = ({
 export const PicsGallery = ({ images }: PicsGalleryProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredImages, setFilteredImages] = useState(images);
-  const [copyingStates, setCopyingStates] = useState<
-    Record<string, "idle" | "loading" | "copied" | "error">
-  >({});
+  const [copyingStates, setCopyingStates] = useState<Record<string, CopyState>>({});
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Initialize search from URL query parameter
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialQuery = urlParams.get("q") || "";
+    const initialQuery = getSearchTermFromUrl();
     if (initialQuery) {
       setSearchTerm(initialQuery);
     }
@@ -99,16 +107,7 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
 
   // Filter images based on search term
   useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFilteredImages(images);
-      return;
-    }
-
-    const searchLower = searchTerm.toLowerCase().trim();
-    const filtered = images.filter((image) => {
-      const imageName = (image.key.split("/").pop() || image.key).toLowerCase();
-      return imageName.includes(searchLower);
-    });
+    const filtered = filterImagesByName(images, searchTerm);
     setFilteredImages(filtered);
   }, [searchTerm, images]);
 
@@ -119,13 +118,7 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
     }
 
     debounceTimerRef.current = setTimeout(() => {
-      const url = new URL(window.location.href);
-      if (searchTerm.trim()) {
-        url.searchParams.set("q", searchTerm);
-      } else {
-        url.searchParams.delete("q");
-      }
-      window.history.replaceState({}, "", url.toString());
+      updateSearchUrl(searchTerm);
     }, 300);
 
     return () => {
@@ -135,25 +128,11 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
     };
   }, [searchTerm]);
 
-  const handleCopy = useCallback(async (image: R2Image) => {
+  const handleCopy = useCallback(async (image: R2Image, imgElement?: HTMLImageElement | null) => {
     setCopyingStates((prev) => ({ ...prev, [image.url]: "loading" }));
 
     try {
-      // Download the image
-      const response = await fetch(image.url);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch image: ${response.statusText}`);
-      }
-
-      const blob = await response.blob();
-
-      // Copy image to clipboard using ClipboardItem API
-      const clipboardItem = new ClipboardItem({
-        [blob.type]: blob,
-      });
-
-      await navigator.clipboard.write([clipboardItem]);
-
+      await copyImageToClipboard(image, imgElement);
       setCopyingStates((prev) => ({ ...prev, [image.url]: "copied" }));
 
       // Reset after 2 seconds
@@ -171,36 +150,18 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
     }
   }, []);
 
-  const getIndicatorText = useCallback(
+  const getIndicatorTextForImage = useCallback(
     (image: R2Image) => {
       const state = copyingStates[image.url] || "idle";
-      const imageName = image.key.split("/").pop() || image.key;
-
-      switch (state) {
-        case "loading":
-          return "Loading...";
-        case "copied":
-          return "Copied!";
-        case "error":
-          return "Copy failed";
-        default:
-          return imageName;
-      }
+      return getIndicatorText(image, state);
     },
     [copyingStates],
   );
 
-  const getIndicatorClassName = useCallback(
+  const getIndicatorClassNameForImage = useCallback(
     (image: R2Image) => {
       const state = copyingStates[image.url] || "idle";
-      const baseClasses =
-        "text-white text-sm font-medium px-4 py-2 bg-black rounded transition-colors duration-200";
-
-      if (state === "copied") {
-        return `${baseClasses} bg-green-600`;
-      }
-
-      return baseClasses;
+      return getIndicatorClassName(state);
     },
     [copyingStates],
   );
@@ -229,9 +190,9 @@ export const PicsGallery = ({ images }: PicsGalleryProps) => {
               image={image}
               imageName={imageName}
               isActive={isActive}
-              onCopy={() => handleCopy(image)}
-              getIndicatorText={getIndicatorText}
-              getIndicatorClassName={getIndicatorClassName}
+              onCopy={(imgElement) => handleCopy(image, imgElement)}
+              indicatorText={getIndicatorTextForImage(image)}
+              indicatorClassName={getIndicatorClassNameForImage(image)}
             />
           );
         })}

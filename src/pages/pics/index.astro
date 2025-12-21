@@ -45,18 +45,8 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-r
 <Layout title="Pics - Sean Boult" description="Some of the best tiktok reactions pics">
 	<section class="prose prose-invert px-4 md:px-0">
 		<h1 class="text-4xl font-bold mb-8">Pics</h1>
-		<p class="mb-6">Some of the best tiktok reactions pics</p>
-		
-		{error ? (
-			<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-				<p class="font-bold">Error:</p>
-				<p>{error}</p>
-			</div>
-		) : images.length === 0 ? (
-			<p class="text-gray-600">No images found in the bucket.</p>
-		) : (
-			<PicsGallery client:load images={images} />
-		)}
+		<p class="mb-6">Some of the best reactions pics</p>
+		<PicsGallery client:load images={images} />
 	</section>
 </Layout>
 
