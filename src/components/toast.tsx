@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface ToastProps {
 	message: string;
@@ -9,16 +9,35 @@ interface ToastProps {
 
 export const Toast = ({ message, type, onClose, duration = 2000 }: ToastProps) => {
 	const [isVisible, setIsVisible] = useState(true);
+	const onCloseRef = useRef(onClose);
+	const durationRef = useRef(duration);
 
+	// Keep refs up to date
 	useEffect(() => {
+		onCloseRef.current = onClose;
+		durationRef.current = duration;
+	}, [onClose, duration]);
+
+	// Set up timer only once when component mounts with initial duration
+	useEffect(() => {
+		const initialDuration = durationRef.current;
+		
+		// If duration is 0, don't auto-dismiss (for loading toasts)
+		if (initialDuration === 0) {
+			return;
+		}
+
 		const timer = setTimeout(() => {
 			setIsVisible(false);
 			// Wait for fade out animation before calling onClose
-			setTimeout(onClose, 300);
-		}, duration);
+			setTimeout(() => {
+				onCloseRef.current();
+			}, 300);
+		}, initialDuration);
 
 		return () => clearTimeout(timer);
-	}, [duration, onClose]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []); // Only run once on mount - each toast manages its own lifetime
 
 	const bgColor =
 		type === "success"
