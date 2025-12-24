@@ -71,7 +71,7 @@ const META_INFO = {
     <Analytics />
 	</head>
 	<body>
-		<Navbar currentPath={Astro.url.pathname} />
+		<Navbar currentPath={Astro.url.pathname} client:load />
 		<main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
 		  <slot />
       <div class="giscus-container px-4 md:px-0">
