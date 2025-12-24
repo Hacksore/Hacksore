@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import Analytics from "@vercel/analytics/astro";
 import { Navbar } from "../components/navbar.js";
 import "../styles/global.css";
@@ -58,7 +57,6 @@ const META_INFO = {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<ViewTransitions />
 		<title>{META_INFO.title}</title>
 		<meta name="description" content={META_INFO.description} />
 		<meta property="og:title" content={META_INFO.title} />

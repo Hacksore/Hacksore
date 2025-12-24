@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface NavItem {
@@ -24,21 +24,6 @@ export const Navbar = ({
   currentPath = "",
 }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activePath, setActivePath] = useState(currentPath);
-
-  useEffect(() => {
-    const handleNavigation = () => {
-      console.log("Navigation detected to:", window.location.pathname);
-      setActivePath(window.location.pathname);
-    };
-
-    // Listen for Astro page navigation events
-    document.addEventListener("astro:page-load", handleNavigation);
-
-    return () => {
-      document.removeEventListener("astro:page-load", handleNavigation);
-    };
-  }, []);
 
   return (
     <nav
@@ -54,7 +39,6 @@ export const Navbar = ({
             <a
               href="/"
               className="text-white font-bold text-xl hover:text-blue-400 transition-colors"
-              data-astro-transition-persist="brand"
             >
               Sean Boult
             </a>
@@ -67,7 +51,7 @@ export const Navbar = ({
                 key={item.href}
                 href={item.href}
                 className={`nav-item px-3 py-2 text-sm font-medium transition-all duration-200 border-b-2 ${
-                  activePath === item.href
+                  currentPath === item.href
                     ? "text-white border-blue-400"
                     : "text-gray-300 border-transparent hover:text-white hover:border-gray-500"
                 }`}
@@ -114,12 +98,11 @@ export const Navbar = ({
                   key={item.href}
                   href={item.href}
                   className={`nav-item block px-3 py-2 text-base font-medium transition-all duration-200 border-b-2 ${
-                    activePath === item.href
+                    currentPath === item.href
                       ? "text-white border-blue-400"
                       : "text-gray-300 border-transparent hover:text-white hover:border-gray-500"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
-                  data-astro-transition-persist={`nav-mobile-${item.href}`}
                 >
                   {item.label}
                 </a>
