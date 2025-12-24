@@ -46,18 +46,15 @@ export const Social = () => {
     <div className="flex flex-col items-center justify-center">
       <div className="flex my-4 mb-6 sm:gap-2 gap-1 items-center justify-center">
         {SOCIALS.map((item) => (
-          <a
+          <Button
             key={item.title}
+            ariaLabel={item.title}
             href={item.url}
-            rel="noreferrer"
             target="_blank"
-            aria-label={item.title}
-            className="link"
+            rel="noreferrer"
           >
-            <Button ariaLabel={item.title}>
-              <item.icon />
-            </Button>
-          </a>
+            <item.icon />
+          </Button>
         ))}
       </div>
     </div>
