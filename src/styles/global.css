@@ -11,6 +11,7 @@ html,
 body {
   background-color: #03060a;
   color: #fff;
+  overscroll-behavior: none;
 }
 
 /* heading and body styles */

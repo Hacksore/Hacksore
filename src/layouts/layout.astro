@@ -1,5 +1,6 @@
 ---
 import Analytics from "@vercel/analytics/astro";
+import { Navbar } from "../components/navbar.js";
 import "../styles/global.css";
 
 // Determine base URL with priority:
@@ -70,6 +71,7 @@ const META_INFO = {
     <Analytics />
 	</head>
 	<body>
+		<Navbar currentPath={Astro.url.pathname} />
 		<main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
 		  <slot />
       <div class="giscus-container px-4 md:px-0">
@@ -100,7 +102,7 @@ const META_INFO = {
 	body {
 		margin: 0;
 		width: 100%;
-		height: 100%;
+		min-height: 100vh;
 	}
 
 	/* Add padding to giscus container on mobile */
