@@ -8,7 +8,7 @@
     }
   },
   "linter": {
-    "includes": ["**", "!**/.next/**/*"],
+    "includes": ["src/**/*", "!**/.next/**/*"],
     "enabled": true,
     "rules": {
       "recommended": true,
@@ -22,7 +22,7 @@
     }
   },
   "formatter": {
-    "includes": ["**", "!**/.next/**/*"],
+    "includes": ["src/**/*", "!**/.next/**/*"],
     "enabled": true,
     "formatWithErrors": false,
     "indentStyle": "space",
@@ -42,7 +42,7 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+      "includes": ["src/**/*.astro"],
       "linter": {
         "rules": {
           "style": {

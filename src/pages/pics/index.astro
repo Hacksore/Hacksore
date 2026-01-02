@@ -1,11 +1,8 @@
 ---
-import Layout from "../../layouts/layout.astro";
+import { R2_BUCKET_NAME as bucketName } from "astro:env/server";
 import { PicsGallery } from "../../components/pics-gallery";
+import Layout from "../../layouts/layout.astro";
 import { listR2Images } from "../../utils/s3";
-
-// Get configuration from environment variables
-const bucketName = import.meta.env.R2_BUCKET_NAME;
-const prefix = import.meta.env.R2_PREFIX || "";
 
 const r2Config = {
   endpoint: import.meta.env.R2_ENDPOINT,
@@ -29,7 +26,7 @@ if (!bucketName) {
   error = "R2_BUCKET_NAME environment variable is not set";
 } else {
   try {
-    images = await listR2Images(bucketName, prefix, r2Config);
+    images = await listR2Images(bucketName, "", r2Config);
   } catch (err) {
     error = err instanceof Error ? err.message : "Failed to fetch images from R2";
     console.error("Error fetching images:", err);

@@ -42,7 +42,6 @@ export function getPermissionMessage(state: ClipboardPermissionState): string {
       return "Clipboard access denied - please enable in browser settings";
     case "prompt":
       return "Clipboard access will be requested when copying";
-    case "unknown":
     default:
       return "Clipboard access status unknown";
   }

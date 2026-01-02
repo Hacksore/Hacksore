@@ -1,11 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { copyImageToClipboard } from "../utils/clipboard";
-import { filterImagesByName, getSearchTermFromUrl, updateSearchUrl } from "../utils/image-filter";
 import {
-  checkClipboardPermission,
-  getPermissionMessage,
   type ClipboardPermissionState,
+  checkClipboardPermission,
 } from "../utils/clipboard-permissions";
+import { filterImagesByName, getSearchTermFromUrl, updateSearchUrl } from "../utils/image-filter";
 import { ToastContainer } from "./toast";
 
 interface R2Image {
