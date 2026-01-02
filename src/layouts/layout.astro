@@ -49,6 +49,10 @@ const META_INFO = {
   description,
   ogImage: ogImageUrl,
 };
+
+const ingnoredCommentPaths = ["/"];
+
+const shouldRenderComments = !ingnoredCommentPaths.includes(Astro.url.pathname);
 ---
 <!doctype html>
 <html lang="en">
@@ -74,25 +78,27 @@ const META_INFO = {
 		<Navbar currentPath={Astro.url.pathname} client:load />
 		<main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
 		  <slot />
-      <div class="giscus-container px-4 md:px-0">
-        <script
-          src="https://giscus.app/client.js"
-          data-repo="Hacksore/Hacksore"
-          data-repo-id="MDEwOlJlcG9zaXRvcnkyNzg0MzA5NzM="
-          data-mapping="title"
-          data-strict="0"
-          data-category="General"
-          data-category-id="DIC_kwDOEJiE_c4CSRHB"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="preferred_color_scheme"
-          data-lang="en"
-          crossorigin="anonymous"
-          async
-        >
-        </script>
-      </div>
+      { shouldRenderComments && (
+        <div class="giscus-container px-4 md:px-0">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="Hacksore/Hacksore"
+            data-repo-id="MDEwOlJlcG9zaXRvcnkyNzg0MzA5NzM="
+            data-mapping="title"
+            data-strict="0"
+            data-category="General"
+            data-category-id="DIC_kwDOEJiE_c4CSRHB"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="preferred_color_scheme"
+            data-lang="en"
+            crossorigin="anonymous"
+            async
+          >
+          </script>
+        </div>
+      )}
 		</main>
 	</body>
 </html>
