@@ -12,12 +12,6 @@ const META_INFO = {
   description={META_INFO.description}
 >
   <div class="error-container">
-    <div class="particles">
-      {Array.from({ length: 50 }).map((_, i) => (
-        <div class="particle" style={`--delay: ${i * 0.1}s; --duration: ${15 + Math.random() * 10}s; --x: ${Math.random() * 100}%;`}></div>
-      ))}
-    </div>
-    
     <div class="error-content">
       <div class="glitch-wrapper">
         <div class="glitch" data-text="404">404</div>
@@ -31,7 +25,7 @@ const META_INFO = {
       
       <p class="error-message">
         It seems like this page decided to take a break and never came back. 
-        <span class="meme-text">Skill issue? Maybe. Our fault? Definitely not.</span>
+        <span class="meme-text">Skill issue? Maybe. My fault? Definitely not.</span>
       </p>
       
       <div class="error-actions">
@@ -41,24 +35,10 @@ const META_INFO = {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
         </a>
-        <button 
-          class="btn-secondary" 
-          onclick="window.history.back()"
-        >
-          <span>Go Back</span>
-          <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-        </button>
+        
       </div>
       
-      <div class="floating-elements">
-        <div class="float-emoji" style="--delay: 0s;">🚀</div>
-        <div class="float-emoji" style="--delay: 1s;">💀</div>
-        <div class="float-emoji" style="--delay: 2s;">🔥</div>
-        <div class="float-emoji" style="--delay: 3s;">✨</div>
-        <div class="float-emoji" style="--delay: 4s;">🎯</div>
-      </div>
+      
     </div>
   </div>
 </Layout>
@@ -74,46 +54,7 @@ const META_INFO = {
     overflow: hidden;
   }
 
-  /* Animated particles background */
-  .particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
-  }
-
-  .particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    border-radius: 50%;
-    opacity: 0.6;
-    animation: float var(--duration, 20s) var(--delay, 0s) infinite ease-in-out;
-    left: var(--x, 50%);
-    top: 100%;
-    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0) translateX(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 0.6;
-    }
-    90% {
-      opacity: 0.6;
-    }
-    100% {
-      transform: translateY(-100vh) translateX(calc(var(--x) * 0.5)) rotate(360deg);
-      opacity: 0;
-    }
-  }
+  
 
   .error-content {
     position: relative;
