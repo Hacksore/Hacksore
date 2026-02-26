@@ -7,12 +7,17 @@ import { Projects } from "../components/projects";
 import { Social } from "../components/social";
 import Layout from "../layouts/layout.astro";
 
-const MAX_POSTS = 25;
+const DISPLAY_COUNT = 6;
+const FETCH_COUNT = 20;
 
 // TODO: error handle
-const latestArticles = (await fetch(
-  `https://dev.to/api/articles?username=hacksore&per_page=${MAX_POSTS}&api_key=${DEVTO_TOKEN}`,
+const allArticles = (await fetch(
+  `https://dev.to/api/articles?username=hacksore&per_page=${FETCH_COUNT}&api_key=${DEVTO_TOKEN}`,
 ).then((res) => res.json())) as Post[];
+
+const latestArticles = allArticles
+  .filter((post) => post.reading_time_minutes && post.reading_time_minutes > 0 && post.cover_image)
+  .slice(0, DISPLAY_COUNT);
 
 Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-revalidate=86400");
 ---
@@ -35,8 +40,8 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-r
       <h2 class="text-4xl font-bold text-white mb-4">Latest Articles</h2>
       <p class="text-gray-400 text-lg">Thoughts, tutorials, and insights from my work</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {latestArticles.filter((post) => post.reading_time_minutes && post.reading_time_minutes > 0 && post.cover_image).map((post) => (
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-4 md:px-0">
+      {latestArticles.map((post) => (
         <PostCard post={post} />
       ))}
     </div>
