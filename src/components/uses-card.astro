@@ -1,0 +1,55 @@
+---
+const { title, items, icons = {} } = Astro.props;
+const isSingle = items.length === 1;
+const getIcon = (name: string) => icons[name] ?? null;
+
+// Fallback monogram: use first 2 chars for short names (fd, jq), else first char
+function getFallbackMonogram(name: string): string {
+  if (name.length <= 2) return name;
+  return name.charAt(0).toUpperCase();
+}
+---
+
+<div class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)">
+  <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">{title}</h3>
+
+  {isSingle ? (
+    <div class="uses-featured flex flex-col items-center justify-center py-6 min-h-[140px]">
+      {getIcon(items[0]) ? (
+        <img
+          src={`https://cdn.simpleicons.org/${getIcon(items[0])}/94a3b8`}
+          alt=""
+          width={64}
+          height={64}
+          class="mb-3 opacity-90"
+        />
+      ) : (
+        <div class="uses-featured-placeholder mb-3 flex h-16 w-16 items-center justify-center rounded-xl bg-white/5 text-2xl font-bold text-gray-500">
+          {getFallbackMonogram(items[0])}
+        </div>
+      )}
+      <span class="text-lg font-medium text-white">{items[0]}</span>
+    </div>
+  ) : (
+    <div class="flex flex-wrap gap-2">
+      {items.map((item) => (
+        <span class="uses-pill uses-pill-with-icon inline-flex items-center gap-2">
+          {getIcon(item) ? (
+            <img
+              src={`https://cdn.simpleicons.org/${getIcon(item)}/93c5fd`}
+              alt=""
+              width={16}
+              height={16}
+              class="shrink-0"
+            />
+          ) : (
+            <span class="uses-pill-fallback shrink-0 flex h-4 min-w-4 items-center justify-center rounded px-0.5 bg-white/10 text-[10px] font-semibold text-gray-400">
+              {getFallbackMonogram(item)}
+            </span>
+          )}
+          {item}
+        </span>
+      ))}
+    </div>
+  )}
+</div>

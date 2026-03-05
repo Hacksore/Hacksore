@@ -1,21 +1,213 @@
 ---
-import { Content as UsesContent } from "../content/uses.mdx";
 import Layout from "../layouts/layout.astro";
+import UsesCard from "../components/uses-card.astro";
 
 const META_INFO = {
   title: "Uses - Sean Boult",
-  description: "Some of the things i use",
+  description: "My setup, gear, software, and development stack",
+};
+
+// Simple Icons slugs for logos - https://simpleicons.org
+const ICONS: Record<string, string> = {
+  Neovim: "neovim",
+  Cursor: "cursor",
+  WezTerm: "wezterm",
+  pnpm: "pnpm",
+  git: "git",
+  tmux: "tmux",
+  TypeScript: "typescript",
+  JavaScript: "javascript",
+  Rust: "rust",
+  Go: "go",
+  Python: "python",
+  Lua: "lua",
+  Shell: "gnubash",
+  node: "nodedotjs",
+  Docker: "docker",
+  "GitHub CLI": "github",
+  Astro: "astro",
+  "Next.js": "nextdotjs",
+  Chrome: "googlechrome",
+  Raycast: "raycast",
+  "1Password": "1password",
+  Notion: "notion",
+  Yaak: "yaak",
+  Spotify: "spotify",
+};
+
+const uses = {
+  computers: [
+    { name: "Personal MacBook Pro", spec: "16\" M1 Pro Max, 32GB RAM" },
+    { name: "Work MacBook Pro", spec: "14\" M1 Pro Max, 32GB RAM" },
+    {
+      name: "Gaming Desktop",
+      spec: { cpu: "Intel i9 9900k", gpu: "Nvidia RTX 4070 TI", ram: "32GB DDR4" },
+    },
+    {
+      name: "Gaming Laptop",
+      spec: {
+        cpu: "Intel Core i9-13900H",
+        gpu: "Nvidia RTX 4090",
+        ram: "32GB DDR5",
+      },
+    },
+  ],
+  development: {
+    editor: ["Neovim", "Cursor", "OpenCode"],
+    terminal: ["WezTerm"],
+    cli: ["pnpm", "git", "lazygit", "fd", "fzf", "ripgrep", "jq", "tmux"],
+    languages: ["TypeScript", "JavaScript", "Rust", "Go", "Lua", "Shell"],
+    tools: ["node", "Docker", "GitHub CLI", "mise"],
+    frameworks: ["Astro", "Hono", "Next.js"],
+  },
+  web: ["Chrome"],
+  utility: ["Raycast", "Karabiner-Elements", "1Password", "Notion", "Yaak"],
+  audio: ["Spotify"],
+  hardware: [
+    { name: "Microphone", value: "Audio-Technica AT2035" },
+    { name: "Audio Interface", value: "Focusrite Scarlett 2i4" },
+    { name: "Headphones", value: "Philips SHP9500" },
+    { name: "Camera", value: "Opal C1" },
+    { name: "Mouse", value: "Logitech PRO X SUPERLIGHT 2c" },
+    { name: "Monitor", value: "LG 27\" QHD 165Hz" },
+  ],
 };
 ---
 
-<Layout
-  title={META_INFO.title}
-  description={META_INFO.description}
->
-	<div class="prose prose-invert content">
-		<h1>Uses</h1>
-    <UsesContent />
-	</div>
+<Layout title={META_INFO.title} description={META_INFO.description}>
+  <div class="uses-page">
+    <h1 class="text-4xl font-bold text-white mb-2">Uses</h1>
+    <p class="text-gray-400 mb-12 text-lg">
+      Inspired by <a href="https://uses.tech" target="_blank" rel="noopener noreferrer" class="text-(--color-primary) hover:underline">uses.tech</a> — my setup, gear, and software stack. <a href="https://github.com/wesbos/awesome-uses/blob/master/contribution-guide.md" target="_blank" rel="noopener noreferrer" class="text-(--color-primary) hover:underline">Submit your own</a> if you'd like.
+    </p>
+
+    <!-- Computers -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+        <span class="text-gray-500">01</span> Computers
+      </h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        {uses.computers.map((item) => (
+          <div class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)">
+            <div class="font-semibold text-white">{item.name}</div>
+            {typeof item.spec === "string" ? (
+              <div class="text-sm text-gray-400 mt-1">{item.spec}</div>
+            ) : (
+              <dl class="mt-2 space-y-1 text-sm">
+                {Object.entries(item.spec).map(([key, value]) => (
+                  <div class="flex gap-2">
+                    <dt class="text-gray-500 shrink-0 uppercase">{key}:</dt>
+                    <dd class="text-gray-400">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Development -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+        <span class="text-gray-500">02</span> Development
+      </h2>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <UsesCard title="Editor" items={uses.development.editor} icons={ICONS} />
+        <UsesCard title="Terminal" items={uses.development.terminal} icons={ICONS} />
+        <UsesCard title="CLI Tools" items={uses.development.cli} icons={ICONS} />
+        <UsesCard title="Languages" items={uses.development.languages} icons={ICONS} />
+        <UsesCard title="Frameworks" items={uses.development.frameworks} icons={ICONS} />
+        <UsesCard title="Tools & Runtimes" items={uses.development.tools} icons={ICONS} />
+      </div>
+    </section>
+
+    <!-- Web, Utility, Audio - 3 column layout like uses.tech -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+        <span class="text-gray-500">03</span> Software
+      </h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <UsesCard title="Web" items={uses.web} icons={ICONS} />
+        <UsesCard title="Utility" items={uses.utility} icons={ICONS} />
+        <UsesCard title="Audio & Media" items={uses.audio} icons={ICONS} />
+      </div>
+    </section>
+
+    <!-- Hardware -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+        <span class="text-gray-500">04</span> Hardware
+      </h2>
+      <div class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {uses.hardware.map((item) => (
+            <div>
+              <div class="text-sm text-gray-500">{item.name}</div>
+              <div class="font-medium text-white">{item.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Desk Diagram -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+        <span class="text-gray-500">05</span> Desk Diagram
+      </h2>
+      <p class="text-gray-400 mb-4">Sorta outdated but you get the idea 😂</p>
+      <div class="rounded-xl overflow-hidden border border-(--color-card-border)">
+        <iframe
+          frameborder="0"
+          class="w-full bg-black"
+          style="height: 782px"
+          src="https://viewer.diagrams.net/?tags=%7B%7D&highlight=000000&ui=dark&edit=_blank&layers=1&nav=1&title=setup.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2FHacksore%2Fdesk-cables%2Fmaster%2Fsetup.drawio"
+          title="Desk setup diagram"
+        />
+      </div>
+    </section>
+
+    <!-- Desk Picture -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+        <span class="text-gray-500">06</span> Desk Picture
+      </h2>
+      <p class="text-gray-400 mb-4">TODO</p>
+    </section>
+  </div>
 </Layout>
 
+<style>
+  .uses-page {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
 
+  .uses-card {
+    transition: border-color 0.2s ease;
+  }
+
+  .uses-card:hover {
+    border-color: rgba(37, 99, 235, 0.4);
+  }
+
+  .uses-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    background: rgba(37, 99, 235, 0.15);
+    color: #93c5fd;
+    border-radius: 9999px;
+    border: 1px solid rgba(37, 99, 235, 0.3);
+  }
+
+  .uses-featured-placeholder {
+    font-family: ui-monospace, monospace;
+  }
+
+  .uses-pill-fallback {
+    font-family: ui-monospace, monospace;
+  }
+</style>
