@@ -15,6 +15,7 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.12",
     "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.7.0",
     "@astrojs/vercel": "^9.0.2",
     "@aws-sdk/client-s3": "^3.956.0",
     "@aws-sdk/s3-request-presigner": "^3.956.0",

@@ -1,11 +1,13 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
 
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
+  site: "https://hacksore.com",
   output: "server",
   compressHTML: true,
   vite: {
@@ -33,6 +35,12 @@ export default defineConfig({
       DEVTO_TOKEN: envField.string({ context: "server", access: "secret" }),
     }
   },
-  integrations: [react(), mdx()],
+  integrations: [
+    react(),
+    mdx(),
+    sitemap({
+      filter: (page) => page !== "https://hacksore.com/404/",
+    }),
+  ],
   adapter: vercel(),
 });
