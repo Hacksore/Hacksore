@@ -13,7 +13,9 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     build: {
-      cssCodeSplit: true,
+      // Disabled: page-specific CSS chunks (e.g. cape.CasOR9cR.css) were 404ing on Vercel.
+      // Single CSS bundle avoids the issue with outputDirectory/dist path mismatch.
+      cssCodeSplit: false,
       rollupOptions: {
         output: {
           manualChunks: {
