@@ -1,6 +1,6 @@
 ---
-import Layout from "../layouts/layout.astro";
 import UsesCard from "../components/uses-card.astro";
+import Layout from "../layouts/layout.astro";
 
 const META_INFO = {
   title: "Sean Boult | Uses - Development Setup, Hardware & Software Stack",
@@ -39,8 +39,8 @@ const ICONS: Record<string, string> = {
 
 const uses = {
   computers: [
-    { name: "Personal MacBook Pro", spec: "16\" M1 Pro Max, 32GB RAM" },
-    { name: "Work MacBook Pro", spec: "14\" M1 Pro Max, 32GB RAM" },
+    { name: "Personal MacBook Pro", spec: '16" M1 Pro Max, 32GB RAM' },
+    { name: "Work MacBook Pro", spec: '14" M1 Pro Max, 32GB RAM' },
     {
       name: "Gaming Desktop",
       spec: { cpu: "Intel i9 9900k", gpu: "Nvidia RTX 4070 TI", ram: "32GB DDR4" },
@@ -71,37 +71,53 @@ const uses = {
     { name: "Headphones", value: "Philips SHP9500" },
     { name: "Camera", value: "Opal C1" },
     { name: "Mouse", value: "Logitech PRO X SUPERLIGHT 2c" },
-    { name: "Monitor", value: "LG 27\" QHD 165Hz" },
+    { name: "Monitor", value: 'LG 27" QHD 165Hz' },
   ],
 };
 ---
 
-<Layout
-  title={META_INFO.title}
-  description={META_INFO.description}
-  ogImage={META_INFO.ogImage}
->
+<Layout title={META_INFO.title} description={META_INFO.description} ogImage={META_INFO.ogImage}>
   <div class="uses-page px-5 md:px-0">
     <h1 class="text-4xl font-bold text-white mb-2">Uses</h1>
     <p class="text-gray-400 mb-12 text-lg">
-      Inspired by <a href="https://uses.tech" target="_blank" rel="noopener noreferrer" class="text-(--color-primary) hover:underline">uses.tech</a> — my setup, gear, and software stack. <a href="https://github.com/wesbos/awesome-uses/blob/master/contribution-guide.md" target="_blank" rel="noopener noreferrer" class="text-(--color-primary) hover:underline">Submit your own</a> if you'd like.
+      Inspired by
+      <a
+        href="https://uses.tech"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-(--color-primary) hover:underline"
+        >uses.tech</a
+      >
+      — my setup, gear, and software stack.
+      <a
+        href="https://github.com/wesbos/awesome-uses/blob/master/contribution-guide.md"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-(--color-primary) hover:underline"
+        >Submit your own</a
+      >
+      if you'd like.
     </p>
 
     <!-- Computers -->
     <section class="mb-16">
       <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-        <span class="text-gray-500">01</span> Computers
+        <span class="text-gray-500">01</span>
+        Computers
       </h2>
       <div class="grid gap-4 md:grid-cols-2">
         {uses.computers.map((item) => (
-          <div class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)">
+          <div
+            key={item.name}
+            class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)"
+          >
             <div class="font-semibold text-white">{item.name}</div>
             {typeof item.spec === "string" ? (
               <div class="text-sm text-gray-400 mt-1">{item.spec}</div>
             ) : (
               <dl class="mt-2 space-y-1 text-sm">
                 {Object.entries(item.spec).map(([key, value]) => (
-                  <div class="flex gap-2">
+                  <div key={key} class="flex gap-2">
                     <dt class="text-gray-500 shrink-0 uppercase">{key}:</dt>
                     <dd class="text-gray-400">{value}</dd>
                   </div>
@@ -116,7 +132,8 @@ const uses = {
     <!-- Development -->
     <section class="mb-16">
       <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-        <span class="text-gray-500">02</span> Development
+        <span class="text-gray-500">02</span>
+        Development
       </h2>
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <UsesCard title="Editor" items={uses.development.editor} icons={ICONS} />
@@ -131,7 +148,8 @@ const uses = {
     <!-- Web, Utility, Audio - 3 column layout like uses.tech -->
     <section class="mb-16">
       <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-        <span class="text-gray-500">03</span> Software
+        <span class="text-gray-500">03</span>
+        Software
       </h2>
       <div class="grid gap-6 md:grid-cols-3">
         <UsesCard title="Web" items={uses.web} icons={ICONS} />
@@ -143,12 +161,15 @@ const uses = {
     <!-- Hardware -->
     <section class="mb-16">
       <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-        <span class="text-gray-500">04</span> Hardware
+        <span class="text-gray-500">04</span>
+        Hardware
       </h2>
-      <div class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)">
+      <div
+        class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)"
+      >
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {uses.hardware.map((item) => (
-            <div>
+            <div key={item.name}>
               <div class="text-sm text-gray-500">{item.name}</div>
               <div class="font-medium text-white">{item.value}</div>
             </div>
@@ -160,7 +181,8 @@ const uses = {
     <!-- Desk Diagram -->
     <section class="mb-16">
       <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-        <span class="text-gray-500">05</span> Desk Diagram
+        <span class="text-gray-500">05</span>
+        Desk Diagram
       </h2>
       <p class="text-gray-400 mb-4">Sorta outdated but you get the idea 😂</p>
       <div class="rounded-xl overflow-hidden border border-(--color-card-border)">
@@ -177,7 +199,8 @@ const uses = {
     <!-- Desk Picture -->
     <section class="mb-16">
       <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-        <span class="text-gray-500">06</span> Desk Picture
+        <span class="text-gray-500">06</span>
+        Desk Picture
       </h2>
       <p class="text-gray-400 mb-4">TODO</p>
     </section>
@@ -185,35 +208,35 @@ const uses = {
 </Layout>
 
 <style>
-  .uses-page {
-    max-width: 56rem;
-    margin: 0 auto;
-  }
+.uses-page {
+  max-width: 56rem;
+  margin: 0 auto;
+}
 
-  .uses-card {
-    transition: border-color 0.2s ease;
-  }
+.uses-card {
+  transition: border-color 0.2s ease;
+}
 
-  .uses-card:hover {
-    border-color: rgba(37, 99, 235, 0.4);
-  }
+.uses-card:hover {
+  border-color: rgba(37, 99, 235, 0.4);
+}
 
-  .uses-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-    background: rgba(37, 99, 235, 0.15);
-    color: #93c5fd;
-    border-radius: 9999px;
-    border: 1px solid rgba(37, 99, 235, 0.3);
-  }
+.uses-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  background: rgba(37, 99, 235, 0.15);
+  color: #93c5fd;
+  border-radius: 9999px;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
 
-  .uses-featured-placeholder {
-    font-family: ui-monospace, monospace;
-  }
+.uses-featured-placeholder {
+  font-family: ui-monospace, monospace;
+}
 
-  .uses-pill-fallback {
-    font-family: ui-monospace, monospace;
-  }
+.uses-pill-fallback {
+  font-family: ui-monospace, monospace;
+}
 </style>

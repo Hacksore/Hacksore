@@ -54,32 +54,33 @@ const ingnoredCommentPaths = ["/"];
 
 const shouldRenderComments = !ingnoredCommentPaths.includes(Astro.url.pathname);
 ---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="sitemap" href="/sitemap-index.xml" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{META_INFO.title}</title>
-		<meta name="description" content={META_INFO.description} />
-		<meta property="og:title" content={META_INFO.title} />
-		<meta property="og:description" content={META_INFO.description} />
-		<meta property="og:image" content={ogImageUrl} />
-		<meta property="og:type" content="website" />
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={META_INFO.title} />
-		<meta name="twitter:description" content={META_INFO.description} />
-		<meta name="twitter:image" content={ogImageUrl} />
-		<link rel="preconnect" href="https://giscus.app" />
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="sitemap" href="/sitemap-index.xml">
+    <meta name="generator" content={Astro.generator}>
+    <title>{META_INFO.title}</title>
+    <meta name="description" content={META_INFO.description}>
+    <meta property="og:title" content={META_INFO.title}>
+    <meta property="og:description" content={META_INFO.description}>
+    <meta property="og:image" content={ogImageUrl}>
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={META_INFO.title}>
+    <meta name="twitter:description" content={META_INFO.description}>
+    <meta name="twitter:image" content={ogImageUrl}>
+    <link rel="preconnect" href="https://giscus.app">
     <Analytics />
-	</head>
-	<body>
-		<Navbar currentPath={Astro.url.pathname} client:load />
-		<main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
-		  <slot />
-      { shouldRenderComments && (
+  </head>
+  <body>
+    <Navbar currentPath={Astro.url.pathname} client:load />
+    <main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
+      <slot />
+      {shouldRenderComments && (
         <div class="giscus-container px-4 md:px-0">
           <script
             src="https://giscus.app/client.js"
@@ -100,26 +101,26 @@ const shouldRenderComments = !ingnoredCommentPaths.includes(Astro.url.pathname);
           </script>
         </div>
       )}
-		</main>
-	</body>
+    </main>
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		min-height: 100vh;
-	}
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
 
-	/* Add padding to giscus container on mobile */
-	.giscus-container {
-		margin-top: 2rem;
-	}
+/* Add padding to giscus container on mobile */
+.giscus-container {
+  margin-top: 2rem;
+}
 
-	/* Target the dynamically generated giscus element */
-	.giscus,
-	.giscus-container > iframe {
-		max-width: 100%;
-	}
+/* Target the dynamically generated giscus element */
+.giscus,
+.giscus-container > iframe {
+  max-width: 100%;
+}
 </style>

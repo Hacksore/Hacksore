@@ -33,7 +33,7 @@ function getFallbackMonogram(name: string): string {
   ) : (
     <div class="flex flex-wrap gap-2">
       {items.map((item) => (
-        <span class="uses-pill uses-pill-with-icon inline-flex items-center gap-2">
+        <span key={item} class="uses-pill uses-pill-with-icon inline-flex items-center gap-2">
           {getIcon(item) ? (
             <img
               src={`https://cdn.simpleicons.org/${getIcon(item)}/93c5fd`}

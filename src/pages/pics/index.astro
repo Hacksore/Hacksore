@@ -43,10 +43,9 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-r
   title="Sean Boult | Pics - Best TikTok Reaction Images Gallery"
   description="Browse a curated gallery of the best TikTok reaction pics and memes. Funny and viral images collected by Sean Boult."
 >
-	<section class="prose prose-invert px-4 md:px-0">
-		<h1 class="text-4xl font-bold mb-8">Pics</h1>
-		<p class="mb-6">Some of the best reactions pics</p>
-		<PicsGallery client:load images={images} />
-	</section>
+  <section class="prose prose-invert px-4 md:px-0">
+    <h1 class="text-4xl font-bold mb-8">Pics</h1>
+    <p class="mb-6">Some of the best reactions pics</p>
+    <PicsGallery client:load images={images} />
+  </section>
 </Layout>
-

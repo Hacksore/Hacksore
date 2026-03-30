@@ -93,7 +93,7 @@ export async function copyImageToClipboard(
   imgElement?: HTMLImageElement | null,
 ): Promise<void> {
   // Check if clipboard API is available
-  if (!navigator.clipboard || !navigator.clipboard.write) {
+  if (!navigator.clipboard?.write) {
     throw new Error("Clipboard API is not available in this browser");
   }
 
