@@ -4,7 +4,7 @@ import Layout from "../layouts/layout.astro";
 const META_INFO = {
   title: "Sean Boult | HDR Image - Retina Searing Display Demo",
   description:
-    "HDR images use special color space to make pixels really bright on compatible displays. A fun experiment in web display technology.",
+    "HDR images on the web: brighter than SDR on some displays, plus links and platform fallout.",
   ogImage: "/img/hdr-og.png",
 };
 ---
@@ -12,20 +12,30 @@ const META_INFO = {
 <Layout title={META_INFO.title} description={META_INFO.description} ogImage={META_INFO.ogImage}>
   <div class="prose prose-invert">
     <h1>HDR Images</h1>
-    <p>
-      HDR images <s>abuse</s> use the special color space to make pixels really bright for
-      compatible displays, learn more
-      <a target="_blank" rel="noreferrer" href="https://sharpletters.net/2025/04/16/hdr-emoji/"
-        >here</a
+    <p class="not-prose page-lede max-w-2xl">
+      HDR can blast brighter than normal web images if the display supports it. Context:{" "}
+      <a
+        target="_blank"
+        rel="noreferrer"
+        class="text-(--color-primary) font-medium hover:underline"
+        href="https://sharpletters.net/2025/04/16/hdr-emoji/"
+        >Sharpletters</a
       >
-      and
-      <a target="_blank" rel="noreferrer" href="https://github.com/swankjesse/hdr-emojis">here</a>.
+      ,{" "}
+      <a
+        target="_blank"
+        rel="noreferrer"
+        class="text-(--color-primary) font-medium hover:underline"
+        href="https://github.com/swankjesse/hdr-emojis"
+        >hdr-emojis</a
+      >
+      .
     </p>
 
     <img src="/img/hdr-og.png" alt="HDR brightness demo">
 
     <p>It started with this tweet</p>
-    <blockquote class="twitter-tweet">
+    <blockquote class="twitter-tweet" data-theme="dark">
       <p lang="zxx" dir="ltr"><a href="https://t.co/eA8IGTfVC2">pic.twitter.com/eA8IGTfVC2</a></p>
       &mdash; Hacksore (@Hacksore)
       <a href="https://twitter.com/Hacksore/status/1996200892631269586?ref_src=twsrc%5Etfw"
@@ -34,8 +44,17 @@ const META_INFO = {
     </blockquote>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+    <p>it went viral</p>
+    <blockquote class="twitter-tweet" data-theme="dark">
+      <p lang="en" dir="ltr">
+        we made biden blast hdr <a href="https://t.co/ulUMSXbZ1L">pic.twitter.com/ulUMSXbZ1L</a>
+      </p>
+      &mdash; pbit (@0xPBIT)
+      <a href="https://twitter.com/0xPBIT/status/1996765327649394904?ref_src=twsrc%5Etfw">Post</a>
+    </blockquote>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <p>twitter patched it 😭</p>
-    <blockquote class="twitter-tweet">
+    <blockquote class="twitter-tweet" data-theme="dark">
       <p lang="en" dir="ltr">
         X has “patched” the HDR images on web using CSS:<br><br>dynamic-range-limit: standard;<br>filter:
         brightness(1);<br><br>RIP HDR Avatar 2025–2025 🌞

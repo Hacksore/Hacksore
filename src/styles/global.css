@@ -112,6 +112,19 @@ body {
   font-size: 0.875em;
 }
 
+/* Page title subtext: larger, readable */
+.page-lede {
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  .page-lede {
+    font-size: 1.25rem;
+  }
+}
+
 /* post card styles */
 .line-clamp-2 {
   display: -webkit-box;

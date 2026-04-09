@@ -15,6 +15,7 @@ interface NavbarProps {
 export const Navbar = ({
   items = [
     { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects" },
     { label: "Cape", href: "/cape" },
     { label: "HDR", href: "/hdr" },
     { label: "Uses", href: "/uses" },

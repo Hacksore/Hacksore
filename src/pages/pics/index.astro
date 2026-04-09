@@ -41,11 +41,13 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-r
 
 <Layout
   title="Sean Boult | Pics - Best TikTok Reaction Images Gallery"
-  description="Browse a curated gallery of the best TikTok reaction pics and memes. Funny and viral images collected by Sean Boult."
+  description="Reaction pics and memes I've saved."
 >
   <section class="prose prose-invert px-4 md:px-0">
-    <h1 class="text-4xl font-bold mb-8">Pics</h1>
-    <p class="mb-6">Some of the best reactions pics</p>
+    <h1 class="text-4xl font-bold mb-4 md:mb-6">Pics</h1>
+    <p class="not-prose page-lede mb-8 max-w-2xl">
+      Reaction images I&apos;ve hoarded. Thumbnail opens full size.
+    </p>
     <PicsGallery client:load images={images} />
   </section>
 </Layout>

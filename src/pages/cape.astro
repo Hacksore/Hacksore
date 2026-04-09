@@ -5,7 +5,7 @@ import Layout from "../layouts/layout.astro";
 const META_INFO = {
   title: "Sean Boult | Minecon 2011 Cape - Rare Minecraft Cape",
   description:
-    "Yes I have a Minecon 2011 cape and no you can't have it. A rare Minecraft collectible from the first Minecon. Please stop DMing me on Discord.",
+    "Minecon 2011 Minecraft cape. Not for sale. 3D viewer so you can see it without DMs.",
   ogImage: "/img/cape-og.png",
 };
 ---
@@ -13,9 +13,9 @@ const META_INFO = {
 <Layout title={META_INFO.title} description={META_INFO.description} ogImage={META_INFO.ogImage}>
   <div class="prose prose-invert">
     <h1>Minecon 2011 Cape</h1>
-    <p>Yes I have a minecon2011 cape and no you cant have it!</p>
-
-    <p>Please stop DMing me on discord.</p>
+    <p class="not-prose page-lede max-w-2xl">
+      Minecon 2011 cape. Not selling or trading. Viewer below beats asking on Discord.
+    </p>
     <div class="flex item-center justify-center w-full">
       <MinecraftSkin client:load width={600} height={600} />
     </div>

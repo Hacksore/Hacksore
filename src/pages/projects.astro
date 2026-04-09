@@ -1,0 +1,12 @@
+---
+import { Projects as ProjectsGrid } from "../components/projects";
+import Layout from "../layouts/layout.astro";
+---
+
+<Layout title="Projects | Sean Boult" description="Things I ship and open source I help maintain.">
+  <section class="px-5 md:px-0">
+    <h1 class="text-4xl font-bold text-white mb-3 md:mb-4">Projects</h1>
+    <p class="page-lede mb-12 max-w-2xl">Things i've worked on over the years.</p>
+    <ProjectsGrid client:load />
+  </section>
+</Layout>

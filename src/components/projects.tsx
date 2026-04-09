@@ -4,6 +4,9 @@ import { Button } from "./button";
 
 export type ProjectStatus = "alive" | "shambles";
 
+/** `owner`: yours. `contributor`: you help maintain or contribute elsewhere. */
+export type ProjectRelationship = "owner" | "contributor";
+
 export interface ProjectInfo {
   name: string;
   desc: string;
@@ -11,6 +14,9 @@ export interface ProjectInfo {
   websiteUrl?: string;
   tech?: string[];
   status?: ProjectStatus;
+  relationship?: ProjectRelationship;
+  /** When `"Maintainer"`, the project is listed before others. */
+  contributorRole?: string;
 }
 
 const TypescriptIcon = () => {
@@ -60,6 +66,8 @@ const PROJECTS: ProjectInfo[] = [
     websiteUrl: "https://bs-community.github.io/skinview3d/",
     status: "alive",
     tech: ["typescript"],
+    relationship: "contributor",
+    contributorRole: "Maintainer",
   },
   {
     name: "react-skinview3d",
@@ -91,6 +99,15 @@ const PROJECTS: ProjectInfo[] = [
     repoUrl: "https://github.com/Hacksore/buildtray",
     tech: ["nodejs", "firebase", "react", "typescript"],
   },
+  {
+    name: "TypeHero",
+    desc: "TypeScript type challenges and community",
+    repoUrl: "https://github.com/typehero/typehero",
+    websiteUrl: "https://typehero.dev",
+    tech: ["typescript", "nextjs", "react"],
+    relationship: "contributor",
+    contributorRole: "Maintainer",
+  },
 ];
 
 const renderIconsFromLanguage = (langs: string[]) =>
@@ -104,9 +121,11 @@ const renderIconsFromLanguage = (langs: string[]) =>
 const ProjectCard = ({ project }: { project: ProjectInfo }) => {
   return (
     <div className="flex flex-col p-2 w-full rounded-lg h-[200px] bg-[#0D1118] border border-[#31363E]">
-      <div className="flex flex-col flex-1">
-        <div className="text-lg p-2 pt-1 font-bold">{project.name}</div>
-        <div className="p-2">{project.desc}</div>
+      <div className="flex flex-col flex-1 min-h-0">
+        <div className="px-2 pt-1">
+          <div className="text-lg font-bold leading-tight">{project.name}</div>
+        </div>
+        <div className="p-2 pt-1 text-sm text-gray-300">{project.desc}</div>
       </div>
 
       <div className="flex pb-1 justify-between">
@@ -142,14 +161,28 @@ const ProjectCard = ({ project }: { project: ProjectInfo }) => {
   );
 };
 
-export const Projects = () => {
+function ProjectGrid({ projects }: { projects: ProjectInfo[] }) {
+  if (projects.length === 0) return null;
+
   return (
-    <div className="grid md:grid-cols-2 gap-4 px-4 md:px-0">
-      {PROJECTS.map((project: ProjectInfo) => (
+    <div className="grid md:grid-cols-2 gap-4">
+      {projects.map((project) => (
         <div key={project.name}>
           <ProjectCard project={project} />
         </div>
       ))}
+    </div>
+  );
+}
+
+export const Projects = () => {
+  const maintainerProjects = PROJECTS.filter((p) => p.contributorRole === "Maintainer");
+  const rest = PROJECTS.filter((p) => p.contributorRole !== "Maintainer");
+  const orderedProjects = [...maintainerProjects, ...rest];
+
+  return (
+    <div>
+      <ProjectGrid projects={orderedProjects} />
     </div>
   );
 };

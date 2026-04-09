@@ -4,8 +4,7 @@ import Layout from "../layouts/layout.astro";
 
 const META_INFO = {
   title: "Sean Boult | Uses - Development Setup, Hardware & Software Stack",
-  description:
-    "Explore my complete development setup including computers, editors, CLI tools, frameworks, and hardware. Inspired by uses.tech.",
+  description: "Computers, editors, terminal, languages, frameworks, and desk hardware I use.",
   ogImage: "/img/uses-og.png",
 };
 
@@ -78,25 +77,25 @@ const uses = {
 
 <Layout title={META_INFO.title} description={META_INFO.description} ogImage={META_INFO.ogImage}>
   <div class="uses-page px-5 md:px-0">
-    <h1 class="text-4xl font-bold text-white mb-2">Uses</h1>
-    <p class="text-gray-400 mb-12 text-lg">
-      Inspired by
+    <h1 class="text-4xl font-bold text-white mb-3 md:mb-4">Uses</h1>
+    <p class="page-lede mb-12 max-w-2xl">
+      Hardware and software I use for real work. Same idea as{" "}
       <a
         href="https://uses.tech"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-(--color-primary) hover:underline"
+        class="text-(--color-primary) hover:underline font-medium"
         >uses.tech</a
       >
-      — my setup, gear, and software stack.
+      . Add yours via{" "}
       <a
         href="https://github.com/wesbos/awesome-uses/blob/master/contribution-guide.md"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-(--color-primary) hover:underline"
-        >Submit your own</a
+        class="text-(--color-primary) hover:underline font-medium"
+        >awesome-uses</a
       >
-      if you'd like.
+      .
     </p>
 
     <!-- Computers -->

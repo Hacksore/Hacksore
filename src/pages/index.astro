@@ -26,10 +26,17 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-r
 
   <section><Social client:load /></section>
 
+  <section class="mt-10 text-center px-4 md:px-0">
+    <a
+      href="/projects"
+      class="inline-flex items-center gap-2 px-6 py-3 bg-[#0D1118] text-white rounded-lg font-medium border border-[#31363E] hover:border-gray-500 transition-colors"
+    >
+      Click to see my projects
+    </a>
+  </section>
+
   <section class="mt-10 mb-16 md:mb-20">
-    <p class="text-gray-500 text-sm mb-6 text-center px-4 md:px-0">
-      Occasionally I write blogs, check them out
-    </p>
+    <p class="page-lede text-center max-w-2xl mx-auto mb-8 px-4 md:px-0">Writings on Dev.to</p>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-4 md:px-0">
       {latestArticles.map((post) => (
         <PostCard key={post.id} post={post} />
