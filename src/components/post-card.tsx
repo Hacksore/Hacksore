@@ -1,3 +1,11 @@
+export interface PostOrganization {
+  name: string;
+  username: string;
+  slug: string;
+  profile_image: string;
+  profile_image_90: string;
+}
+
 export interface Post {
   id: string;
   title: string;
@@ -7,6 +15,7 @@ export interface Post {
   published_at: string;
   reading_time_minutes?: number;
   tags?: string[];
+  organization?: PostOrganization;
 }
 
 export const PostCard = ({ post }: { post: Post }) => {
@@ -44,20 +53,34 @@ export const PostCard = ({ post }: { post: Post }) => {
           {post.content ? `${post.content.replace(/<[^>]*>/g, "").substring(0, 150)}...` : ""}
         </p>
 
-        {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {post.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-md">
-                #{tag}
-              </span>
-            ))}
-            {post.tags.length > 3 && (
-              <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-md">
-                +{post.tags.length - 3}
-              </span>
-            )}
-          </div>
-        )}
+        <div className="flex items-center justify-between gap-2">
+          {post.tags && Array.isArray(post.tags) && post.tags.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {post.tags.slice(0, 3).map((tag) => (
+                <span key={tag} className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-md">
+                  #{tag}
+                </span>
+              ))}
+              {post.tags.length > 3 && (
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-md">
+                  +{post.tags.length - 3}
+                </span>
+              )}
+            </div>
+          ) : (
+            <div />
+          )}
+          {post.organization?.slug === "aws" && (
+            <div className="flex items-center gap-1.5 bg-gray-900/85 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1.5 rounded-full border border-gray-700/50 shrink-0">
+              <img
+                src={post.organization.profile_image_90}
+                alt={post.organization.name}
+                className="w-4 h-4 rounded-full"
+              />
+              <span>AWS</span>
+            </div>
+          )}
+        </div>
       </div>
     </a>
   );
