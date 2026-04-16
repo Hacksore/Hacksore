@@ -1,3 +1,11 @@
+export interface PostOrganization {
+  name: string;
+  username: string;
+  slug: string;
+  profile_image: string;
+  profile_image_90: string;
+}
+
 export interface Post {
   id: string;
   title: string;
@@ -7,6 +15,7 @@ export interface Post {
   published_at: string;
   reading_time_minutes?: number;
   tags?: string[];
+  organization?: PostOrganization;
 }
 
 export const PostCard = ({ post }: { post: Post }) => {
@@ -26,8 +35,18 @@ export const PostCard = ({ post }: { post: Post }) => {
       rel="noopener noreferrer"
     >
       {post.cover_image && (
-        <div className="aspect-video overflow-hidden bg-gray-900">
+        <div className="aspect-video overflow-hidden bg-gray-900 relative">
           <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
+          {post.organization?.slug === "aws" && (
+            <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-900/85 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1.5 rounded-full border border-gray-700/50">
+              <img
+                src={post.organization.profile_image_90}
+                alt={post.organization.name}
+                className="w-4 h-4 rounded-full"
+              />
+              <span>AWS</span>
+            </div>
+          )}
         </div>
       )}
 
