@@ -7,18 +7,24 @@ import { Social } from "../components/social";
 import Layout from "../layouts/layout.astro";
 
 const DISPLAY_COUNT = 6;
-const FETCH_COUNT = 20;
+const FETCH_COUNT = 50;
 
 // TODO: error handle
 const allArticles = (await fetch(
   `https://dev.to/api/articles?username=hacksore&per_page=${FETCH_COUNT}&api_key=${DEVTO_TOKEN}`,
 ).then((res) => res.json())) as Post[];
+const byPublishedDesc = (a: Post, b: Post) =>
+  new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
 
-const latestArticles = allArticles
-  .filter((post) => post.reading_time_minutes && post.reading_time_minutes > 0 && post.cover_image)
+const latestArticles = [...allArticles]
+  .sort(byPublishedDesc)
+  .filter((post) => post.cover_image)
   .slice(0, DISPLAY_COUNT);
 
-Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-revalidate=86400");
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, s-maxage=3600, stale-while-revalidate=86400",
+);
 ---
 
 <Layout>
@@ -36,11 +42,13 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-r
   </section>
 
   <section class="mt-10 mb-16 md:mb-20">
-    <p class="page-lede text-center max-w-2xl mx-auto mb-8 px-4 md:px-0">Writings on Dev.to</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-4 md:px-0">
-      {latestArticles.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
+    <p class="page-lede text-center max-w-2xl mx-auto mb-8 px-4 md:px-0">
+      Writings on Dev.to
+    </p>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-4 md:px-0"
+    >
+      {latestArticles.map((post) => <PostCard key={post.id} post={post} />)}
     </div>
     <div class="text-center mt-12">
       <a
@@ -50,14 +58,19 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-r
         rel="noopener noreferrer"
       >
         View all articles on Dev.to
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <title>Opens in new tab</title>
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-          />
+          ></path>
         </svg>
       </a>
     </div>
