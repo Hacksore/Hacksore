@@ -34,5 +34,11 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
     "@tailwindcss/typography": "^0.5.19"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }
