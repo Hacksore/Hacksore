@@ -181,7 +181,7 @@ export const Projects = () => {
   const orderedProjects = [...maintainerProjects, ...rest];
 
   return (
-    <div>
+    <div className="pb-10">
       <ProjectGrid projects={orderedProjects} />
     </div>
   );

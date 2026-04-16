@@ -78,7 +78,12 @@ const shouldRenderComments = !ingnoredCommentPaths.includes(Astro.url.pathname);
   </head>
   <body>
     <Navbar currentPath={Astro.url.pathname} client:load />
-    <main class="max-w-3xl my-10 mx-auto pb-16 md:pb-24">
+    <main
+      class:list={[
+        "max-w-3xl mx-auto pt-10 mb-10",
+        shouldRenderComments && "pb-16 md:pb-24",
+      ]}
+    >
       <slot />
       {shouldRenderComments && (
         <div class="giscus-container px-4 md:px-0">

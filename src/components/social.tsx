@@ -34,11 +34,6 @@ const SOCIALS = [
     url: "https://cal.com/hacksore",
     icon: FaCalendar,
   },
-  {
-    title: "Blog",
-    url: "https://dev.to/hacksore",
-    icon: FaBook,
-  },
 ];
 
 export const Social = () => {
