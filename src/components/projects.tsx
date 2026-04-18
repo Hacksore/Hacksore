@@ -38,6 +38,12 @@ const languageToIcons: Record<string, { icon: IconComponent; color: string }> = 
 
 const PROJECTS: ProjectInfo[] = [
   {
+    name: "dotfiles",
+    desc: "my dotfiles and related tools",
+    repoUrl: "https://github.com/hacksore/dotfiles",
+    tech: ["typescript", "lua"],
+  },
+  {
     name: "overlayed",
     desc: "Voice chat overlay for Discord",
     repoUrl: "https://github.com/hacksore/overlayed",
