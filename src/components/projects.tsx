@@ -1,10 +1,19 @@
-import { SiAstro, SiElectron, SiFirebase, SiNodedotjs, SiReact, SiRust } from "react-icons/si";
+import {
+  SiAstro,
+  SiElectron,
+  SiFirebase,
+  SiGnubash,
+  SiLua,
+  SiNodedotjs,
+  SiReact,
+  SiRust,
+  SiShell,
+} from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import { Button } from "./button";
 
 export type ProjectStatus = "alive" | "shambles";
 
-/** `owner`: yours. `contributor`: you help maintain or contribute elsewhere. */
 export type ProjectRelationship = "owner" | "contributor";
 
 export interface ProjectInfo {
@@ -15,7 +24,6 @@ export interface ProjectInfo {
   tech?: string[];
   status?: ProjectStatus;
   relationship?: ProjectRelationship;
-  /** When `"Maintainer"`, the project is listed before others. */
   contributorRole?: string;
 }
 
@@ -33,15 +41,17 @@ const languageToIcons: Record<string, { icon: IconComponent; color: string }> = 
   electron: { icon: SiElectron, color: "#8CEAF9" },
   react: { icon: SiReact, color: "#8CEAF9" },
   rust: { icon: SiRust, color: "#fff" },
+  bash: { icon: SiGnubash, color: "#fff" },
+  lua: { icon: SiLua, color: "#fff" },
   firebase: { icon: SiFirebase, color: "#FFCB2B" },
 };
 
 const PROJECTS: ProjectInfo[] = [
   {
     name: "dotfiles",
-    desc: "my dotfiles and related tools",
+    desc: "How I configure everything I use",
     repoUrl: "https://github.com/hacksore/dotfiles",
-    tech: ["typescript", "lua"],
+    tech: ["typescript", "lua", "bash"],
   },
   {
     name: "overlayed",
@@ -182,13 +192,9 @@ function ProjectGrid({ projects }: { projects: ProjectInfo[] }) {
 }
 
 export const Projects = () => {
-  const maintainerProjects = PROJECTS.filter((p) => p.contributorRole === "Maintainer");
-  const rest = PROJECTS.filter((p) => p.contributorRole !== "Maintainer");
-  const orderedProjects = [...maintainerProjects, ...rest];
-
   return (
     <div className="pb-10">
-      <ProjectGrid projects={orderedProjects} />
+      <ProjectGrid projects={PROJECTS} />
     </div>
   );
 };
