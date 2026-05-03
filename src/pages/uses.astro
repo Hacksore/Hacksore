@@ -42,7 +42,11 @@ const uses = {
     { name: "Work MacBook Pro", spec: '14" M1 Pro Max, 32GB RAM' },
     {
       name: "Gaming Desktop",
-      spec: { cpu: "Intel i9 9900k", gpu: "Nvidia RTX 4070 TI", ram: "32GB DDR4" },
+      spec: {
+        cpu: "Intel i9 9900k",
+        gpu: "Nvidia RTX 4070 TI",
+        ram: "32GB DDR4",
+      },
     },
     {
       name: "Gaming Laptop",
@@ -78,24 +82,27 @@ const uses = {
 <Layout title={META_INFO.title} description={META_INFO.description} ogImage={META_INFO.ogImage}>
   <div class="uses-page px-5 md:px-0">
     <h1 class="text-4xl font-bold text-white mb-3 md:mb-4">Uses</h1>
-    <p class="page-lede mb-12 max-w-2xl">
-      Hardware and software I use for real work. Same idea as{" "}
+    <p class="page-lede mb-4 max-w-2xl">
+      My
       <a
         href="https://uses.tech"
         target="_blank"
         rel="noopener noreferrer"
         class="text-(--color-primary) hover:underline font-medium"
-        >uses.tech</a
+        >/uses</a
       >
-      . Add yours via{" "}
+      page, inspired by
       <a
-        href="https://github.com/wesbos/awesome-uses/blob/master/contribution-guide.md"
+        href="https://x.com/wesbos"
         target="_blank"
         rel="noopener noreferrer"
         class="text-(--color-primary) hover:underline font-medium"
-        >awesome-uses</a
-      >
-      .
+        >@wesbos</a
+      >.
+    </p>
+    <p class="page-lede mb-12 max-w-2xl">
+      All the hardware and software I use for development, content creation, and general
+      productivity.
     </p>
 
     <!-- Computers -->
@@ -106,24 +113,22 @@ const uses = {
       </h2>
       <div class="grid gap-4 md:grid-cols-2">
         {uses.computers.map((item) => (
-          <div
-            class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)"
-          >
-            <div class="font-semibold text-white">{item.name}</div>
-            {typeof item.spec === "string" ? (
-              <div class="text-sm text-gray-400 mt-1">{item.spec}</div>
-            ) : (
-              <dl class="mt-2 space-y-1 text-sm">
-                {Object.entries(item.spec).map(([key, value]) => (
-                  <div class="flex gap-2">
-                    <dt class="text-gray-500 shrink-0 uppercase">{key}:</dt>
-                    <dd class="text-gray-400">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-          </div>
-        ))}
+            <div class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)">
+              <div class="font-semibold text-white">{item.name}</div>
+              {typeof item.spec === "string" ? (
+                <div class="text-sm text-gray-400 mt-1">{item.spec}</div>
+              ) : (
+                <dl class="mt-2 space-y-1 text-sm">
+                  {Object.entries(item.spec).map(([key, value]) => (
+                    <div class="flex gap-2">
+                      <dt class="text-gray-500 shrink-0 uppercase">{key}:</dt>
+                      <dd class="text-gray-400">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+            </div>
+          ))}
       </div>
     </section>
 
@@ -167,11 +172,11 @@ const uses = {
       >
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {uses.hardware.map((item) => (
-            <div>
-              <div class="text-sm text-gray-500">{item.name}</div>
-              <div class="font-medium text-white">{item.value}</div>
-            </div>
-          ))}
+              <div>
+                <div class="text-sm text-gray-500">{item.name}</div>
+                <div class="font-medium text-white">{item.value}</div>
+              </div>
+            ))}
         </div>
       </div>
     </section>
@@ -190,7 +195,7 @@ const uses = {
           style="height: 782px"
           src="https://viewer.diagrams.net/?tags=%7B%7D&highlight=000000&ui=dark&edit=_blank&layers=1&nav=1&title=setup.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2FHacksore%2Fdesk-cables%2Fmaster%2Fsetup.drawio"
           title="Desk setup diagram"
-        />
+        ></iframe>
       </div>
     </section>
 
