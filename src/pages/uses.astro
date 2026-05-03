@@ -107,7 +107,6 @@ const uses = {
       <div class="grid gap-4 md:grid-cols-2">
         {uses.computers.map((item) => (
           <div
-            key={item.name}
             class="uses-card p-5 rounded-xl border border-(--color-card-border) bg-(--color-card-bg)"
           >
             <div class="font-semibold text-white">{item.name}</div>
@@ -116,7 +115,7 @@ const uses = {
             ) : (
               <dl class="mt-2 space-y-1 text-sm">
                 {Object.entries(item.spec).map(([key, value]) => (
-                  <div key={key} class="flex gap-2">
+                  <div class="flex gap-2">
                     <dt class="text-gray-500 shrink-0 uppercase">{key}:</dt>
                     <dd class="text-gray-400">{value}</dd>
                   </div>
@@ -168,7 +167,7 @@ const uses = {
       >
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {uses.hardware.map((item) => (
-            <div key={item.name}>
+            <div>
               <div class="text-sm text-gray-500">{item.name}</div>
               <div class="font-medium text-white">{item.value}</div>
             </div>
@@ -201,7 +200,19 @@ const uses = {
         <span class="text-gray-500">06</span>
         Desk Picture
       </h2>
-      <p class="text-gray-400 mb-4">TODO</p>
+      <p>I'll propbably make this an albumn at some point 😂</p>
+      <blockquote class="twitter-tweet" data-theme="dark">
+        <p lang="en" dir="ltr">
+          5 hours later and the setup is finally complete 😅<br><br>Probably should update my /uses
+          page now too <a href="https://t.co/K2fgPG7qvg">https://t.co/K2fgPG7qvg</a>
+          <a href="https://t.co/yYH6OhrmjN">pic.twitter.com/yYH6OhrmjN</a>
+        </p>
+        &mdash; Hacksore (@Hacksore)
+        <a href="https://twitter.com/Hacksore/status/2050711775906013546?ref_src=twsrc%5Etfw"
+          >May 2, 2026</a
+        >
+      </blockquote>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </section>
   </div>
 </Layout>
