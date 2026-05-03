@@ -7,7 +7,6 @@ import {
   SiNodedotjs,
   SiReact,
   SiRust,
-  SiShell,
 } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import { Button } from "./button";
