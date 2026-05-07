@@ -16,10 +16,7 @@ export const Navbar = ({
   items = [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
-    { label: "Cape", href: "/cape" },
-    { label: "HDR", href: "/hdr" },
     { label: "Uses", href: "/uses" },
-    { label: "Pics", href: "/pics" },
   ],
   className,
   currentPath = "",
