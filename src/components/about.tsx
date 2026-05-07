@@ -6,7 +6,7 @@ export const About = () => {
           Sean Boult
         </p>
       </div>
-      <p className="text-2xl">Full Stack developer who likes React</p>
+      <p className="text-2xl">Developer. Hacker. Creator.</p>
     </div>
   );
 };
