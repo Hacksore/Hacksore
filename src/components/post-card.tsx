@@ -18,6 +18,7 @@ export interface Post {
   tags?: string[];
   tag_list?: string[];
   comments_count?: number;
+  page_views_count?: number;
   public_reactions_count?: number;
   organization?: PostOrganization;
 }
@@ -31,18 +32,40 @@ export const PostCard = ({ post }: { post: Post }) => {
     });
   };
   const formatCount = (count?: number) => {
-    return new Intl.NumberFormat("en-US", { notation: "compact" }).format(count ?? 0);
+    return new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 1,
+      notation: "compact",
+    })
+      .format(count ?? 0)
+      .toLowerCase();
   };
-  const excerpt = post.content ?? post.description ?? "";
   const tags = post.tags ?? post.tag_list ?? [];
 
   return (
-    <a
-      href={post.url}
-      className="group flex h-full flex-col bg-(--color-card-bg) border border-(--color-card-border) rounded-lg overflow-hidden transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-(--color-card-border) bg-(--color-card-bg) transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10">
+      <a
+        href={post.url}
+        className="absolute inset-0 z-10"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Read ${post.title}`}
+      >
+        <span className="sr-only">Read {post.title}</span>
+      </a>
+
+      {post.organization?.slug === "aws" && (
+        <a
+          href="https://dev.to/aws"
+          className="absolute right-4 top-4 z-20 inline-flex items-center gap-1.5 rounded-full border border-gray-700/50 bg-gray-900/85 px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:border-(--color-primary) focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-gray-950"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit AWS on DEV"
+        >
+          <img src={post.organization.profile_image_90} alt="" className="h-4 w-4 rounded-full" />
+          <span>AWS</span>
+        </a>
+      )}
+
       {post.cover_image && (
         <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
           <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
@@ -57,12 +80,6 @@ export const PostCard = ({ post }: { post: Post }) => {
         <h3 className="text-2xl font-semibold leading-tight text-white mb-3 line-clamp-2 group-hover:text-(--color-primary) transition-colors">
           {post.title}
         </h3>
-
-        {excerpt && (
-          <p className="text-base leading-7 text-gray-300 line-clamp-3 mb-6">
-            {`${excerpt.replace(/<[^>]*>/g, "").substring(0, 180)}...`}
-          </p>
-        )}
 
         <div className="mt-auto flex items-end justify-between gap-4">
           {Array.isArray(tags) && tags.length > 0 ? (
@@ -81,6 +98,30 @@ export const PostCard = ({ post }: { post: Post }) => {
           )}
 
           <div className="flex shrink-0 items-center gap-4 text-sm text-gray-400">
+            <span className="inline-flex items-center gap-1.5">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"
+                />
+              </svg>
+              <span className="sr-only">Views: </span>
+              {formatCount(post.page_views_count)}
+            </span>
             <span className="inline-flex items-center gap-1.5">
               <svg
                 className="w-4 h-4"
@@ -119,20 +160,7 @@ export const PostCard = ({ post }: { post: Post }) => {
             </span>
           </div>
         </div>
-
-        {post.organization?.slug === "aws" && (
-          <div className="mt-4 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 bg-gray-900/85 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1.5 rounded-full border border-gray-700/50 shrink-0">
-              <img
-                src={post.organization.profile_image_90}
-                alt={post.organization.name}
-                className="w-4 h-4 rounded-full"
-              />
-              <span>AWS</span>
-            </div>
-          </div>
-        )}
       </div>
-    </a>
+    </article>
   );
 };
