@@ -7,14 +7,18 @@ export interface PostOrganization {
 }
 
 export interface Post {
-  id: string;
+  id: number | string;
   title: string;
   url: string;
-  content: string;
+  content?: string;
+  description?: string;
   cover_image?: string;
   published_at: string;
   reading_time_minutes?: number;
   tags?: string[];
+  tag_list?: string[];
+  comments_count?: number;
+  public_reactions_count?: number;
   organization?: PostOrganization;
 }
 
@@ -26,51 +30,98 @@ export const PostCard = ({ post }: { post: Post }) => {
       day: "numeric",
     });
   };
+  const formatCount = (count?: number) => {
+    return new Intl.NumberFormat("en-US", { notation: "compact" }).format(count ?? 0);
+  };
+  const excerpt = post.content ?? post.description ?? "";
+  const tags = post.tags ?? post.tag_list ?? [];
 
   return (
     <a
       href={post.url}
-      className="group block bg-(--color-card-bg) border border-(--color-card-border) rounded-lg overflow-hidden transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10"
+      className="group flex h-full flex-col bg-(--color-card-bg) border border-(--color-card-border) rounded-lg overflow-hidden transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10"
       target="_blank"
       rel="noopener noreferrer"
     >
       {post.cover_image && (
-        <div className="aspect-video overflow-hidden bg-gray-900">
+        <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
           <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
         </div>
       )}
 
-      <div className="p-6">
+      <div className="flex flex-1 flex-col p-6 md:p-7">
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
           <time>{formatDate(post.published_at)}</time>
         </div>
 
-        <h3 className="text-xl font-semibold text-white mb-3 line-clamp-2 group-hover:text-(--color-primary) transition-colors">
+        <h3 className="text-2xl font-semibold leading-tight text-white mb-3 line-clamp-2 group-hover:text-(--color-primary) transition-colors">
           {post.title}
         </h3>
 
-        <p className="text-gray-300 line-clamp-3 mb-4">
-          {post.content ? `${post.content.replace(/<[^>]*>/g, "").substring(0, 150)}...` : ""}
-        </p>
+        {excerpt && (
+          <p className="text-base leading-7 text-gray-300 line-clamp-3 mb-6">
+            {`${excerpt.replace(/<[^>]*>/g, "").substring(0, 180)}...`}
+          </p>
+        )}
 
-        <div className="flex items-center justify-between gap-2">
-          {post.tags && Array.isArray(post.tags) && post.tags.length > 0 ? (
+        <div className="mt-auto flex items-end justify-between gap-4">
+          {Array.isArray(tags) && tags.length > 0 ? (
             <div className="flex flex-wrap gap-2">
-              {post.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-md">
+              {tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2.5 py-1 text-xs bg-gray-800 text-gray-300 rounded-md"
+                >
                   #{tag}
                 </span>
               ))}
-              {post.tags.length > 3 && (
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-md">
-                  +{post.tags.length - 3}
-                </span>
-              )}
             </div>
           ) : (
             <div />
           )}
-          {post.organization?.slug === "aws" && (
+
+          <div className="flex shrink-0 items-center gap-4 text-sm text-gray-400">
+            <span className="inline-flex items-center gap-1.5">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"
+                />
+              </svg>
+              <span className="sr-only">Reactions: </span>
+              {formatCount(post.public_reactions_count)}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M8 10h8m-8 4h5m8-2a9 9 0 1 1-4.2-7.6L21 3l-1.4 4.2A8.96 8.96 0 0 1 21 12z"
+                />
+              </svg>
+              <span className="sr-only">Comments: </span>
+              {formatCount(post.comments_count)}
+            </span>
+          </div>
+        </div>
+
+        {post.organization?.slug === "aws" && (
+          <div className="mt-4 flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 bg-gray-900/85 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1.5 rounded-full border border-gray-700/50 shrink-0">
               <img
                 src={post.organization.profile_image_90}
@@ -79,8 +130,8 @@ export const PostCard = ({ post }: { post: Post }) => {
               />
               <span>AWS</span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </a>
   );

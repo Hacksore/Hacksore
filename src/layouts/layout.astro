@@ -40,6 +40,7 @@ const {
   title = "Sean Boult | Portfolio",
   description = "Developer. Hacker. Creator",
   ogImage = "/img/og.png",
+  mainClass = "max-w-3xl",
 } = Astro.props;
 
 const ogImageUrl = getOgImageUrl(ogImage);
@@ -80,7 +81,8 @@ const shouldRenderComments = !ingnoredCommentPaths.includes(Astro.url.pathname);
     <Navbar currentPath={Astro.url.pathname} client:load />
     <main
       class:list={[
-        "max-w-3xl mx-auto pt-10 mb-10",
+        mainClass,
+        "mx-auto pt-10 mb-10",
         shouldRenderComments && "pb-16 md:pb-24",
       ]}
     >
