@@ -7,7 +7,7 @@ import { defineConfig, envField } from "astro/config";
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  site: "https://hacksore.com",
+  site: "https://seanboult.dev",
   output: "server",
   compressHTML: true,
   vite: {
