@@ -26,7 +26,7 @@ const latestArticles = [...allArticles]
   .filter((post) => post.cover_image)
   .slice(0, DISPLAY_COUNT);
 
-Astro.response.headers.set("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
 ---
 
 <Layout
