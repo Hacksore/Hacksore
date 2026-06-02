@@ -35,6 +35,22 @@ export default defineConfig({
       R2_ACCESS_KEY_ID: envField.string({ context: "server", access: "secret" }),
       R2_SECRET_ACCESS_KEY: envField.string({ context: "server", access: "secret" }),
       DEVTO_TOKEN: envField.string({ context: "server", access: "secret" }),
+      RESEND_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+      RESEND_AUDIENCE_ID: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      NEWSLETTER_FROM_EMAIL: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      NEWSLETTER_CRON_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
     }
   },
   integrations: [

@@ -1,6 +1,7 @@
 ---
 import { DEVTO_TOKEN } from "astro:env/server";
 import { About } from "../components/about";
+import { NewsletterSubscribe } from "../components/newsletter-subscribe";
 import type { Post } from "../components/post-card";
 import { PostCard } from "../components/post-card";
 import { Social } from "../components/social";
@@ -36,6 +37,7 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-r
   <section class="flex justify-center"><About client:load /></section>
 
   <section><Social client:load /></section>
+  <section><NewsletterSubscribe client:load /></section>
 
   <section class="mt-10 mb-16 md:mb-20">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
