@@ -1,5 +1,5 @@
-import { FaCalendar } from "react-icons/fa";
-import { SiDiscord, SiGithub, SiLinkedin, SiX } from "react-icons/si";
+import { FaCalendar, FaLinkedin } from "react-icons/fa";
+import { SiDiscord, SiGithub, SiX } from "react-icons/si";
 import { Button } from "./button";
 import { Email } from "./icons/email";
 
@@ -12,7 +12,7 @@ const SOCIALS = [
   {
     title: "Linkedin",
     url: "https://www.linkedin.com/in/seanboult",
-    icon: () => <SiLinkedin />,
+    icon: () => <FaLinkedin />,
   },
   {
     title: "X / Twitter",
