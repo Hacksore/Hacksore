@@ -18,10 +18,19 @@ export default defineConfig({
       cssCodeSplit: false,
       rollupOptions: {
         output: {
-          manualChunks: {
-            "react-vendor": ["react", "react-dom"],
-            "react-icons": ["react-icons"],
-            skinview3d: ["react-skinview3d"],
+          manualChunks(id) {
+            if (id.includes("/node_modules/react-icons/")) {
+              return "react-icons";
+            }
+            if (id.includes("/node_modules/react-skinview3d/")) {
+              return "skinview3d";
+            }
+            if (
+              id.includes("/node_modules/react/") ||
+              id.includes("/node_modules/react-dom/")
+            ) {
+              return "react-vendor";
+            }
           },
         },
       },
