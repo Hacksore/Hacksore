@@ -6,7 +6,7 @@ on:
     branches:
       - "master"
 env:
-  NODE_VERSION: "22"
+  NODE_VERSION: "24.x"
 
 jobs:
   build-web:
@@ -24,7 +24,7 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
       - uses: pnpm/action-setup@v3
         with:
-          version: 10
+          version: 11.8.0
       - name: Get pnpm store directory
         shell: bash
         run: |
