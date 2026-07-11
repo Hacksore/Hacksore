@@ -67,42 +67,42 @@ export const resolvePostCoverImage = (post: Post) => {
   return post.cover_image;
 };
 
-function titleHue(title: string): number {
+function titleSeed(title: string): number {
   let hash = 0;
   for (let i = 0; i < title.length; i++) {
     hash = (hash * 31 + title.charCodeAt(i)) >>> 0;
   }
-  return hash % 360;
+  return hash;
 }
 
 const PlaceholderImage = ({ title }: { title: string }) => {
-  const hue = titleHue(title);
+  const seed = titleSeed(title);
+  const hue = seed % 360;
+  const filterId = `fractal-${seed}`;
+
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        background: `linear-gradient(135deg, #0f172a 0%, hsl(${hue}, 30%, 12%) 100%)`,
-        display: "flex",
-        alignItems: "center",
-        padding: "0 48px",
-      }}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="100%"
+      height="100%"
+      style={{ display: "block" }}
+      aria-hidden="true"
     >
-      <span
-        style={{
-          color: "white",
-          fontSize: "clamp(1.25rem, 3vw, 2rem)",
-          fontWeight: "700",
-          lineHeight: "1.4",
-          display: "-webkit-box",
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
-        }}
-      >
-        {title}
-      </span>
-    </div>
+      <defs>
+        <filter id={filterId} x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.012 0.02"
+            numOctaves="6"
+            seed={seed}
+            result="noise"
+          />
+          <feColorMatrix type="hueRotate" values={String(hue)} in="noise" result="hued" />
+          <feColorMatrix type="saturate" values="6" in="hued" />
+        </filter>
+      </defs>
+      <rect width="100%" height="100%" filter={`url(#${filterId})`} />
+    </svg>
   );
 };
 
