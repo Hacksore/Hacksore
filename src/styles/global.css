@@ -139,3 +139,52 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.bidwatch-callout {
+  --bidwatch-callout-angle: 0deg;
+  overflow: hidden;
+}
+
+.bidwatch-callout::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  padding: 1px;
+  background: conic-gradient(
+    from var(--bidwatch-callout-angle),
+    rgba(255, 255, 255, 0) 0deg,
+    rgba(255, 255, 255, 0) 190deg,
+    rgba(255, 255, 255, 0.95) 270deg,
+    rgba(255, 255, 255, 0) 360deg
+  );
+  animation: bidwatch-conic-spin 3.8s linear infinite;
+  border-radius: inherit;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+@property --bidwatch-callout-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes bidwatch-conic-spin {
+  to {
+    --bidwatch-callout-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bidwatch-callout::before {
+    animation: none;
+  }
+}
