@@ -79,28 +79,45 @@ const PlaceholderImage = ({ title }: { title: string }) => {
   const seed = titleSeed(title);
   const hue = seed % 360;
 
-  // 6-color neon palette hue-shifted per post title
-  const palette = [
-    `hsl(${hue},100%,55%)`,
-    `hsl(${(hue + 60) % 360},100%,55%)`,
-    `hsl(${(hue + 120) % 360},100%,55%)`,
-    `hsl(${(hue + 180) % 360},100%,60%)`,
-    `hsl(${(hue + 240) % 360},100%,60%)`,
-    `hsl(${(hue + 300) % 360},100%,60%)`,
-  ];
+  const COLS = 20;
+  const ROWS = 11;
 
-  // 32×18 pixel grid (16:9) — each cell is a chunky 8-bit "pixel"
-  const COLS = 32;
-  const ROWS = 18;
-  type Pixel = { x: number; y: number; c: string };
+  const lcg = (s: number) => (s * 1664525 + 1013904223) >>> 0;
+
+  // Minecraft-inspired block colors, hue-shifted per post
+  const skyColor   = `hsl(${(hue + 210) % 360},70%,18%)`;
+  const grassColor = `hsl(${hue},85%,42%)`;
+  const dirtColor  = `hsl(${(hue + 18) % 360},55%,24%)`;
+  const stoneColor = `hsl(${(hue + 22) % 360},20%,18%)`;
+  const oreColor   = `hsl(${(hue + 180) % 360},100%,58%)`;
+
+  // Per-column seeded terrain height (5–8 blocks from bottom)
+  const heights: number[] = [];
+  let s = seed;
+  for (let col = 0; col < COLS; col++) {
+    s = lcg(s ^ (col * 2654435761));
+    heights.push(5 + (s % 4));
+  }
+
+  // Build every cell — sky above terrain, layered blocks below
+  type Pixel = { x: number; y: number; color: string };
   const pixels: Pixel[] = [];
-  let rng = seed;
-  for (let y = 0; y < ROWS; y++) {
-    for (let x = 0; x < COLS; x++) {
-      rng = (rng * 1664525 + 1013904223) >>> 0;
-      if ((rng & 0xff) < 90) {
-        pixels.push({ x, y, c: palette[(rng >> 8) % palette.length] });
+  s = seed ^ 0xdeadbeef;
+  for (let col = 0; col < COLS; col++) {
+    const surfaceRow = ROWS - heights[col];
+    for (let row = 0; row < ROWS; row++) {
+      let color: string;
+      if (row < surfaceRow) {
+        color = skyColor;
+      } else if (row === surfaceRow) {
+        color = grassColor;
+      } else if (row <= surfaceRow + 2) {
+        color = dirtColor;
+      } else {
+        s = lcg(s ^ (row * 2246822519) ^ (col * 3266489917));
+        color = (s & 0xff) < 38 ? oreColor : stoneColor;
       }
+      pixels.push({ x: col, y: row, color });
     }
   }
 
@@ -114,9 +131,8 @@ const PlaceholderImage = ({ title }: { title: string }) => {
       style={{ display: "block" }}
       aria-hidden="true"
     >
-      <rect width={COLS} height={ROWS} fill="#050d1a" />
-      {pixels.map(({ x, y, c }) => (
-        <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={c} />
+      {pixels.map(({ x, y, color }) => (
+        <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={color} />
       ))}
     </svg>
   );
