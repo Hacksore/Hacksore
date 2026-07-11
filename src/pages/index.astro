@@ -39,22 +39,13 @@ const debugRows = sortedArticles.slice(0, 12).map((post) => {
     resolved_cover_image: resolvedCoverImage ?? null,
   };
 });
-
-if (debugPosts) {
-  console.log(
-    "[devto-debug] Homepage post diagnostics",
-    JSON.stringify(
-      {
-        totalFetched: allArticles.length,
-        renderableCount: sortedArticles.filter((post) => resolvePostCoverImage(post)).length,
-        displayingCount: latestArticles.length,
-        rows: debugRows,
-      },
-      null,
-      2,
-    ),
-  );
-}
+const debugPayload = {
+  totalFetched: allArticles.length,
+  renderableCount: sortedArticles.filter((post) => resolvePostCoverImage(post)).length,
+  displayingCount: latestArticles.length,
+  rows: debugRows,
+};
+const debugPayloadString = JSON.stringify(debugPayload, null, 2);
 
 Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
 ---
@@ -71,23 +62,18 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-r
     <BidwatchCallout />
     {
       debugPosts && (
-        <details class="mb-6 rounded-lg border border-amber-500/60 bg-amber-500/10 p-4 text-sm text-amber-100">
-          <summary class="cursor-pointer font-semibold">DEV posts debug (debugPosts=1)</summary>
-          <pre class="mt-3 overflow-x-auto whitespace-pre-wrap break-words text-xs">
-            {
-              JSON.stringify(
-                {
-                  totalFetched: allArticles.length,
-                  renderableCount: sortedArticles.filter((post) => resolvePostCoverImage(post)).length,
-                  displayingCount: latestArticles.length,
-                  rows: debugRows,
-                },
-                null,
-                2,
-              )
-            }
-          </pre>
-        </details>
+        <>
+          <script type="application/json" id="devto-debug-data" set:html={debugPayloadString} />
+          <details class="mb-6 rounded-lg border border-amber-500/60 bg-amber-500/10 p-4 text-sm text-amber-100">
+            <summary class="cursor-pointer font-semibold">DEV posts debug (debugPosts=1)</summary>
+            <p class="mt-2 text-xs text-amber-200">
+              Raw payload is also embedded in <code>#devto-debug-data</code> for copy/paste from the DOM.
+            </p>
+            <pre class="mt-3 overflow-x-auto whitespace-pre-wrap break-words text-xs">
+              {debugPayloadString}
+            </pre>
+          </details>
+        </>
       )
     }
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
