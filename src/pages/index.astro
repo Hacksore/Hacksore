@@ -3,7 +3,7 @@ import { DEVTO_TOKEN } from "astro:env/server";
 import { About } from "../components/about";
 import { BidwatchCallout } from "../components/bidwatch-callout";
 import type { Post } from "../components/post-card";
-import { PostCard } from "../components/post-card";
+import { PostCard, resolvePostCoverImage } from "../components/post-card";
 import { Social } from "../components/social";
 import Layout from "../layouts/layout.astro";
 
@@ -24,7 +24,7 @@ const byPublishedDesc = (a: Post, b: Post) =>
 
 const latestArticles = [...allArticles]
   .sort(byPublishedDesc)
-  .filter((post) => post.cover_image)
+  .filter((post) => resolvePostCoverImage(post))
   .slice(0, DISPLAY_COUNT);
 
 Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");

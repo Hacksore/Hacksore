@@ -13,6 +13,9 @@ export interface Post {
   content?: string;
   description?: string;
   cover_image?: string;
+  social_image?: string;
+  video?: string;
+  video_url?: string;
   published_at: string;
   reading_time_minutes?: number;
   tags?: string[];
@@ -22,6 +25,42 @@ export interface Post {
   public_reactions_count?: number;
   organization?: PostOrganization;
 }
+
+const getYouTubeVideoId = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    const hostname = parsedUrl.hostname.toLowerCase();
+
+    if (hostname === "youtu.be") {
+      return parsedUrl.pathname.slice(1) || undefined;
+    }
+
+    if (hostname === "youtube.com" || hostname === "www.youtube.com") {
+      if (parsedUrl.pathname === "/watch") {
+        return parsedUrl.searchParams.get("v") ?? undefined;
+      }
+
+      if (parsedUrl.pathname.startsWith("/embed/")) {
+        return parsedUrl.pathname.split("/")[2] || undefined;
+      }
+    }
+  } catch {
+    return undefined;
+  }
+};
+
+export const resolvePostCoverImage = (post: Post) => {
+  if (!post.cover_image) {
+    return post.social_image;
+  }
+
+  const youtubeVideoId = getYouTubeVideoId(post.cover_image);
+  if (youtubeVideoId) {
+    return `https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg`;
+  }
+
+  return post.cover_image;
+};
 
 export const PostCard = ({ post }: { post: Post }) => {
   const formatDate = (dateString: string) => {
@@ -40,6 +79,7 @@ export const PostCard = ({ post }: { post: Post }) => {
       .toLowerCase();
   };
   const tags = post.tags ?? post.tag_list ?? [];
+  const coverImage = resolvePostCoverImage(post);
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-(--color-card-border) bg-(--color-card-bg) transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10">
@@ -66,9 +106,9 @@ export const PostCard = ({ post }: { post: Post }) => {
         </a>
       )}
 
-      {post.cover_image && (
+      {coverImage && (
         <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
-          <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
+          <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
         </div>
       )}
 
