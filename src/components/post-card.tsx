@@ -78,79 +78,45 @@ function titleSeed(title: string): number {
 const PlaceholderImage = ({ title }: { title: string }) => {
   const seed = titleSeed(title);
   const hue = seed % 360;
-  const hue2 = (hue + 150) % 360;
 
-  const ids = { glow: `gw${seed}`, grid: `gr${seed}`, bg: `bg${seed}` };
-  const col1 = `hsl(${hue},100%,55%)`;
-  const col2 = `hsl(${hue2},100%,60%)`;
+  // 6-color neon palette hue-shifted per post title
+  const palette = [
+    `hsl(${hue},100%,55%)`,
+    `hsl(${(hue + 60) % 360},100%,55%)`,
+    `hsl(${(hue + 120) % 360},100%,55%)`,
+    `hsl(${(hue + 180) % 360},100%,60%)`,
+    `hsl(${(hue + 240) % 360},100%,60%)`,
+    `hsl(${(hue + 300) % 360},100%,60%)`,
+  ];
 
-  // Deterministic active nodes on a 10×6 grid (viewBox 0 0 100 60)
-  type Node = { x: number; y: number };
-  const nodes: Node[] = [];
-  for (let col = 1; col <= 9; col++) {
-    for (let row = 1; row <= 5; row++) {
-      const h = (((seed ^ (col * 73856093)) ^ (row * 19349663)) * 1664525 + 1013904223) >>> 0;
-      if ((h & 0xff) < 70) {
-        nodes.push({ x: col * 10, y: row * 10 });
+  // 32×18 pixel grid (16:9) — each cell is a chunky 8-bit "pixel"
+  const COLS = 32;
+  const ROWS = 18;
+  type Pixel = { x: number; y: number; c: string };
+  const pixels: Pixel[] = [];
+  let rng = seed;
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      rng = (rng * 1664525 + 1013904223) >>> 0;
+      if ((rng & 0xff) < 90) {
+        pixels.push({ x, y, c: palette[(rng >> 8) % palette.length] });
       }
     }
   }
 
-  // L-shaped circuit traces between node pairs
-  const traces = nodes.map((a, i) => {
-    const b = nodes[(i + 3) % nodes.length];
-    return { d: `M${a.x},${a.y} H${b.x} V${b.y}`, color: i % 3 === 0 ? col2 : col1 };
-  });
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 60"
+      viewBox={`0 0 ${COLS} ${ROWS}`}
       preserveAspectRatio="xMidYMid slice"
       width="100%"
       height="100%"
       style={{ display: "block" }}
       aria-hidden="true"
     >
-      <defs>
-        <filter id={ids.glow} x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation="1.5" result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <pattern id={ids.grid} width="10" height="10" patternUnits="userSpaceOnUse">
-          <rect width="10" height="10" fill="none" stroke={col1} strokeWidth="0.08" opacity="0.25" />
-        </pattern>
-        <linearGradient id={ids.bg} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#060d1a" />
-          <stop offset="100%" stopColor={`hsl(${hue},30%,5%)`} />
-        </linearGradient>
-      </defs>
-
-      {/* Dark background */}
-      <rect width="100" height="60" fill={`url(#${ids.bg})`} />
-      {/* Geometric grid */}
-      <rect width="100" height="60" fill={`url(#${ids.grid})`} />
-
-      {/* Circuit traces */}
-      <g opacity="0.75" filter={`url(#${ids.glow})`}>
-        {traces.map(({ d, color }) => (
-          <path key={d} d={d} fill="none" stroke={color} strokeWidth="0.3" />
-        ))}
-      </g>
-
-      {/* Glowing nodes at active intersections */}
-      {nodes.map((n) => (
-        <circle
-          key={`${n.x}-${n.y}`}
-          cx={n.x}
-          cy={n.y}
-          r={0.9}
-          fill={(n.x + n.y) % 20 === 0 ? col2 : col1}
-          filter={`url(#${ids.glow})`}
-        />
+      <rect width={COLS} height={ROWS} fill="#050d1a" />
+      {pixels.map(({ x, y, c }) => (
+        <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={c} />
       ))}
     </svg>
   );
