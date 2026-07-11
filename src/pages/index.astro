@@ -3,7 +3,7 @@ import { DEVTO_TOKEN } from "astro:env/server";
 import { About } from "../components/about";
 import { BidwatchCallout } from "../components/bidwatch-callout";
 import type { Post } from "../components/post-card";
-import { PostCard, resolvePostCoverImage } from "../components/post-card";
+import { PostCard } from "../components/post-card";
 import { Social } from "../components/social";
 import Layout from "../layouts/layout.astro";
 
@@ -23,29 +23,7 @@ const byPublishedDesc = (a: Post, b: Post) =>
   new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
 
 const sortedArticles = [...allArticles].sort(byPublishedDesc);
-const latestArticles = sortedArticles
-  .filter((post) => resolvePostCoverImage(post))
-  .slice(0, DISPLAY_COUNT);
-const debugPosts = Astro.url.searchParams.get("debugPosts") === "1";
-const debugRows = sortedArticles.slice(0, 12).map((post) => {
-  const resolvedCoverImage = resolvePostCoverImage(post);
-  return {
-    id: post.id,
-    title: post.title,
-    published_at: post.published_at,
-    renderable: Boolean(resolvedCoverImage),
-    cover_image: post.cover_image ?? null,
-    social_image: post.social_image ?? null,
-    resolved_cover_image: resolvedCoverImage ?? null,
-  };
-});
-const debugPayload = {
-  totalFetched: allArticles.length,
-  renderableCount: sortedArticles.filter((post) => resolvePostCoverImage(post)).length,
-  displayingCount: latestArticles.length,
-  rows: debugRows,
-};
-const debugPayloadString = JSON.stringify(debugPayload, null, 2);
+const latestArticles = sortedArticles.slice(0, DISPLAY_COUNT);
 
 Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
 ---
@@ -60,22 +38,6 @@ Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-r
 
   <section class="mt-10 mb-16 md:mb-20">
     <BidwatchCallout />
-    {
-      debugPosts && (
-        <>
-          <script type="application/json" id="devto-debug-data" set:html={debugPayloadString} />
-          <details class="mb-6 rounded-lg border border-amber-500/60 bg-amber-500/10 p-4 text-sm text-amber-100">
-            <summary class="cursor-pointer font-semibold">DEV posts debug (debugPosts=1)</summary>
-            <p class="mt-2 text-xs text-amber-200">
-              Raw payload is also embedded in <code>#devto-debug-data</code> for copy/paste from the DOM.
-            </p>
-            <pre class="mt-3 overflow-x-auto whitespace-pre-wrap break-words text-xs">
-              {debugPayloadString}
-            </pre>
-          </details>
-        </>
-      )
-    }
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
       {latestArticles.map((post) => <PostCard post={post} />)}
     </div>
