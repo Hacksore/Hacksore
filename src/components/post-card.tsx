@@ -51,15 +51,27 @@ const getYouTubeVideoId = (url: string) => {
 
 export const resolvePostCoverImage = (post: Post) => {
   if (!post.cover_image) {
+    // Try to get a YouTube thumbnail from the video URL when there's no cover image
+    const videoYouTubeId = post.video_url ? getYouTubeVideoId(post.video_url) : undefined;
+    if (videoYouTubeId) {
+      return `https://img.youtube.com/vi/${videoYouTubeId}/maxresdefault.jpg`;
+    }
     return post.social_image;
   }
 
   const youtubeVideoId = getYouTubeVideoId(post.cover_image);
   if (youtubeVideoId) {
-    return `https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg`;
+    return `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`;
   }
 
   return post.cover_image;
+};
+
+export const generatePlaceholderUrl = (post: Post) => {
+  const tags = (post.tags ?? post.tag_list ?? []).slice(0, 4).join(",");
+  const params = new URLSearchParams({ title: post.title });
+  if (tags) params.set("tags", tags);
+  return `/api/og?${params.toString()}`;
 };
 
 export const PostCard = ({ post }: { post: Post }) => {
@@ -79,7 +91,7 @@ export const PostCard = ({ post }: { post: Post }) => {
       .toLowerCase();
   };
   const tags = post.tags ?? post.tag_list ?? [];
-  const coverImage = resolvePostCoverImage(post);
+  const coverImage = resolvePostCoverImage(post) ?? generatePlaceholderUrl(post);
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-(--color-card-border) bg-(--color-card-bg) transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10">
@@ -106,11 +118,9 @@ export const PostCard = ({ post }: { post: Post }) => {
         </a>
       )}
 
-      {coverImage && (
-        <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
-          <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
-        </div>
-      )}
+      <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
+        <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
+      </div>
 
       <div className="flex flex-1 flex-col p-6 md:p-7">
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
