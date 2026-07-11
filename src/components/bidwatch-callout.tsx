@@ -11,7 +11,7 @@ export const BidwatchCallout = () => {
       <span className="absolute inset-0.5 z-0 rounded-full bg-[#080b12]/75" />
       <span className="relative z-10 flex min-w-0 items-center gap-3">
         <span className="shrink-0 rounded-full bg-(--color-primary) px-2.5 py-1 text-[0.65rem] font-black uppercase tracking-[0.14em] text-white shadow-[0_0_24px_rgba(37,99,235,0.32)] ring-1 ring-white/20 transition duration-300 group-hover:ring-white/60">
-          New project
+          New
         </span>
         <span className="min-w-0 text-left">
           <span className="block truncate text-sm font-black sm:text-base">
