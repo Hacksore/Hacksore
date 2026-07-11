@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 export interface PostOrganization {
   name: string;
   username: string;
@@ -67,11 +69,85 @@ export const resolvePostCoverImage = (post: Post) => {
   return post.cover_image;
 };
 
-export const generatePlaceholderUrl = (post: Post) => {
-  const tags = (post.tags ?? post.tag_list ?? []).slice(0, 4).join(",");
-  const params = new URLSearchParams({ title: post.title });
-  if (tags) params.set("tags", tags);
-  return `/api/og?${params.toString()}`;
+const CANVAS_WIDTH = 1000;
+const CANVAS_HEIGHT = 420;
+
+function titleHue(title: string): number {
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) {
+    hash = (hash * 31 + title.charCodeAt(i)) >>> 0;
+  }
+  return hash % 360;
+}
+
+const PlaceholderImage = ({ title }: { title: string }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const hue = titleHue(title);
+
+    // Gradient background
+    const gradient = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    gradient.addColorStop(0, "#0f172a");
+    gradient.addColorStop(1, `hsl(${hue}, 25%, 10%)`);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    // Title text
+    const fontSize = 40;
+    const lineHeight = 56;
+    const paddingX = 64;
+    const maxWidth = CANVAS_WIDTH - paddingX * 2;
+
+    ctx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif`;
+    ctx.fillStyle = "white";
+
+    // Word-wrap
+    const words = title.split(" ");
+    const lines: string[] = [];
+    let current = "";
+    for (const word of words) {
+      const candidate = current ? `${current} ${word}` : word;
+      if (ctx.measureText(candidate).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = candidate;
+      }
+    }
+    if (current) lines.push(current);
+
+    // Cap to 3 lines with ellipsis
+    const maxLines = 3;
+    const display = lines.slice(0, maxLines);
+    if (lines.length > maxLines) {
+      let last = display[maxLines - 1];
+      while (ctx.measureText(`${last}…`).width > maxWidth && last.length > 0) {
+        last = last.slice(0, -1);
+      }
+      display[maxLines - 1] = `${last}…`;
+    }
+
+    const totalHeight = display.length * lineHeight;
+    const startY = (CANVAS_HEIGHT - totalHeight) / 2 + fontSize;
+    for (let i = 0; i < display.length; i++) {
+      ctx.fillText(display[i], paddingX, startY + i * lineHeight);
+    }
+  }, [title]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={CANVAS_WIDTH}
+      height={CANVAS_HEIGHT}
+      className="w-full h-full"
+    />
+  );
 };
 
 export const PostCard = ({ post }: { post: Post }) => {
@@ -91,7 +167,7 @@ export const PostCard = ({ post }: { post: Post }) => {
       .toLowerCase();
   };
   const tags = post.tags ?? post.tag_list ?? [];
-  const coverImage = resolvePostCoverImage(post) ?? generatePlaceholderUrl(post);
+  const coverImage = resolvePostCoverImage(post);
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-(--color-card-border) bg-(--color-card-bg) transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10">
@@ -119,7 +195,11 @@ export const PostCard = ({ post }: { post: Post }) => {
       )}
 
       <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
-        <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
+        {coverImage ? (
+          <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
+        ) : (
+          <PlaceholderImage title={post.title} />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-6 md:p-7">
