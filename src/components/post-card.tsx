@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-
 export interface PostOrganization {
   name: string;
   username: string;
@@ -69,9 +67,6 @@ export const resolvePostCoverImage = (post: Post) => {
   return post.cover_image;
 };
 
-const CANVAS_WIDTH = 1000;
-const CANVAS_HEIGHT = 420;
-
 function titleHue(title: string): number {
   let hash = 0;
   for (let i = 0; i < title.length; i++) {
@@ -81,72 +76,33 @@ function titleHue(title: string): number {
 }
 
 const PlaceholderImage = ({ title }: { title: string }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const hue = titleHue(title);
-
-    // Gradient background
-    const gradient = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    gradient.addColorStop(0, "#0f172a");
-    gradient.addColorStop(1, `hsl(${hue}, 25%, 10%)`);
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-    // Title text
-    const fontSize = 40;
-    const lineHeight = 56;
-    const paddingX = 64;
-    const maxWidth = CANVAS_WIDTH - paddingX * 2;
-
-    ctx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif`;
-    ctx.fillStyle = "white";
-
-    // Word-wrap
-    const words = title.split(" ");
-    const lines: string[] = [];
-    let current = "";
-    for (const word of words) {
-      const candidate = current ? `${current} ${word}` : word;
-      if (ctx.measureText(candidate).width > maxWidth && current) {
-        lines.push(current);
-        current = word;
-      } else {
-        current = candidate;
-      }
-    }
-    if (current) lines.push(current);
-
-    // Cap to 3 lines with ellipsis
-    const maxLines = 3;
-    const display = lines.slice(0, maxLines);
-    if (lines.length > maxLines) {
-      let last = display[maxLines - 1];
-      while (ctx.measureText(`${last}…`).width > maxWidth && last.length > 0) {
-        last = last.slice(0, -1);
-      }
-      display[maxLines - 1] = `${last}…`;
-    }
-
-    const totalHeight = display.length * lineHeight;
-    const startY = (CANVAS_HEIGHT - totalHeight) / 2 + fontSize;
-    for (let i = 0; i < display.length; i++) {
-      ctx.fillText(display[i], paddingX, startY + i * lineHeight);
-    }
-  }, [title]);
-
+  const hue = titleHue(title);
   return (
-    <canvas
-      ref={canvasRef}
-      width={CANVAS_WIDTH}
-      height={CANVAS_HEIGHT}
-      className="w-full h-full"
-    />
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: `linear-gradient(135deg, #0f172a 0%, hsl(${hue}, 30%, 12%) 100%)`,
+        display: "flex",
+        alignItems: "center",
+        padding: "0 48px",
+      }}
+    >
+      <span
+        style={{
+          color: "white",
+          fontSize: "clamp(1.25rem, 3vw, 2rem)",
+          fontWeight: "700",
+          lineHeight: "1.4",
+          display: "-webkit-box",
+          WebkitLineClamp: 3,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+        }}
+      >
+        {title}
+      </span>
+    </div>
   );
 };
 
