@@ -78,30 +78,80 @@ function titleSeed(title: string): number {
 const PlaceholderImage = ({ title }: { title: string }) => {
   const seed = titleSeed(title);
   const hue = seed % 360;
-  const filterId = `fractal-${seed}`;
+  const hue2 = (hue + 150) % 360;
+
+  const ids = { glow: `gw${seed}`, grid: `gr${seed}`, bg: `bg${seed}` };
+  const col1 = `hsl(${hue},100%,55%)`;
+  const col2 = `hsl(${hue2},100%,60%)`;
+
+  // Deterministic active nodes on a 10×6 grid (viewBox 0 0 100 60)
+  type Node = { x: number; y: number };
+  const nodes: Node[] = [];
+  for (let col = 1; col <= 9; col++) {
+    for (let row = 1; row <= 5; row++) {
+      const h = (((seed ^ (col * 73856093)) ^ (row * 19349663)) * 1664525 + 1013904223) >>> 0;
+      if ((h & 0xff) < 70) {
+        nodes.push({ x: col * 10, y: row * 10 });
+      }
+    }
+  }
+
+  // L-shaped circuit traces between node pairs
+  const traces = nodes.map((a, i) => {
+    const b = nodes[(i + 3) % nodes.length];
+    return { d: `M${a.x},${a.y} H${b.x} V${b.y}`, color: i % 3 === 0 ? col2 : col1 };
+  });
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 60"
+      preserveAspectRatio="xMidYMid slice"
       width="100%"
       height="100%"
       style={{ display: "block" }}
       aria-hidden="true"
     >
       <defs>
-        <filter id={filterId} x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.012 0.02"
-            numOctaves="6"
-            seed={seed}
-            result="noise"
-          />
-          <feColorMatrix type="hueRotate" values={String(hue)} in="noise" result="hued" />
-          <feColorMatrix type="saturate" values="6" in="hued" />
+        <filter id={ids.glow} x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="1.5" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
         </filter>
+        <pattern id={ids.grid} width="10" height="10" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="none" stroke={col1} strokeWidth="0.08" opacity="0.25" />
+        </pattern>
+        <linearGradient id={ids.bg} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#060d1a" />
+          <stop offset="100%" stopColor={`hsl(${hue},30%,5%)`} />
+        </linearGradient>
       </defs>
-      <rect width="100%" height="100%" filter={`url(#${filterId})`} />
+
+      {/* Dark background */}
+      <rect width="100" height="60" fill={`url(#${ids.bg})`} />
+      {/* Geometric grid */}
+      <rect width="100" height="60" fill={`url(#${ids.grid})`} />
+
+      {/* Circuit traces */}
+      <g opacity="0.75" filter={`url(#${ids.glow})`}>
+        {traces.map(({ d, color }) => (
+          <path key={d} d={d} fill="none" stroke={color} strokeWidth="0.3" />
+        ))}
+      </g>
+
+      {/* Glowing nodes at active intersections */}
+      {nodes.map((n) => (
+        <circle
+          key={`${n.x}-${n.y}`}
+          cx={n.x}
+          cy={n.y}
+          r={0.9}
+          fill={(n.x + n.y) % 20 === 0 ? col2 : col1}
+          filter={`url(#${ids.glow})`}
+        />
+      ))}
     </svg>
   );
 };
