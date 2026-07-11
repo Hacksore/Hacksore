@@ -22,10 +22,8 @@ const allArticles = (await fetch(
 const byPublishedDesc = (a: Post, b: Post) =>
   new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
 
-const latestArticles = [...allArticles]
-  .sort(byPublishedDesc)
-  .filter((post) => post.cover_image)
-  .slice(0, DISPLAY_COUNT);
+const sortedArticles = [...allArticles].sort(byPublishedDesc);
+const latestArticles = sortedArticles.slice(0, DISPLAY_COUNT);
 
 Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
 ---
