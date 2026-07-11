@@ -51,15 +51,91 @@ const getYouTubeVideoId = (url: string) => {
 
 export const resolvePostCoverImage = (post: Post) => {
   if (!post.cover_image) {
+    // Try to get a YouTube thumbnail from the video URL when there's no cover image
+    const videoYouTubeId = post.video_url ? getYouTubeVideoId(post.video_url) : undefined;
+    if (videoYouTubeId) {
+      return `https://img.youtube.com/vi/${videoYouTubeId}/maxresdefault.jpg`;
+    }
     return post.social_image;
   }
 
   const youtubeVideoId = getYouTubeVideoId(post.cover_image);
   if (youtubeVideoId) {
-    return `https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg`;
+    return `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`;
   }
 
   return post.cover_image;
+};
+
+function titleSeed(title: string): number {
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) {
+    hash = (hash * 31 + title.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+}
+
+const PlaceholderImage = ({ title }: { title: string }) => {
+  const seed = titleSeed(title);
+  const hue = seed % 360;
+
+  const COLS = 20;
+  const ROWS = 11;
+
+  const lcg = (s: number) => (s * 1664525 + 1013904223) >>> 0;
+
+  // Minecraft-inspired block colors, hue-shifted per post
+  const skyColor   = `hsl(${(hue + 210) % 360},70%,18%)`;
+  const grassColor = `hsl(${hue},85%,42%)`;
+  const dirtColor  = `hsl(${(hue + 18) % 360},55%,24%)`;
+  const stoneColor = `hsl(${(hue + 22) % 360},20%,18%)`;
+  const oreColor   = `hsl(${(hue + 180) % 360},100%,58%)`;
+
+  // Per-column seeded terrain height (5–8 blocks from bottom)
+  const heights: number[] = [];
+  let s = seed;
+  for (let col = 0; col < COLS; col++) {
+    s = lcg(s ^ (col * 2654435761));
+    heights.push(5 + (s % 4));
+  }
+
+  // Build every cell — sky above terrain, layered blocks below
+  type Pixel = { x: number; y: number; color: string };
+  const pixels: Pixel[] = [];
+  s = seed ^ 0xdeadbeef;
+  for (let col = 0; col < COLS; col++) {
+    const surfaceRow = ROWS - heights[col];
+    for (let row = 0; row < ROWS; row++) {
+      let color: string;
+      if (row < surfaceRow) {
+        color = skyColor;
+      } else if (row === surfaceRow) {
+        color = grassColor;
+      } else if (row <= surfaceRow + 2) {
+        color = dirtColor;
+      } else {
+        s = lcg(s ^ (row * 2246822519) ^ (col * 3266489917));
+        color = (s & 0xff) < 38 ? oreColor : stoneColor;
+      }
+      pixels.push({ x: col, y: row, color });
+    }
+  }
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${COLS} ${ROWS}`}
+      preserveAspectRatio="xMidYMid slice"
+      width="100%"
+      height="100%"
+      style={{ display: "block" }}
+      aria-hidden="true"
+    >
+      {pixels.map(({ x, y, color }) => (
+        <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={color} />
+      ))}
+    </svg>
+  );
 };
 
 export const PostCard = ({ post }: { post: Post }) => {
@@ -106,11 +182,13 @@ export const PostCard = ({ post }: { post: Post }) => {
         </a>
       )}
 
-      {coverImage && (
-        <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
+      <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
+        {coverImage ? (
           <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
-        </div>
-      )}
+        ) : (
+          <PlaceholderImage title={post.title} />
+        )}
+      </div>
 
       <div className="flex flex-1 flex-col p-6 md:p-7">
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
