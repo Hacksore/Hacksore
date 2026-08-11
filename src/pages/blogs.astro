@@ -1,0 +1,63 @@
+---
+import { PostCard } from "../components/post-card";
+import Layout from "../layouts/layout.astro";
+import { byPublishedDesc, fetchAllPublishedArticles } from "../utils/devto";
+
+const allArticles = await fetchAllPublishedArticles();
+const sortedArticles = [...allArticles].sort(byPublishedDesc);
+
+const tags = [...new Set(sortedArticles.flatMap((post) => post.tags ?? post.tag_list ?? []))].sort(
+  (a, b) => a.localeCompare(b),
+);
+
+const selectedTag = Astro.url.searchParams.get("tag");
+const activeTag = selectedTag && tags.includes(selectedTag) ? selectedTag : null;
+
+const filteredArticles = activeTag
+  ? sortedArticles.filter((post) => (post.tags ?? post.tag_list ?? []).includes(activeTag))
+  : sortedArticles;
+
+Astro.response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
+---
+
+<Layout mainClass="max-w-6xl" description="All DEV.to blogs by Hacksore">
+  <section class="mt-8 mb-16 md:mb-20 px-4">
+    <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <h1 class="text-3xl font-bold text-white">All blogs</h1>
+      <a href="/" class="text-(--color-primary) hover:text-blue-400 transition-colors"
+        >← Back home</a
+      >
+    </div>
+
+    <div class="mb-8 flex flex-wrap gap-2">
+      <a
+        href="/blogs"
+        class:list={[
+          "rounded-md px-3 py-1.5 text-sm transition-colors",
+          activeTag
+            ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
+            : "bg-(--color-primary) text-white hover:bg-blue-600",
+        ]}
+      >
+        All
+      </a>
+      {tags.map((tag) => (
+        <a
+          href={`/blogs?tag=${encodeURIComponent(tag)}`}
+          class:list={[
+            "rounded-md px-3 py-1.5 text-sm transition-colors",
+            activeTag === tag
+              ? "bg-(--color-primary) text-white hover:bg-blue-600"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700",
+          ]}
+        >
+          #{tag}
+        </a>
+      ))}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {filteredArticles.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</Layout>
