@@ -85,11 +85,11 @@ const PlaceholderImage = ({ title }: { title: string }) => {
   const lcg = (s: number) => (s * 1664525 + 1013904223) >>> 0;
 
   // Minecraft-inspired block colors, hue-shifted per post
-  const skyColor   = `hsl(${(hue + 210) % 360},70%,18%)`;
+  const skyColor = `hsl(${(hue + 210) % 360},70%,18%)`;
   const grassColor = `hsl(${hue},85%,42%)`;
-  const dirtColor  = `hsl(${(hue + 18) % 360},55%,24%)`;
+  const dirtColor = `hsl(${(hue + 18) % 360},55%,24%)`;
   const stoneColor = `hsl(${(hue + 22) % 360},20%,18%)`;
-  const oreColor   = `hsl(${(hue + 180) % 360},100%,58%)`;
+  const oreColor = `hsl(${(hue + 180) % 360},100%,58%)`;
 
   // Per-column seeded terrain height (5–8 blocks from bottom)
   const heights: number[] = [];
@@ -154,7 +154,6 @@ export const PostCard = ({ post }: { post: Post }) => {
       .format(count ?? 0)
       .toLowerCase();
   };
-  const tags = post.tags ?? post.tag_list ?? [];
   const coverImage = resolvePostCoverImage(post);
 
   return (
@@ -199,22 +198,7 @@ export const PostCard = ({ post }: { post: Post }) => {
           {post.title}
         </h3>
 
-        <div className="mt-auto flex items-end justify-between gap-4">
-          {Array.isArray(tags) && tags.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {tags.slice(0, 3).map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 text-xs bg-gray-800 text-gray-300 rounded-md"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <div />
-          )}
-
+        <div className="mt-auto flex items-end justify-end gap-4">
           <div className="flex shrink-0 items-center gap-4 text-sm text-gray-400">
             <span className="inline-flex items-center gap-1.5">
               <svg
