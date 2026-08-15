@@ -168,19 +168,6 @@ export const PostCard = ({ post }: { post: Post }) => {
         <span className="sr-only">Read {post.title}</span>
       </a>
 
-      {post.organization?.slug === "aws" && (
-        <a
-          href="https://dev.to/aws"
-          className="absolute right-4 top-4 z-20 inline-flex items-center gap-1.5 rounded-full border border-gray-700/50 bg-gray-900/85 px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:border-(--color-primary) focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-gray-950"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit AWS on DEV"
-        >
-          <img src={post.organization.profile_image_90} alt="" className="h-4 w-4 rounded-full" />
-          <span>AWS</span>
-        </a>
-      )}
-
       <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
         {coverImage ? (
           <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
@@ -189,12 +176,29 @@ export const PostCard = ({ post }: { post: Post }) => {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-6 md:p-7">
-        <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+      <div className="flex flex-1 flex-col px-6 pb-6 pt-4 md:px-7 md:pb-7 md:pt-5">
+        <div className="mb-3 flex items-center justify-between gap-4 text-sm text-gray-400">
           <time>{formatDate(post.published_at)}</time>
+
+          {post.organization?.slug === "aws" && (
+            <a
+              href="https://dev.to/aws"
+              className="relative z-20 inline-flex shrink-0 items-center gap-1.5 rounded-full border border-gray-700/50 bg-gray-900/85 px-2.5 py-1.5 text-xs font-semibold text-white transition-colors hover:border-(--color-primary) focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-gray-950"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit AWS on DEV"
+            >
+              <img
+                src={post.organization.profile_image_90}
+                alt=""
+                className="h-4 w-4 rounded-full"
+              />
+              <span>AWS</span>
+            </a>
+          )}
         </div>
 
-        <h3 className="text-2xl font-semibold leading-tight text-white mb-3 line-clamp-2 group-hover:text-(--color-primary) transition-colors">
+        <h3 className="mb-3 text-2xl font-semibold leading-tight text-white line-clamp-2 group-hover:text-(--color-primary) transition-colors">
           {post.title}
         </h3>
 
