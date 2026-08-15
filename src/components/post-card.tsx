@@ -157,7 +157,7 @@ export const PostCard = ({ post }: { post: Post }) => {
   const coverImage = resolvePostCoverImage(post);
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-(--color-card-border) bg-(--color-card-bg) transition-all duration-300 hover:border-(--color-primary) hover:shadow-lg hover:shadow-(--color-primary)/10">
+    <article className="post-card relative flex h-full flex-col overflow-hidden border border-(--color-card-border) bg-(--color-card-bg)">
       <a
         href={post.url}
         className="absolute inset-0 z-10"
@@ -168,22 +168,22 @@ export const PostCard = ({ post }: { post: Post }) => {
         <span className="sr-only">Read {post.title}</span>
       </a>
 
-      <div className="aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
+      <div className="post-card-media aspect-video overflow-hidden bg-gray-900 border-b border-(--color-card-border)">
         {coverImage ? (
-          <img src={coverImage} alt={post.title} className="w-full h-full object-cover" />
+          <img src={coverImage} alt="" className="post-card-image h-full w-full object-cover" />
         ) : (
           <PlaceholderImage title={post.title} />
         )}
       </div>
 
-      <div className="flex flex-1 flex-col px-6 pb-6 pt-4 md:px-7 md:pb-7 md:pt-5">
-        <div className="mb-3 flex items-center justify-between gap-4 text-sm text-gray-400">
-          <time>{formatDate(post.published_at)}</time>
+      <div className="post-card-body flex flex-1 flex-col px-6 pb-5 pt-5 md:px-7 md:pb-6 md:pt-6">
+        <div className="post-card-kicker mb-4 flex items-center justify-between gap-4 text-gray-400">
+          <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
 
           {post.organization?.slug === "aws" && (
             <a
               href="https://dev.to/aws"
-              className="relative z-20 inline-flex shrink-0 items-center gap-1.5 rounded-full border border-gray-700/50 bg-gray-900/85 px-2.5 py-1.5 text-xs font-semibold text-white transition-colors hover:border-(--color-primary) focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-gray-950"
+              className="post-card-org relative z-20 inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/4 py-1 pl-1 pr-2.5 text-white focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:ring-offset-2 focus:ring-offset-gray-950"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit AWS on DEV"
@@ -191,19 +191,21 @@ export const PostCard = ({ post }: { post: Post }) => {
               <img
                 src={post.organization.profile_image_90}
                 alt=""
-                className="h-4 w-4 rounded-full"
+                className="h-5 w-5 rounded-full"
               />
               <span>AWS</span>
             </a>
           )}
         </div>
 
-        <h3 className="mb-3 text-2xl font-semibold leading-tight text-white line-clamp-2 group-hover:text-(--color-primary) transition-colors">
-          {post.title}
-        </h3>
+        <h3 className="post-card-title line-clamp-2 text-white">{post.title}</h3>
 
-        <div className="mt-auto flex items-end justify-end gap-4">
-          <div className="flex shrink-0 items-center gap-4 text-sm text-gray-400">
+        <div className="post-card-footer mt-auto flex items-center justify-between gap-5 border-t border-white/8 pt-4">
+          <span className="post-card-cta" aria-hidden="true">
+            Read article <span className="post-card-arrow">↗</span>
+          </span>
+
+          <div className="post-card-stats flex shrink-0 items-center gap-4 text-gray-400">
             <span className="inline-flex items-center gap-1.5">
               <svg
                 className="w-4 h-4"
