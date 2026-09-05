@@ -1,169 +1,57 @@
-export type CopyState = "idle" | "loading" | "copied" | "error";
-
-interface R2Image {
+interface ImageSource {
   key: string;
   url: string;
-  lastModified?: Date;
-  size?: number;
 }
 
-/**
- * Converts an image URL to a blob using canvas
- * This approach works better for Safari/iOS clipboard operations
- * Creates a new Image object and waits for it to load
- */
-async function imageUrlToBlob(imageUrl: string): Promise<Blob> {
-  return new Promise<Blob>((resolve, reject) => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    if (!ctx) {
-      reject(new Error("Could not get canvas context"));
-      return;
-    }
-
-    const image = new Image();
-    image.crossOrigin = "anonymous";
-
-    image.onload = () => {
-      canvas.width = image.width;
-      canvas.height = image.height;
-      ctx.drawImage(image, 0, 0);
-
-      // Convert canvas to blob
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          reject(new Error("Failed to convert canvas to blob"));
-        }
-      }, "image/png");
+/** Canvas always produces an actual PNG, including a still frame for animated images. */
+export function getImageBlob(image: ImageSource): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const source = new Image();
+    source.crossOrigin = "anonymous";
+    source.onload = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = source.naturalWidth;
+        canvas.height = source.naturalHeight;
+        const context = canvas.getContext("2d");
+        if (!context) throw new Error("Image conversion is unavailable.");
+        context.drawImage(source, 0, 0);
+        canvas.toBlob(
+          (blob) => (blob ? resolve(blob) : reject(new Error("Image conversion failed."))),
+          "image/png",
+        );
+      } catch (error) {
+        reject(error);
+      }
     };
-
-    image.onerror = () => {
-      reject(new Error("Failed to load image"));
-    };
-
-    image.src = imageUrl;
+    source.onerror = () =>
+      reject(new Error("Could not load this image for copying. Try opening the original."));
+    source.src = image.url;
   });
 }
 
-/**
- * Fetches an image from a URL and returns it as a blob
- */
-async function fetchImageAsBlob(url: string): Promise<Blob> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch image: ${response.statusText}`);
+export async function copyImageToClipboard(image: ImageSource): Promise<void> {
+  if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") {
+    throw new Error("Image copying is unavailable. Open the original to save it.");
   }
-  return response.blob();
+  // Invoke write during the click, before any await, to preserve Safari user activation.
+  await navigator.clipboard.write([new ClipboardItem({ "image/png": getImageBlob(image) })]);
 }
 
-/**
- * Gets a blob representation of an image, using canvas conversion for Safari compatibility
- * Creates a new Image object and waits for it to load (similar to working implementation)
- */
-export async function getImageBlob(
-  image: R2Image,
-  _imgElement?: HTMLImageElement | null,
-): Promise<Blob> {
-  // Always use the canvas approach with a new Image object (works better for Safari)
-  try {
-    return await imageUrlToBlob(image.url);
-  } catch (canvasError) {
-    // Fallback to fetch if canvas fails
-    console.warn("Canvas approach failed, falling back to fetch:", canvasError);
-    return fetchImageAsBlob(image.url);
-  }
-}
-
-/**
- * Copies an image to the clipboard
- * Uses Safari-friendly pattern: pass a Promise to ClipboardItem
- * See: https://web.dev/articles/async-clipboard
- *
- * Safari (WebKit) treats user activation differently than Chromium (Blink).
- * For Safari, we need to run all async operations in a Promise within ClipboardItem.
- *
- * IMPORTANT: This function must be called synchronously within a user gesture
- * (click/touch event handler) to work on Safari/iOS.
- */
-export async function copyImageToClipboard(
-  image: R2Image,
-  imgElement?: HTMLImageElement | null,
-): Promise<void> {
-  // Check if clipboard API is available
-  if (!navigator.clipboard?.write) {
-    throw new Error("Clipboard API is not available in this browser");
-  }
-
-  // For Safari compatibility, pass a Promise to ClipboardItem
-  // Safari treats user activation differently and requires async operations
-  // to be wrapped in a Promise within ClipboardItem
-  // The key is that navigator.clipboard.write() must be called synchronously
-  // within the user gesture, even though the blob loading happens async
-  try {
-    const clipboardItem = new ClipboardItem({
-      "image/png": new Promise<Blob>((resolve, reject) => {
-        getImageBlob(image, imgElement)
-          .then((blob) => resolve(blob))
-          .catch((error) => reject(error));
-      }),
-    });
-
-    // This call must happen synchronously within the user gesture
-    await navigator.clipboard.write([clipboardItem]);
-  } catch (error) {
-    // Provide user-friendly error messages for common clipboard errors
-    if (error instanceof DOMException) {
-      if (error.name === "NotAllowedError" || error.message.includes("not allowed")) {
-        throw new Error("Clipboard access denied. Please tap the image again to grant permission.");
-      }
-      if (error.name === "SecurityError") {
-        throw new Error(
-          "Clipboard access blocked. Please ensure the page is focused and try again.",
-        );
-      }
-      // Re-throw DOMException with a user-friendly message
-      throw new Error(`Clipboard error: ${error.message || "Unable to copy to clipboard"}`);
-    }
-    // Re-throw with original message if it's already an Error
-    if (error instanceof Error) {
-      throw error;
-    }
-    // Otherwise wrap in a generic error
-    throw new Error("Failed to copy image to clipboard");
-  }
-}
-
-/**
- * Gets the display text for the copy indicator based on state
- */
-export function getIndicatorText(image: R2Image, state: CopyState): string {
-  const imageName = image.key.split("/").pop() || image.key;
-
-  switch (state) {
-    case "loading":
-      return "Loading...";
-    case "copied":
-      return "Copied!";
-    case "error":
-      return "Copy failed";
-    default:
-      return imageName;
-  }
-}
-
-/**
- * Gets the CSS classes for the copy indicator based on state
- */
-export function getIndicatorClassName(state: CopyState): string {
-  const baseClasses =
-    "text-white text-sm font-medium px-4 py-2 bg-black rounded transition-colors duration-200";
-
-  if (state === "copied") {
-    return `${baseClasses} bg-green-600`;
-  }
-
-  return baseClasses;
+export async function getOriginalFile(image: ImageSource, signal?: AbortSignal): Promise<File> {
+  const response = await fetch(image.url, { signal });
+  if (!response.ok) throw new Error("Could not load the original. Use Open original to save it.");
+  const blob = await response.blob();
+  const extension = image.key.split(".").pop()?.toLowerCase() || "";
+  const types: Record<string, string> = {
+    gif: "image/gif",
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    webp: "image/webp",
+    svg: "image/svg+xml",
+  };
+  return new File([blob], image.key.split("/").pop() || "image", {
+    type: types[extension] || blob.type,
+  });
 }

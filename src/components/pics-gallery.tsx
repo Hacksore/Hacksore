@@ -1,251 +1,328 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { copyImageToClipboard } from "../utils/clipboard";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { copyImageToClipboard, getOriginalFile } from "../utils/clipboard";
 import {
-  type ClipboardPermissionState,
-  checkClipboardPermission,
-} from "../utils/clipboard-permissions";
-import { filterImagesByName, getSearchTermFromUrl, updateSearchUrl } from "../utils/image-filter";
-import { ToastContainer } from "./toast";
+  filterImagesByName,
+  getSearchTermFromUrl,
+  type SearchableImage,
+  updateSearchUrl,
+} from "../utils/image-filter";
+import "../styles/pics.css";
 
-interface R2Image {
-  key: string;
-  url: string;
-  lastModified?: Date;
-  size?: number;
-}
+const PAGE_SIZE = 36;
+const isGif = (image: SearchableImage) => /\.gif$/i.test(image.key);
+const titleOf = (image: SearchableImage) =>
+  image.title ||
+  (image.key.split("/").pop() || image.key)
+    .replace(/^[A-F0-9]{8}[-_]/i, "")
+    .replace(/\.[^.]+$/, "")
+    .replace(/[-_]+/g, " ");
 
-interface PicsGalleryProps {
-  images: R2Image[];
-}
+export const PicsGallery = ({ images }: { images: SearchableImage[] }) => {
+  const [query, setQuery] = useState("");
+  const [format, setFormat] = useState("all");
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  const [selected, setSelected] = useState<SearchableImage | null>(null);
+  const [prepared, setPrepared] = useState<{
+    key: string;
+    file: File;
+    url: string;
+    shareable: boolean;
+  } | null>(null);
+  const [fileError, setFileError] = useState("");
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  const busyRef = useRef(false);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const search = useRef<HTMLInputElement>(null);
 
-interface ImageCardProps {
-  image: R2Image;
-  imageName: string;
-  onCopy: (imgElement?: HTMLImageElement | null) => void;
-}
-
-// Placeholder image as data URI (SVG)
-const PLACEHOLDER_IMAGE =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui, sans-serif' font-size='18' fill='%239ca3af'%3EImage not available%3C/text%3E%3C/svg%3E";
-
-const ImageCard = ({ image, imageName, onCopy }: ImageCardProps) => {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const [imageError, setImageError] = useState(false);
-  const [imageSrc, setImageSrc] = useState(image.url);
-  const touchHandledRef = useRef(false);
-
-  const handleImageError = useCallback(() => {
-    if (!imageError) {
-      setImageError(true);
-      setImageSrc(PLACEHOLDER_IMAGE);
-    }
-  }, [imageError]);
-
-  const handleTouchStart = useCallback(() => {
-    // Mark that we're handling a touch event
-    touchHandledRef.current = false;
-  }, []);
-
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      // Only allow copy if image loaded successfully and not already handled
-      if (!imageError && !touchHandledRef.current) {
-        touchHandledRef.current = true;
-        // Ensure page has focus for clipboard access
-        if (document.hasFocus && !document.hasFocus()) {
-          window.focus();
-        }
-        // Call onCopy immediately to maintain user gesture chain for Safari
-        onCopy(imgRef.current);
-        // Reset after a delay to allow click event to be ignored
-        setTimeout(() => {
-          touchHandledRef.current = false;
-        }, 500);
-      }
-    },
-    [onCopy, imageError],
-  );
-
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      // Prevent click if we just handled a touch event (mobile)
-      if (touchHandledRef.current) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-      // Only allow copy if image loaded successfully
-      if (!imageError) {
-        // Ensure page has focus for clipboard access
-        if (document.hasFocus && !document.hasFocus()) {
-          window.focus();
-        }
-        onCopy(imgRef.current);
-      }
-    },
-    [onCopy, imageError],
-  );
-
-  return (
-    <div className="relative group image-container">
-      <button
-        type="button"
-        onClick={handleClick}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        disabled={imageError}
-        className="w-full block aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer border-0 p-0 touch-manipulation disabled:cursor-not-allowed disabled:opacity-75"
-        style={{
-          touchAction: "manipulation",
-          WebkitTapHighlightColor: "transparent",
-          background: "transparent",
-        }}
-        aria-label={imageError ? `Image unavailable: ${imageName}` : `Copy image: ${imageName}`}
-      >
-        <img
-          ref={imgRef}
-          src={imageSrc}
-          alt={imageName}
-          crossOrigin="anonymous"
-          onError={handleImageError}
-          className="w-full h-full object-cover pointer-events-none transition-opacity duration-200 group-hover:opacity-30"
-          loading="lazy"
-        />
-      </button>
-    </div>
-  );
-};
-
-interface Toast {
-  id: string;
-  message: string;
-  type: "loading" | "success" | "error";
-}
-
-export const PicsGallery = ({ images }: PicsGalleryProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredImages, setFilteredImages] = useState(images);
-  const [toasts, setToasts] = useState<Toast[]>([]);
-  const [_clipboardPermission, setClipboardPermission] =
-    useState<ClipboardPermissionState>("unknown");
-  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const toastIdRef = useRef(0);
-  const copyingRef = useRef<Set<string>>(new Set());
-
-  // Check clipboard permissions on mount
   useEffect(() => {
-    const checkPermissions = async () => {
-      const permission = await checkClipboardPermission();
-      setClipboardPermission(permission);
+    const sync = () => {
+      setQuery(getSearchTermFromUrl());
+      setLimit(PAGE_SIZE);
     };
-    checkPermissions();
+    sync();
+    window.addEventListener("popstate", sync);
+    return () => window.removeEventListener("popstate", sync);
   }, []);
 
-  // Initialize search from URL query parameter
   useEffect(() => {
-    const initialQuery = getSearchTermFromUrl();
-    if (initialQuery) {
-      setSearchTerm(initialQuery);
-    }
-  }, []);
-
-  // Filter images based on search term
-  useEffect(() => {
-    const filtered = filterImagesByName(images, searchTerm);
-    setFilteredImages(filtered);
-  }, [searchTerm, images]);
-
-  // Update URL query parameter when search changes
-  useEffect(() => {
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    debounceTimerRef.current = setTimeout(() => {
-      updateSearchUrl(searchTerm);
-    }, 300);
-
+    if (!selected) return;
+    dialog.current?.showModal();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const controller = new AbortController();
+    let objectUrl: string | undefined;
+    setFileError("");
+    setPrepared(null);
+    getOriginalFile(selected, controller.signal)
+      .then((file) => {
+        if (controller.signal.aborted) return;
+        objectUrl = URL.createObjectURL(file);
+        setPrepared({
+          key: selected.key,
+          file,
+          url: objectUrl,
+          shareable: !!navigator.canShare?.({ files: [file] }),
+        });
+      })
+      .catch(() => {
+        if (!controller.signal.aborted)
+          setFileError("File unavailable here. Open the original to save it.");
+      });
     return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
+      controller.abort();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      document.body.style.overflow = previousOverflow;
     };
-  }, [searchTerm]);
+  }, [selected]);
 
-  const addToast = useCallback((message: string, type: "loading" | "success" | "error") => {
-    const id = `toast-${toastIdRef.current++}`;
-    setToasts((prev) => [...prev, { id, message, type }]);
-    return id;
-  }, []);
-
-  const removeToast = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((toast) => toast.id !== id));
-  }, []);
-
-  const handleCopy = useCallback(
-    async (image: R2Image, imgElement?: HTMLImageElement | null) => {
-      // Prevent multiple simultaneous copy operations for the same image
-      if (copyingRef.current.has(image.url)) {
-        return;
-      }
-
-      const imageName = image.key.split("/").pop() || image.key;
-      copyingRef.current.add(image.url);
-
-      try {
-        await copyImageToClipboard(image, imgElement);
-        addToast(`Copied ${imageName}!`, "success");
-        // Recheck permissions after successful copy (might have changed from prompt to granted)
-        const updatedPermission = await checkClipboardPermission();
-        setClipboardPermission(updatedPermission);
-      } catch (err) {
-        console.error("Failed to copy image:", err);
-        const errorMessage = err instanceof Error ? err.message : "Failed to copy image";
-        addToast(`Error: ${errorMessage}`, "error");
-        // Recheck permissions after error (might have been denied)
-        const updatedPermission = await checkClipboardPermission();
-        setClipboardPermission(updatedPermission);
-      } finally {
-        // Remove from copying set after a short delay to allow retry
-        setTimeout(() => {
-          copyingRef.current.delete(image.url);
-        }, 1000);
-      }
-    },
-    [addToast],
+  const results = useMemo(
+    () =>
+      filterImagesByName(images, query).filter(
+        (image) => format === "all" || (format === "gif" ? isGif(image) : !isGif(image)),
+      ),
+    [images, query, format],
   );
 
+  function changeQuery(value: string) {
+    setQuery(value);
+    setLimit(PAGE_SIZE);
+    updateSearchUrl(value);
+  }
+
+  async function perform(action: () => Promise<void>, success: string) {
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setBusy(true);
+    setMessage("");
+    try {
+      await action();
+      setMessage(success);
+    } catch (error) {
+      if (!(error instanceof DOMException && error.name === "AbortError")) {
+        setMessage(
+          error instanceof Error
+            ? `${error.message} Try Open original if needed.`
+            : "Could not complete this action. Try Open original.",
+        );
+      }
+    } finally {
+      busyRef.current = false;
+      setBusy(false);
+    }
+  }
+
+  function copy(image: SearchableImage) {
+    void perform(
+      () => copyImageToClipboard(image),
+      isGif(image)
+        ? "Still frame copied. Use Share GIF to keep animation."
+        : "Image copied. Ready to paste.",
+    );
+  }
+
+  const ready = prepared?.key === selected?.key ? prepared : null;
+
   return (
-    <>
-      <ToastContainer toasts={toasts} onRemove={removeToast} />
-      <div>
-        <div className="mb-6 flex flex-col gap-3">
+    <div className="pics-gallery">
+      <div className="pics-toolbar">
+        <div className="pics-search">
+          <label htmlFor="meme-search" className="sr-only">
+            Search memes
+          </label>
+          <span aria-hidden="true">⌕</span>
           <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search images by name..."
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            ref={search}
+            id="meme-search"
+            type="search"
+            value={query}
+            onChange={(event) => changeQuery(event.target.value)}
+            placeholder="Find a reaction…"
+            autoComplete="off"
+            spellCheck={false}
           />
+          {query && (
+            <button
+              type="button"
+              aria-label="Clear search"
+              onClick={() => {
+                changeQuery("");
+                search.current?.focus();
+              }}
+            >
+              ×
+            </button>
+          )}
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-x-4 gap-y-4">
-          {filteredImages.map((image) => {
-            const imageName = image.key.split("/").pop() || image.key;
-
-            return (
-              <ImageCard
-                key={image.url}
-                image={image}
-                imageName={imageName}
-                onCopy={(imgElement) => handleCopy(image, imgElement)}
-              />
-            );
-          })}
+        <div className="pics-filter-row">
+          <fieldset className="pics-filters" aria-label="Image format">
+            {[
+              ["all", "All"],
+              ["gif", "GIFs"],
+              ["image", "Images"],
+            ].map(([value, label]) => (
+              <button
+                type="button"
+                key={value}
+                aria-pressed={format === value}
+                onClick={() => {
+                  setFormat(value);
+                  setLimit(PAGE_SIZE);
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </fieldset>
+          <span className="pics-count" role="status">
+            {results.length} {results.length === 1 ? "pic" : "pics"}
+          </span>
         </div>
       </div>
-    </>
+      <div className="pics-grid">
+        {results.slice(0, limit).map((image) => (
+          <article className="pics-card" key={image.key}>
+            <button
+              type="button"
+              className="pics-preview"
+              onClick={() => {
+                setMessage("");
+                setSelected(image);
+              }}
+              aria-label={`Preview ${titleOf(image)}`}
+            >
+              <img src={image.url} alt={titleOf(image)} loading="lazy" decoding="async" />
+              {isGif(image) && <span className="pics-format">GIF</span>}
+            </button>
+            <div className="pics-card-footer">
+              <span title={titleOf(image)}>{titleOf(image)}</span>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => (isGif(image) ? setSelected(image) : copy(image))}
+                aria-label={`${isGif(image) ? "GIF options for" : "Copy"} ${titleOf(image)}`}
+              >
+                {isGif(image) ? "Share ↗" : "Copy"}
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+      {results.length === 0 && (
+        <div className="pics-empty">
+          <h2>{images.length ? "No matching reactions." : "Nothing in the stash yet."}</h2>
+          <p>
+            {images.length
+              ? "Try fewer words or a different format."
+              : "Your saved images will appear here."}
+          </p>
+          {images.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                changeQuery("");
+                setFormat("all");
+              }}
+            >
+              Reset filters
+            </button>
+          )}
+        </div>
+      )}
+      {results.length > limit && (
+        <button
+          type="button"
+          className="pics-more"
+          onClick={() => setLimit((value) => value + PAGE_SIZE)}
+        >
+          Load more · {results.length - limit} remaining
+        </button>
+      )}
+      {!selected && message && (
+        <p className="pics-notice" role="status">
+          {message}
+        </p>
+      )}
+      {selected && (
+        <dialog
+          ref={dialog}
+          className="pics-dialog"
+          aria-labelledby="pic-title"
+          onClose={() => setSelected(null)}
+        >
+          <div className="pics-dialog-header">
+            <h2 id="pic-title">{titleOf(selected)}</h2>
+            <button
+              type="button"
+              aria-label="Close preview"
+              onClick={() => dialog.current?.close()}
+            >
+              ×
+            </button>
+          </div>
+          <div className="pics-full-image">
+            <img src={selected.url} alt={selected.caption || titleOf(selected)} />
+          </div>
+          <div className="pics-dialog-body">
+            <p>
+              {isGif(selected)
+                ? "Keep it moving. Share or save the original GIF; copying a still removes animation."
+                : "Copy it, save it, or send it along."}
+            </p>
+            <div className="pics-actions">
+              {ready?.shareable && (
+                <button
+                  className="pics-primary"
+                  type="button"
+                  disabled={busy}
+                  onClick={() =>
+                    perform(() => navigator.share({ files: [ready.file] }), "Share completed.")
+                  }
+                >
+                  Share {isGif(selected) ? "GIF" : "image"}
+                </button>
+              )}
+              <button type="button" disabled={busy} onClick={() => copy(selected)}>
+                {isGif(selected) ? "Copy still" : "Copy image"}
+              </button>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() =>
+                  perform(
+                    () =>
+                      navigator.clipboard?.writeText
+                        ? navigator.clipboard.writeText(selected.url)
+                        : Promise.reject(new Error("Link copying is unavailable.")),
+                    "Image link copied.",
+                  )
+                }
+              >
+                Copy link
+              </button>
+              {ready && (
+                <a href={ready.url} download={ready.file.name}>
+                  Save {isGif(selected) ? "GIF" : "image"}
+                </a>
+              )}
+              <a href={selected.url} target="_blank" rel="noreferrer">
+                Open original ↗
+              </a>
+            </div>
+            <p className="pics-dialog-status" role="status">
+              {busy
+                ? "Working…"
+                : message ||
+                  fileError ||
+                  (!ready
+                    ? "Preparing original file…"
+                    : isGif(selected)
+                      ? "Sharing and link previews depend on the receiving app."
+                      : "Ready to send.")}
+            </p>
+          </div>
+        </dialog>
+      )}
+    </div>
   );
 };

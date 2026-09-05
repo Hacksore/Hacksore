@@ -1,5 +1,8 @@
 ---
 import { R2_BUCKET_NAME as bucketName } from "astro:env/server";
+import "../../styles/pics.css";
+import metadata from "../../data/pics-metadata.json";
+import type { SearchableImage } from "../../utils/image-filter";
 import { PicsGallery } from "../../components/pics-gallery";
 import Layout from "../../layouts/layout.astro";
 import { listR2Images } from "../../utils/s3";
@@ -37,14 +40,15 @@ if (!bucketName) {
 // Cache for 10 minutes (600 seconds) - adjust as needed
 // This prevents making R2 API calls on every request
 Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-revalidate=86400");
+const catalog: Record<string, Pick<SearchableImage, "title" | "caption" | "tags">> = metadata;
+// R2 records uploads and replacements in LastModified. Undated images go last.
+const searchableImages = images
+  .toSorted((a, b) => (b.lastModified?.getTime() || 0) - (a.lastModified?.getTime() || 0))
+  .map((image) => ({ ...image, ...catalog[image.key] }));
 ---
 
 <Layout title="Sean Boult | Pics" description="Reaction pics and memes I've saved.">
-  <section class="prose prose-invert px-4 md:px-0">
-    <h1 class="text-4xl font-bold mb-4 md:mb-6">Pics</h1>
-    <p class="not-prose page-lede mb-8 max-w-2xl">
-      Reaction images I&apos;ve hoarded. Thumbnail opens full size.
-    </p>
-    <PicsGallery client:load images={images} />
+  <section class="pics-page">
+    {error ? <p role="alert">The stash couldn’t load. Please try again shortly.</p> : <PicsGallery client:load images={searchableImages} />}
   </section>
 </Layout>
