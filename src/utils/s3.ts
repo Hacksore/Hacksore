@@ -1,5 +1,11 @@
-import { GetObjectCommand, ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
+import {
+  GetObjectCommand,
+  HeadObjectCommand,
+  paginateListObjectsV2,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { type ImageMetadata, parseImageMetadata } from "./image-metadata";
 
 export interface R2Config {
   endpoint?: string;
@@ -10,7 +16,7 @@ export interface R2Config {
   usePresignedUrls?: boolean;
 }
 
-export interface R2Image {
+export interface R2Image extends ImageMetadata {
   key: string;
   url: string;
   lastModified?: Date;
@@ -29,7 +35,7 @@ async function getImageUrl(
 ): Promise<string> {
   // If custom public URL is configured, use it
   if (config.publicUrl) {
-    return `${config.publicUrl.replace(/\/$/, "")}/${key}`;
+    return `${config.publicUrl.replace(/\/$/, "")}/${key.split("/").map(encodeURIComponent).join("/")}`;
   }
 
   // If bucket is private, generate presigned URL
@@ -44,7 +50,7 @@ async function getImageUrl(
 
   // Default: R2 public URL (requires account ID)
   if (config.accountId) {
-    return `https://${bucketName}.${config.accountId}.r2.cloudflarestorage.com/${key}`;
+    return `https://${bucketName}.${config.accountId}.r2.cloudflarestorage.com/${key.split("/").map(encodeURIComponent).join("/")}`;
   }
 
   // Fallback: if no account ID, return a placeholder (shouldn't happen in production)
@@ -87,44 +93,51 @@ export async function listR2Images(
     forcePathStyle: true, // R2 requires path-style URLs
   });
   try {
-    const command = new ListObjectsV2Command({
-      Bucket: bucketName,
-      Prefix: prefix,
-    });
-
-    const response = await s3Client.send(command);
-
-    if (!response.Contents) {
-      return [];
+    const images: R2Image[] = [];
+    for await (const page of paginateListObjectsV2(
+      { client: s3Client },
+      { Bucket: bucketName, Prefix: prefix },
+    )) {
+      const objects = (page.Contents || []).filter((object) =>
+        /\.(jpe?g|png|gif|webp|svg)$/i.test(object.Key || ""),
+      );
+      // ListObjectsV2 omits custom metadata. Bound HEAD concurrency on large collections.
+      for (let offset = 0; offset < objects.length; offset += 6) {
+        const batch = await Promise.all(
+          objects.slice(offset, offset + 6).map(async (object) => {
+            const key = object.Key;
+            if (!key) throw new Error("Missing image key");
+            let metadata: ImageMetadata = {};
+            try {
+              const head = await s3Client.send(
+                new HeadObjectCommand({ Bucket: bucketName, Key: key }),
+              );
+              metadata = parseImageMetadata(head.Metadata);
+            } catch (error) {
+              // A metadata read failure should not hide an otherwise usable image.
+              console.warn(
+                `Could not read search metadata for ${key}:`,
+                error instanceof Error ? error.name : "Unknown error",
+              );
+            }
+            return {
+              key,
+              url: await getImageUrl(bucketName, key, config, s3Client),
+              lastModified: object.LastModified,
+              size: object.Size,
+              ...metadata,
+            };
+          }),
+        );
+        images.push(...batch);
+      }
     }
-
-    // Filter for image files
-    const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
-    const imageObjects = response.Contents.filter((object) => {
-      if (!object.Key) return false;
-      const lowerKey = object.Key.toLowerCase();
-      return imageExtensions.some((ext) => lowerKey.endsWith(ext));
-    });
-
-    // Generate URLs for all images
-    const images: R2Image[] = await Promise.all(
-      imageObjects.map(async (object) => {
-        if (!object.Key) {
-          throw new Error("Object key is missing");
-        }
-        const url = await getImageUrl(bucketName, object.Key, config, s3Client);
-        return {
-          key: object.Key,
-          url,
-          lastModified: object.LastModified,
-          size: object.Size,
-        };
-      }),
-    );
 
     return images;
   } catch (error) {
     console.error("Error listing R2 images:", error);
     throw error;
+  } finally {
+    s3Client.destroy();
   }
 }

@@ -26,7 +26,7 @@ const reactions = [
   ["approve", "approval", "yes", "agree"],
 ];
 
-/** Search every word across filenames, curated captions and tags; rank literal matches first. */
+/** Search every word in filenames and R2 metadata; rank literal matches first. */
 export function filterImagesByName<T extends SearchableImage>(
   images: T[],
   searchTerm: string,

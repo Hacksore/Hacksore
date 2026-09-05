@@ -1,11 +1,9 @@
 ---
 import { R2_BUCKET_NAME as bucketName } from "astro:env/server";
 import "../../styles/pics.css";
-import metadata from "../../data/pics-metadata.json";
-import type { SearchableImage } from "../../utils/image-filter";
 import { PicsGallery } from "../../components/pics-gallery";
 import Layout from "../../layouts/layout.astro";
-import { listR2Images } from "../../utils/s3";
+import { listR2Images, type R2Image } from "../../utils/s3";
 
 const r2Config = {
   endpoint: import.meta.env.R2_ENDPOINT,
@@ -16,12 +14,7 @@ const r2Config = {
   usePresignedUrls: import.meta.env.R2_USE_PRESIGNED_URLS === "true",
 };
 
-let images: Array<{
-  key: string;
-  url: string;
-  lastModified?: Date;
-  size?: number;
-}> = [];
+let images: R2Image[] = [];
 
 let error: string | null = null;
 
@@ -40,15 +33,14 @@ if (!bucketName) {
 // Cache for 10 minutes (600 seconds) - adjust as needed
 // This prevents making R2 API calls on every request
 Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-revalidate=86400");
-const catalog: Record<string, Pick<SearchableImage, "title" | "caption" | "tags">> = metadata;
-// R2 records uploads and replacements in LastModified. Undated images go last.
-const searchableImages = images
-  .toSorted((a, b) => (b.lastModified?.getTime() || 0) - (a.lastModified?.getTime() || 0))
-  .map((image) => ({ ...image, ...catalog[image.key] }));
+// Metadata updates change LastModified; retain the original upload date when available.
+const sortedImages = images.toSorted(
+  (a, b) => ((b.uploadedAt || b.lastModified)?.getTime() || 0) - ((a.uploadedAt || a.lastModified)?.getTime() || 0),
+);
 ---
 
 <Layout title="Sean Boult | Pics" description="Reaction pics and memes I've saved.">
   <section class="pics-page">
-    {error ? <p role="alert">The stash couldn’t load. Please try again shortly.</p> : <PicsGallery client:load images={searchableImages} />}
+    {error ? <p role="alert">The stash couldn’t load. Please try again shortly.</p> : <PicsGallery client:load images={sortedImages} />}
   </section>
 </Layout>
