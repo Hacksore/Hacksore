@@ -102,7 +102,7 @@ export const PicsGallery = ({ images }: { images: SearchableImage[] }) => {
       if (!(error instanceof DOMException && error.name === "AbortError")) {
         setMessage(
           error instanceof Error
-            ? `${error.message} Try Open original if needed.`
+            ? error.message
             : "Could not complete this action. Try Open original.",
         );
       }
@@ -191,7 +191,13 @@ export const PicsGallery = ({ images }: { images: SearchableImage[] }) => {
               }}
               aria-label={`Preview ${titleOf(image)}`}
             >
-              <img src={image.url} alt={titleOf(image)} loading="lazy" decoding="async" />
+              <img
+                crossOrigin="anonymous"
+                src={image.url}
+                alt={titleOf(image)}
+                loading="lazy"
+                decoding="async"
+              />
               {isGif(image) && <span className="pics-format">GIF</span>}
             </button>
             <div className="pics-card-footer">
@@ -261,7 +267,11 @@ export const PicsGallery = ({ images }: { images: SearchableImage[] }) => {
             </button>
           </div>
           <div className="pics-full-image">
-            <img src={selected.url} alt={selected.caption || titleOf(selected)} />
+            <img
+              crossOrigin="anonymous"
+              src={selected.url}
+              alt={selected.caption || titleOf(selected)}
+            />
           </div>
           <div className="pics-dialog-body">
             <p>

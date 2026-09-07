@@ -35,7 +35,9 @@ if (!bucketName) {
 Astro.response.headers.set("Cache-Control", "public, s-maxage=600, stale-while-revalidate=86400");
 // Metadata updates change LastModified; retain the original upload date when available.
 const sortedImages = images.toSorted(
-  (a, b) => ((b.uploadedAt || b.lastModified)?.getTime() || 0) - ((a.uploadedAt || a.lastModified)?.getTime() || 0),
+  (a, b) =>
+    ((b.uploadedAt || b.lastModified)?.getTime() || 0) -
+    ((a.uploadedAt || a.lastModified)?.getTime() || 0),
 );
 ---
 
