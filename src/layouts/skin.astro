@@ -34,7 +34,7 @@ const preview = new URL("/img/minecraft-og.png", site).href;
       aria-label="Hacksore's Minecraft skin. Drag to rotate; scroll or pinch to zoom."
     ></canvas>
     <span id="status" role="status">Loading…</span>
-    <form id="skin-loader" aria-label="Load a Minecraft skin">
+    <fieldset id="skin-loader" aria-label="Load a Minecraft skin">
       <input
         id="username"
         name="username"
@@ -49,20 +49,19 @@ const preview = new URL("/img/minecraft-og.png", site).href;
         autocapitalize="off"
         spellcheck="false"
       >
-      <button type="submit" aria-label="Load skin" aria-busy="true" disabled>
+      <button type="button" aria-label="Load skin" aria-busy="true" disabled>
         <span class="load-label">Load</span>
         <span class="load-spinner" aria-hidden="true"></span>
       </button>
-    </form>
+    </fieldset>
     <script>
     import { SkinViewer } from "skinview3d";
 
     const canvas = document.querySelector<HTMLCanvasElement>("#skin");
     const status = document.querySelector<HTMLSpanElement>("#status");
-    const form = document.querySelector<HTMLFormElement>("#skin-loader");
     const username = document.querySelector<HTMLInputElement>("#username");
-    const button = form?.querySelector("button");
-    if (!canvas || !status || !form || !username || !button) {
+    const button = document.querySelector<HTMLButtonElement>("#skin-loader button");
+    if (!canvas || !status || !username || !button) {
       throw new Error("Missing skin viewer elements");
     }
     try {
@@ -98,9 +97,9 @@ const preview = new URL("/img/minecraft-og.png", site).href;
       });
 
       let loading = true;
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        if (loading || !form.reportValidity()) return;
+      // X's sandbox permits scripts but may not permit native form submissions.
+      const loadSkin = async () => {
+        if (loading || !username.reportValidity()) return;
         const name = username.value;
         loading = true;
         button.disabled = true;
@@ -123,6 +122,13 @@ const preview = new URL("/img/minecraft-og.png", site).href;
           loading = false;
           button.disabled = false;
           button.setAttribute("aria-busy", "false");
+        }
+      };
+      button.addEventListener("click", loadSkin);
+      username.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && !event.isComposing) {
+          event.preventDefault();
+          void loadSkin();
         }
       });
 
@@ -187,6 +193,10 @@ body.skin-page {
   pointer-events: none;
 }
 #skin-loader {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
   position: fixed;
   bottom: calc(20px + env(safe-area-inset-bottom));
   left: 50%;
