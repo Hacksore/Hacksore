@@ -72,8 +72,13 @@ const preview = new URL("/img/minecraft-og.png", site).href;
         viewer.dispose();
       });
 
-      Promise.all([viewer.loadSkin("/img/Hacksore.png"), viewer.loadCape("/img/cape-2011.png")])
+      Promise.all([
+        viewer.loadSkin("/img/Hacksore.png"),
+        viewer.loadCape("/img/cape-2011.png"),
+        document.fonts.load("48px Minecraft", "Hacksore"),
+      ])
         .then(() => {
+          viewer.nameTag = "Hacksore";
           status.hidden = true;
         })
         .catch(() => {
@@ -87,6 +92,14 @@ const preview = new URL("/img/minecraft-og.png", site).href;
 </html>
 
 <style is:global>
+@font-face {
+  font-family: "Minecraft";
+  src: url("skinview3d/assets/minecraft.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 body.skin-page {
   position: fixed;
   inset: 0;
