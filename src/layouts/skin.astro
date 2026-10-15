@@ -34,12 +34,37 @@ const preview = new URL("/img/minecraft-og.png", site).href;
       aria-label="Hacksore's Minecraft skin. Drag to rotate; scroll or pinch to zoom."
     ></canvas>
     <span id="status" role="status">Loading…</span>
+    <form id="skin-loader" aria-label="Load a Minecraft skin">
+      <input
+        id="username"
+        name="username"
+        aria-label="Minecraft username"
+        value="Hacksore"
+        placeholder="Minecraft username"
+        pattern="[A-Za-z0-9_]{1,16}"
+        maxlength="16"
+        required
+        autocomplete="off"
+        data-1p-ignore
+        autocapitalize="off"
+        spellcheck="false"
+      >
+      <button type="submit" aria-label="Load skin" aria-busy="true" disabled>
+        <span class="load-label">Load</span>
+        <span class="load-spinner" aria-hidden="true"></span>
+      </button>
+    </form>
     <script>
     import { SkinViewer } from "skinview3d";
 
     const canvas = document.querySelector<HTMLCanvasElement>("#skin");
     const status = document.querySelector<HTMLSpanElement>("#status");
-    if (!canvas || !status) throw new Error("Missing skin viewer elements");
+    const form = document.querySelector<HTMLFormElement>("#skin-loader");
+    const username = document.querySelector<HTMLInputElement>("#username");
+    const button = form?.querySelector("button");
+    if (!canvas || !status || !form || !username || !button) {
+      throw new Error("Missing skin viewer elements");
+    }
     try {
       const viewer = new SkinViewer({
         canvas,
@@ -72,6 +97,35 @@ const preview = new URL("/img/minecraft-og.png", site).href;
         viewer.dispose();
       });
 
+      let loading = true;
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (loading || !form.reportValidity()) return;
+        const name = username.value;
+        loading = true;
+        button.disabled = true;
+        button.setAttribute("aria-busy", "true");
+        status.hidden = true;
+        try {
+          await viewer.loadSkin(`https://mineskin.eu/skin/${encodeURIComponent(name)}`);
+          // The local cape belongs to Hacksore, not to other players.
+          if (name.toLowerCase() !== "hacksore") viewer.loadCape(null);
+          else await viewer.loadCape("/img/cape-2011.png");
+          viewer.nameTag = name;
+          canvas.setAttribute(
+            "aria-label",
+            `${name}'s Minecraft skin. Drag to rotate; scroll or pinch to zoom.`,
+          );
+        } catch {
+          status.textContent = "Unable to load that skin. Check the username and try again.";
+          status.hidden = false;
+        } finally {
+          loading = false;
+          button.disabled = false;
+          button.setAttribute("aria-busy", "false");
+        }
+      });
+
       Promise.all([
         viewer.loadSkin("/img/Hacksore.png"),
         viewer.loadCape("/img/cape-2011.png"),
@@ -83,6 +137,11 @@ const preview = new URL("/img/minecraft-og.png", site).href;
         })
         .catch(() => {
           status.textContent = "Unable to load skin.";
+        })
+        .finally(() => {
+          loading = false;
+          button.disabled = false;
+          button.setAttribute("aria-busy", "false");
         });
     } catch {
       status.textContent = "3D viewing requires WebGL.";
@@ -117,7 +176,7 @@ body.skin-page {
 }
 #status {
   position: fixed;
-  bottom: 16px;
+  bottom: calc(76px + env(safe-area-inset-bottom));
   left: 0;
   width: 100%;
   text-align: center;
@@ -126,5 +185,78 @@ body.skin-page {
     12px system-ui,
     sans-serif;
   pointer-events: none;
+}
+#skin-loader {
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  width: min(340px, calc(100% - 32px));
+}
+#skin-loader input,
+#skin-loader button {
+  box-sizing: border-box;
+  border: 1px solid #44444c;
+  border-radius: 4px;
+  padding: 12px;
+  font:
+    16px "Minecraft",
+    monospace;
+  color: #fff;
+  background: #1b1b21;
+}
+#skin-loader input {
+  flex: 1;
+  min-width: 0;
+}
+#skin-loader button {
+  position: relative;
+  flex: 0 0 88px;
+  cursor: pointer;
+  background: #303039;
+}
+#skin-loader button[aria-busy="true"] .load-label {
+  visibility: hidden;
+}
+#skin-loader .load-spinner {
+  display: none;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff40;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: skin-load-spin 0.8s linear infinite;
+}
+#skin-loader button[aria-busy="true"] .load-spinner {
+  display: block;
+}
+@keyframes skin-load-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #skin-loader .load-spinner {
+    animation: none;
+  }
+}
+#skin-loader button:hover:not(:disabled) {
+  background: #43434e;
+}
+#skin-loader button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+#skin-loader input:focus {
+  outline: none;
+}
+#skin-loader button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 </style>
