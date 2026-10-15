@@ -29,6 +29,7 @@
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
     "react-skinview3d": "^7.0.0",
+    "skinview3d": "3.4.2",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17"
   },

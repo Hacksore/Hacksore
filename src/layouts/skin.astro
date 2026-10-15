@@ -1,0 +1,117 @@
+---
+// Keep this document independent of the site layout and its navigation/analytics.
+Astro.response.headers.set(
+  "Content-Security-Policy",
+  "frame-ancestors 'self' https://x.com https://twitter.com https://*.x.com https://*.twitter.com",
+);
+const site = Astro.site ?? new URL("https://seanboult.dev");
+const player = new URL("/skin/embed", site).href;
+const preview = new URL("/img/minecraft-og.png", site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minecraft Skin</title>
+    <meta name="description" content="Interactive 3D skin viewer">
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:site" content="@Hacksore">
+    <meta name="twitter:title" content="Minecraft Skin">
+    <meta name="twitter:description" content="Interactive 3D skin viewer">
+    <meta name="twitter:player" content={player}>
+    <meta name="twitter:player:width" content="480">
+    <meta name="twitter:player:height" content="480">
+    <meta name="twitter:image" content={preview}>
+    <meta property="og:title" content="Minecraft Skin">
+    <meta property="og:description" content="Interactive 3D skin viewer">
+    <meta property="og:image" content={preview}>
+  </head>
+  <body class="skin-page">
+    <canvas
+      id="skin"
+      aria-label="Hacksore's Minecraft skin. Drag to rotate; scroll or pinch to zoom."
+    ></canvas>
+    <span id="status" role="status">Loading…</span>
+    <script>
+    import { SkinViewer } from "skinview3d";
+
+    const canvas = document.querySelector<HTMLCanvasElement>("#skin");
+    const status = document.querySelector<HTMLSpanElement>("#status");
+    if (!canvas || !status) throw new Error("Missing skin viewer elements");
+    try {
+      const viewer = new SkinViewer({
+        canvas,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        pixelRatio: Math.min(window.devicePixelRatio, 2),
+      });
+      viewer.controls.enableZoom = true;
+      viewer.controls.enableRotate = true;
+      viewer.controls.enablePan = false;
+      viewer.autoRotate = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      viewer.autoRotateSpeed = 0.5;
+      viewer.camera.position.set(20, 10, 50);
+      viewer.controls.update();
+
+      const resize = new ResizeObserver(() => {
+        viewer.setSize(window.innerWidth, window.innerHeight);
+      });
+      resize.observe(document.body);
+      // Pause offscreen embeds rather than continually using the GPU.
+      const visibility = () => {
+        viewer.renderPaused = document.hidden;
+      };
+      document.addEventListener("visibilitychange", visibility);
+      visibility();
+      window.addEventListener("pagehide", (event) => {
+        if (event.persisted) return;
+        resize.disconnect();
+        document.removeEventListener("visibilitychange", visibility);
+        viewer.dispose();
+      });
+
+      Promise.all([viewer.loadSkin("/img/Hacksore.png"), viewer.loadCape("/img/cape-2011.png")])
+        .then(() => {
+          status.hidden = true;
+        })
+        .catch(() => {
+          status.textContent = "Unable to load skin.";
+        });
+    } catch {
+      status.textContent = "3D viewing requires WebGL.";
+    }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+body.skin-page {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #101014;
+}
+#skin {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+#status {
+  position: fixed;
+  bottom: 16px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #aaa;
+  font:
+    12px system-ui,
+    sans-serif;
+  pointer-events: none;
+}
+</style>
