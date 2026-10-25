@@ -16,10 +16,11 @@ if (userAgent && !isbot(userAgent)) {
 const META_INFO = {
   title: "Bidwatch",
   description: "Bidwatch - https://bidwatch.app",
+  ogImage: "/img/og-bidwatch.png",
 };
 ---
 
-<Layout title={META_INFO.title} description={META_INFO.description}>
+<Layout title={META_INFO.title} description={META_INFO.description} ogImage={META_INFO.ogImage}>
   <div class="prose prose-invert">
     <h1>Bidwatch</h1>
     <p><a href={BIDWATCH_URL}>{BIDWATCH_URL}</a></p>
