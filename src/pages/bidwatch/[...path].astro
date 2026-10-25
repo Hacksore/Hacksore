@@ -1,6 +1,6 @@
 ---
 import { isbot } from "isbot";
-import Layout from "../layouts/layout.astro";
+import Layout from "../../layouts/layout.astro";
 
 const BIDWATCH_URL = "https://bidwatch.app";
 
@@ -9,7 +9,8 @@ const userAgent = Astro.request.headers.get("user-agent") ?? "";
 // Real users get a 301 to bidwatch.app, bots/crawlers (and empty UAs) get a
 // static page with open graph tags so link previews still work.
 if (userAgent && !isbot(userAgent)) {
-  return Astro.redirect(BIDWATCH_URL, 301);
+  const path = Astro.url.pathname.replace(/^\/bidwatch/, "");
+  return Astro.redirect(`${BIDWATCH_URL}${path}${Astro.url.search}`, 301);
 }
 
 const META_INFO = {
